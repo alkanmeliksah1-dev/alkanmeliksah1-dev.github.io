@@ -14,10 +14,10 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
 ---
 <Base lang={lang} slug="events" bg={photos.events}>
   <Sheet lang={lang} slug="events">
-    {groups.map(([label, list], gi) => (
+    {groups.filter(([, list]) => list.length > 0).map(([label, list], gi) => (
       <>
         <h2 style={gi === 0 ? 'margin-top:0' : undefined}>{label}</h2>
-        {list.length === 0 ? <p class="lead" style="font-size:22px">{ui.noUpcoming[lang]}</p> : (
+        {list.length > 0 && (
           <ul class="events">
             {list.map((e) => {
               const d = dateParts(e.date, lang);
@@ -27,7 +27,7 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
                   <div class="event-body">
                     <h3>{e.title}</h3>
                     {(e.work || e.performers) && <p>{e.work && <em>{e.work}</em>}{e.work && e.performers && ' · '}{e.performers}</p>}
-                    <p>{e.venue[lang]}{e.time && ` · ${e.time}`}</p>
+                    {(e.venue || e.time) && <p>{e.venue?.[lang]}{e.venue && e.time && ' · '}{e.time}</p>}
                     {e.note && <p>{e.note[lang]}</p>}
                   </div>
                   {e.poster ? <a class="poster graded" href={`/images/${e.poster}.jpg`} target="_blank" rel="noopener" aria-label={ui.poster[lang]}><Pic name={e.poster} /></a> : <span></span>}

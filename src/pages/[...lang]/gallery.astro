@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import Pic from '../../components/Pic.astro';
+import { gallery, photos, ui, type Lang } from '../../data';
+import { langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+---
+<Base lang={lang} slug="gallery" bg={photos.gallery}>
+  <Sheet lang={lang} slug="gallery">
+    <div class="tabs" role="tablist">
+      {gallery.map((g, i) => (
+        <button role="tab" id={`tab-${g.id}`} aria-controls={g.id} aria-selected={i === 0 ? 'true' : 'false'}>{g.title[lang]}</button>
+      ))}
+    </div>
+    {gallery.map((g, i) => (
+      <section class="gallery" id={g.id} role="tabpanel" aria-labelledby={`tab-${g.id}`} hidden={i !== 0}>
+        {g.items.map((it) => (
+          <figure class="graded" tabindex="0"><Pic name={it.img} alt={it.alt} /></figure>
+        ))}
+      </section>
+    ))}
+    <dialog class="lightbox">
+      <button aria-label={ui.close[lang]}>×</button>
+      <img alt="" />
+    </dialog>
+  </Sheet>
+  <script>
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>('.tabs button')];
+    const show = (id: string) => {
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
+      document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => show(t.getAttribute('aria-controls')!)));
+    if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
+
+    const dlg = document.querySelector<HTMLDialogElement>('dialog.lightbox')!;
+    const big = dlg.querySelector('img')!;
+    const open = (f: HTMLElement) => { const im = f.querySelector('img')!; big.src = im.currentSrc || im.src; big.alt = im.alt; dlg.showModal(); };
+    document.querySelectorAll<HTMLElement>('.gallery figure').forEach((f) => {
+      f.addEventListener('click', () => open(f));
+      f.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(f); });
+    });
+    dlg.addEventListener('click', () => dlg.close());
+  </script>
+</Base>

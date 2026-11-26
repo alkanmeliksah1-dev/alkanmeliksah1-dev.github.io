@@ -21,7 +21,7 @@ const { lang } = Astro.props as { lang: Lang };
       <section class="cat-section" id={c.id}>
         <h2>{c.title[lang]}</h2>
         <ul class="rows">
-          {works.filter((w) => w.cat === c.id).map((w) => (
+          {works.filter((w) => w.cat === c.id).sort((a, b) => b.year.localeCompare(a.year)).map((w) => (
             <li>
               <span class="k">{w.year}</span>
               <div>

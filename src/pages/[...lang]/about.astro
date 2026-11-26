@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import { awards, bio, education, masterclasses, photos, site, ui, type Lang } from '../../data';
+import { bio, photos, site, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -13,11 +13,5 @@ const { lang } = Astro.props as { lang: Lang };
       <figure class="graded"><Pic name={photos.portrait} alt={site.name} loading="eager" /></figure>
       <div class="prose">{bio[lang].map((p) => <p>{p}</p>)}</div>
     </div>
-    <h2>{ui.education[lang]}</h2>
-    <ul class="rows">{education.map((e) => <li><span class="k">{e.years}</span><span>{e.what[lang]}</span></li>)}</ul>
-    <h2>{ui.masterclasses[lang]}</h2>
-    <ul class="rows">{masterclasses.map((m) => <li><span class="k">{m.when[lang]}</span><span>{m.who}</span></li>)}</ul>
-    <h2>{ui.awards[lang]}</h2>
-    <ul class="rows">{awards.map((a) => <li><span class="k">{a.when[lang]}</span><span>{a.what[lang]}</span></li>)}</ul>
   </Sheet>
 </Base>

@@ -11,31 +11,32 @@ export const site = {
   name: 'Melikşah Alkan',
   email: 'info@meliksahalkan.com',
   social: {
-    // Adres eklenince İletişim sayfasında görünür.
+    // Adres eklenince İletişim sayfasında görünür; boş olanlar gizlenir.
+    youtube: 'https://www.youtube.com/@MelikşahAlkan',
     soundcloud: 'https://soundcloud.com/meliksahalkan',
-    youtube: '',
-    instagram: '',
+    instagram: 'https://www.instagram.com/meliksah.alkan/',
+    facebook: '',
   },
 };
 
-// Menü: her sayfa bir soru. slug = sayfanın adresi.
+// Menü. slug = sayfanın adresi.
 export const nav: { slug: string; label: T }[] = [
-  { slug: '', label: { en: 'Where to begin?', tr: 'Nereden başlamalı?', fr: 'Par où commencer ?' } },
-  { slug: 'sound', label: { en: 'What is sound?', tr: 'Ses nedir?', fr: 'Qu’est-ce que le son ?' } },
-  { slug: 'about', label: { en: 'Who is writing?', tr: 'Kim yazıyor?', fr: 'Qui écrit ?' } },
-  { slug: 'works', label: { en: 'What remains?', tr: 'Geriye ne kalır?', fr: 'Que reste-t-il ?' } },
-  { slug: 'events', label: { en: 'Where, and when?', tr: 'Nerede, ne zaman?', fr: 'Où, et quand ?' } },
-  { slug: 'listen', label: { en: 'What can be heard?', tr: 'Ne duyulur?', fr: 'Qu’entend-on ?' } },
-  { slug: 'images', label: { en: 'What was seen?', tr: 'Ne görüldü?', fr: 'Qu’a-t-on vu ?' } },
-  { slug: 'contact', label: { en: 'Where to write?', tr: 'Nereye yazmalı?', fr: 'Où écrire ?' } },
+  { slug: '', label: { en: 'Home', tr: 'Ana sayfa', fr: 'Accueil' } },
+  { slug: 'about', label: { en: 'About', tr: 'Hakkında', fr: 'Biographie' } },
+  { slug: 'approach', label: { en: 'Approach', tr: 'Yaklaşım', fr: 'Démarche' } },
+  { slug: 'works', label: { en: 'Works', tr: 'Çalışmalar', fr: 'Œuvres' } },
+  { slug: 'events', label: { en: 'Events', tr: 'Etkinlikler', fr: 'Événements' } },
+  { slug: 'media', label: { en: 'Media', tr: 'Medya', fr: 'Médias' } },
+  { slug: 'gallery', label: { en: 'Gallery', tr: 'Galeri', fr: 'Galerie' } },
+  { slug: 'contact', label: { en: 'Contact', tr: 'İletişim', fr: 'Contact' } },
 ];
 
 export const ui = {
   role: { en: 'Composer', tr: 'Besteci', fr: 'Compositeur' },
   roles: {
-    en: 'Composer · Flutist · Sound designer',
-    tr: 'Besteci · Flütçü · Ses tasarımcısı',
-    fr: 'Compositeur · Flûtiste · Créateur sonore',
+    en: 'Composer · Sound designer',
+    tr: 'Besteci · Ses tasarımcısı',
+    fr: 'Compositeur · Créateur sonore',
   },
   city: { en: 'Istanbul', tr: 'İstanbul', fr: 'Istanbul' },
   menu: { en: 'Menu', tr: 'Menü', fr: 'Menu' },
@@ -63,7 +64,7 @@ export const ui = {
   elsewhere: { en: 'Elsewhere', tr: 'Diğer', fr: 'Ailleurs' },
 };
 
-// ---------- Ses nedir? (sanatsal yaklaşım) ----------
+// ---------- Yaklaşım ----------
 // TR metin Melikşah'ın kendi metni. EN ve FR çeviri taslağıdır, kontrol edilmeli.
 export const statement: Record<Lang, string[]> = {
   tr: [
@@ -136,36 +137,32 @@ export const awards: { what: T; when: T }[] = [
   },
 ];
 
-// ---------- Geriye ne kalır? (eserler) ----------
-// Kategoriler: çoklar için / azlar için / sahne için
+// ---------- Eserler ----------
+// Şimdilik iki bölüm. İleride büyük topluluk eserleri gelince üçüncü bir
+// bölüm eklenebilir ("for many / for few / for stage" fikri).
 export const categories: { id: string; image: string; title: T; blurb: T }[] = [
   {
-    id: 'many', image: 'church-concert',
-    title: { en: 'for many', tr: 'çoklar için', fr: 'pour plusieurs' },
-    blurb: { en: 'Ensemble', tr: 'Topluluk', fr: 'Ensemble' },
+    id: 'concert', image: 'mahzen-bow',
+    title: { en: 'Concert', tr: 'Konser', fr: 'Concert' },
+    blurb: { en: 'Chamber, solo & electronics', tr: 'Oda müziği, solo & elektronikler', fr: 'Chambre, solo & électroniques' },
   },
   {
-    id: 'few', image: 'mahzen-bow',
-    title: { en: 'for few', tr: 'azlar için', fr: 'pour peu' },
-    blurb: { en: 'Chamber & solo', tr: 'Oda müziği & solo', fr: 'Chambre & solo' },
-  },
-  {
-    id: 'stage', image: 'happydays-set',
-    title: { en: 'for stage', tr: 'sahne için', fr: 'pour la scène' },
-    blurb: { en: 'Theatre & sound design', tr: 'Tiyatro & ses tasarımı', fr: 'Théâtre & création sonore' },
+    id: 'stage', image: 'stage-set',
+    title: { en: 'Stage', tr: 'Sahne', fr: 'Scène' },
+    blurb: { en: 'Theatre music & sound design', tr: 'Tiyatro müziği & ses tasarımı', fr: 'Musique & création sonore pour le théâtre' },
   },
 ];
 
 type Link = { kind: 'listen' | 'watch'; url: string };
 export const works: { year: string; cat: string; title: string; scoring: T; note?: T; poster?: string; links?: Link[] }[] = [
   {
-    year: '2026', cat: 'many', title: 'Ab-ı Revan',
+    year: '2026', cat: 'concert', title: 'Ab-ı Revan',
     scoring: { en: 'for Les Solistes de l’Ensemble intercontemporain', tr: 'Les Solistes de l’Ensemble intercontemporain için', fr: 'pour Les Solistes de l’Ensemble intercontemporain' },
     note: { en: 'Premiered at Bilgi New Music Festival 16, Istanbul', tr: 'İlk seslendirme: Bilgi Yeni Müzik Festivali 16, İstanbul', fr: 'Création au Bilgi New Music Festival 16, Istanbul' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
   },
   {
-    year: '2025', cat: 'few', title: 'Mahzen-ül Esrar',
+    year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar',
     scoring: { en: 'for string quartet', tr: 'yaylı çalgılar dörtlüsü için', fr: 'pour quatuor à cordes' },
     note: { en: 'Semplice Quartet — Journey of Sound 16, Atatürk Cultural Centre; performed again at Journey of Sound 17', tr: 'Semplice Quartet — Sesin Yolculuğu 16, Atatürk Kültür Merkezi; Sesin Yolculuğu 17’de yeniden seslendirildi', fr: 'Semplice Quartet — Sesin Yolculuğu 16, Centre culturel Atatürk ; reprise à Sesin Yolculuğu 17' },
     links: [
@@ -174,17 +171,17 @@ export const works: { year: string; cat: string; title: string; scoring: T; note
     ],
   },
   {
-    year: '2026', cat: 'few', title: 'ÖTEYAKADAN TAKAZA Act.0',
-    scoring: { en: 'for cello, electronics and performer', tr: 'viyolonsel, elektronikler ve performer için', fr: 'pour violoncelle, électroniques et performeur' },
+    year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0',
+    scoring: { en: 'for cello, electronics and performer', tr: 'viyolonsel, elektronikler ve oyuncu için', fr: 'pour violoncelle, électroniques et performeur' },
     note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
   },
   {
-    year: '2025', cat: 'few', title: 'Imaginary Dialogues of Mortality',
-    scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronik için', fr: 'pour trombone, harpe et électronique' },
+    year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
+    scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
     note: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international Gilgamesh' },
   },
   {
-    year: '2024', cat: 'few', title: 'Butimar',
+    year: '2024', cat: 'concert', title: 'Butimar',
     scoring: { en: 'for solo flute', tr: 'solo flüt için', fr: 'pour flûte seule' },
   },
   {
@@ -207,7 +204,13 @@ export const works: { year: string; cat: string; title: string; scoring: T; note
 
 // ---------- Nerede, ne zaman? (etkinlikler) ----------
 // date: YYYY-MM-DD. Bugünden sonraki tarihler otomatik "Yaklaşan" altına düşer.
-export const events: { date: string; time?: string; title: string; work?: string; performers: string; venue: T; note?: T; poster?: string }[] = [
+export const events: { date: string; time?: string; title: string; work?: string; performers: string; venue?: T; note?: T; poster?: string }[] = [
+  {
+    date: '2026-12-14',
+    title: 'Ro-Ap',
+    performers: 'Abdül Süsler',
+    note: { en: 'Premiere · Music & sound design', tr: 'Prömiyer · Müzik & ses tasarımı', fr: 'Première · Musique & création sonore' },
+  },
   {
     date: '2026-10-25', time: '20:00',
     title: 'İzmir New Music Days VII — Next Generation Series VII',
@@ -240,7 +243,7 @@ export const events: { date: string; time?: string; title: string; work?: string
     work: 'Mahzen-ül Esrar',
     performers: '',
     venue: { en: 'MSGSÜ Sedad Hakkı Eldem Auditorium, Istanbul', tr: 'MSGSÜ Sedad Hakkı Eldem Oditoryumu, İstanbul', fr: 'Auditorium Sedad Hakkı Eldem (MSGSÜ), Istanbul' },
-    note: { en: 'Student ensembles concerts', tr: 'Öğrenci toplulukları konserleri', fr: 'Concerts des ensembles d’étudiants' },
+    note: { en: 'Mustafa Orhan & Mehmet Efe Özşahin (violins), Nazlı Hira Örsel (viola), Balkan Alya Özgür (cello)', tr: 'Mustafa Orhan & Mehmet Efe Özşahin (keman), Nazlı Hira Örsel (viyola), Balkan Alya Özgür (viyolonsel)', fr: 'Mustafa Orhan & Mehmet Efe Özşahin (violons), Nazlı Hira Örsel (alto), Balkan Alya Özgür (violoncelle)' },
     poster: 'poster-sy17',
   },
   {
@@ -285,45 +288,52 @@ export const recordings: { title: string; meta: T; type: 'youtube' | 'soundcloud
   },
 ];
 
-// ---------- Ne görüldü? (galeri) ----------
-export const gallery: { id: string; title: T; items: { img: string; caption: T }[] }[] = [
+// ---------- Galeri ----------
+// Her bölüm galeride bir sekme. alt = ekran okuyucular için açıklama (sayfada görünmez).
+export const gallery: { id: string; title: T; items: { img: string; alt: string }[] }[] = [
+  {
+    id: 'portraits', title: { en: 'Portraits', tr: 'Portreler', fr: 'Portraits' },
+    items: [
+      { img: 'night', alt: 'Melikşah Alkan, Istanbul at night' },
+      { img: 'studio', alt: 'Studio portrait' },
+      { img: 'score', alt: 'Reading a score' },
+      { img: 'reading', alt: 'Reading at a table' },
+      { img: 'standing', alt: 'Among books' },
+      { img: 'desk', alt: 'At the desk' },
+      { img: 'railway', alt: 'On the railway tracks' },
+    ],
+  },
   {
     id: 'concerts', title: { en: 'Concerts', tr: 'Konserler', fr: 'Concerts' },
     items: [
-      { img: 'mahzen-bow', caption: { en: 'Mahzen-ül Esrar — Semplice Quartet, Atatürk Cultural Centre, 2025', tr: 'Mahzen-ül Esrar — Semplice Quartet, Atatürk Kültür Merkezi, 2025', fr: 'Mahzen-ül Esrar — Semplice Quartet, Centre culturel Atatürk, 2025' } },
-      { img: 'church-concert', caption: { en: 'Ab-ı Revan — Les Solistes de l’EIC, Yeldeğirmeni, 2026', tr: 'Ab-ı Revan — Les Solistes de l’EIC, Yeldeğirmeni, 2026', fr: 'Ab-ı Revan — Les Solistes de l’EIC, Yeldeğirmeni, 2026' } },
-      { img: 'portrait', caption: { en: 'After Ab-ı Revan, Yeldeğirmeni, 2026', tr: 'Ab-ı Revan sonrası, Yeldeğirmeni, 2026', fr: 'Après Ab-ı Revan, Yeldeğirmeni, 2026' } },
-      { img: 'cello', caption: { en: 'Niklas Seidl — İzmir New Music Days VII, 2026', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII, 2026', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII, 2026' } },
-      { img: 'izmir-bow', caption: { en: 'Next Generation Series VII, İzmir, 2026', tr: 'Next Generation Series VII, İzmir, 2026', fr: 'Next Generation Series VII, Izmir, 2026' } },
+      { img: 'mahzen-bow', alt: 'Mahzen-ül Esrar, Semplice Quartet, Atatürk Cultural Centre, 2025' },
+      { img: 'sy17-concert', alt: 'Mahzen-ül Esrar, Sesin Yolculuğu 17, 2026' },
+      { img: 'church-concert', alt: 'Ab-ı Revan, Les Solistes de l’Ensemble intercontemporain, Yeldeğirmeni, 2026' },
+      { img: 'portrait', alt: 'After Ab-ı Revan, Yeldeğirmeni, 2026' },
+      { img: 'cello', alt: 'Niklas Seidl, İzmir New Music Days VII, 2026' },
+      { img: 'izmir-bow', alt: 'Next Generation Series VII, İzmir, 2026' },
     ],
   },
   {
     id: 'rehearsals', title: { en: 'Rehearsals', tr: 'Provalar', fr: 'Répétitions' },
     items: [
-      { img: 'mahzen-rehearsal', caption: { en: 'Mahzen-ül Esrar with Semplice Quartet, 2025', tr: 'Mahzen-ül Esrar, Semplice Quartet ile, 2025', fr: 'Mahzen-ül Esrar avec le Semplice Quartet, 2025' } },
-      { img: 'rehearsal', caption: { en: 'Ab-ı Revan rehearsal, 2026', tr: 'Ab-ı Revan provası, 2026', fr: 'Répétition d’Ab-ı Revan, 2026' } },
-      { img: 'outside-close', caption: { en: 'With Les Solistes de l’EIC, Istanbul, 2026', tr: 'Les Solistes de l’EIC ile, İstanbul, 2026', fr: 'Avec Les Solistes de l’EIC, Istanbul, 2026' } },
+      { img: 'mahzen-rehearsal', alt: 'Mahzen-ül Esrar rehearsal' },
+      { img: 'rehearsal', alt: 'Ab-ı Revan rehearsal, 2026' },
+      { img: 'eic-group', alt: 'With Les Solistes de l’Ensemble intercontemporain, Istanbul, 2026' },
     ],
   },
   {
-    id: 'stage', title: { en: 'Stage', tr: 'Sahne', fr: 'Scène' },
+    id: 'posters', title: { en: 'Posters', tr: 'Afişler', fr: 'Affiches' },
     items: [
-      { img: 'happydays-set', caption: { en: 'Happy Days — stage', tr: 'Mutlu Günler — sahne', fr: 'Happy Days — scène' } },
-      { img: 'poster-mutlugunler', caption: { en: 'Happy Days — poster', tr: 'Mutlu Günler — afiş', fr: 'Happy Days — affiche' } },
-      { img: 'poster-domuzahiri', caption: { en: 'A Place with the Pigs — poster', tr: 'Domuz Ahırı — afiş', fr: 'A Place with the Pigs — affiche' } },
-      { img: 'poster-tekbimutluan', caption: { en: 'Tek Bi’ Mutlu An! — poster', tr: 'Tek Bi’ Mutlu An! — afiş', fr: 'Tek Bi’ Mutlu An! — affiche' } },
-    ],
-  },
-  {
-    id: 'portraits', title: { en: 'Portraits', tr: 'Portreler', fr: 'Portraits' },
-    items: [
-      { img: 'night', caption: { en: 'Istanbul, night', tr: 'İstanbul, gece', fr: 'Istanbul, la nuit' } },
-      { img: 'studio', caption: { en: 'Studio portrait', tr: 'Stüdyo portresi', fr: 'Portrait en studio' } },
-      { img: 'score', caption: { en: 'With the score', tr: 'Partisyonla', fr: 'Avec la partition' } },
-      { img: 'reading', caption: { en: 'Reading', tr: 'Okurken', fr: 'Lecture' } },
-      { img: 'standing', caption: { en: 'Among books', tr: 'Kitapların arasında', fr: 'Parmi les livres' } },
-      { img: 'desk', caption: { en: 'At the desk', tr: 'Masada', fr: 'Au bureau' } },
-      { img: 'railway', caption: { en: 'On the tracks', tr: 'Raylarda', fr: 'Sur les rails' } },
+      { img: 'poster-iymg7', alt: 'İzmir New Music Days VII poster' },
+      { img: 'poster-nextgen7', alt: 'Next Generation Series VII' },
+      { img: 'poster-bilgi16', alt: 'Bilgi New Music Festival 16 poster' },
+      { img: 'poster-tekbimutluan', alt: 'Tek Bi’ Mutlu An! poster' },
+      { img: 'poster-sy17', alt: 'Sesin Yolculuğu 17 poster' },
+      { img: 'poster-mutlugunler', alt: 'Mutlu Günler (Happy Days) poster' },
+      { img: 'poster-domuzahiri', alt: 'Domuz Ahırı (A Place with the Pigs) poster' },
+      { img: 'poster-sy16', alt: 'Sesin Yolculuğu 16, Semplice Quartet poster' },
+      { img: 'poster-jos16', alt: 'Journey of Sound 16 poster' },
     ],
   },
 ];
@@ -333,18 +343,18 @@ export const gallery: { id: string; title: T; items: { img: string; caption: T }
 export const focal: Record<string, string> = {
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', railway: '50% 30%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
-  'church-concert': '50% 70%', 'mahzen-bow': '42% 50%', score: '40% 40%', 'church-concert-wide': '50% 60%', 'mahzen-rehearsal': '60% 30%', 'outside-close': '45% 25%',
+  'church-concert': '50% 70%', 'mahzen-bow': '42% 50%', score: '40% 40%', 'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'church-concert-wide': '50% 60%', 'mahzen-rehearsal': '60% 30%', 'outside-close': '45% 25%',
 };
 
 // Her sayfanın arka plan fotoğrafı
 export const photos = {
   home: 'night',
-  sound: 'reading',
+  approach: 'reading',
   about: 'standing',
   works: 'church-concert-wide',
   events: 'cello',
-  listen: 'desk',
-  images: 'rehearsal',
+  media: 'desk',
+  gallery: 'rehearsal',
   contact: 'railway',
   portrait: 'studio',
 };

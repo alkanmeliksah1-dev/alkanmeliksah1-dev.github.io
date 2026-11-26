@@ -6,8 +6,8 @@ import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 ---
-<Base lang={lang} slug="sound" bg={photos.sound}>
-  <Sheet lang={lang} slug="sound">
+<Base lang={lang} slug="approach" bg={photos.approach}>
+  <Sheet lang={lang} slug="approach">
     <div class="statement">{statement[lang].map((p) => <p>{p}</p>)}</div>
   </Sheet>
 </Base>
