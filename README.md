@@ -1,8 +1,19 @@
 # meliksahalkan.com
 
-Melikşah Alkan'ın besteci sitesi. Düz HTML/CSS, GitHub Pages üzerinde yayında.
+Melikşah Alkan'ın besteci sitesi. [Astro](https://astro.build) ile üretilir, GitHub Actions ile GitHub Pages'e yayınlanır. Site üç dillidir: İngilizce (`/`), Türkçe (`/tr/`), Fransızca (`/fr/`).
 
-- `assets/css/site.css`: renkler, fontlar ve tüm stil (en üstteki değişkenler)
-- `assets/js/site.js`: isim, menü, e-posta ve sosyal medya linkleri (`SITE` nesnesi)
-- `*.html`: sayfa içerikleri
-- `CNAME`: özel alan adı (meliksahalkan.com)
+## Neyi nereden değiştiririm?
+
+- `src/data.ts`: tüm metinler, biyografi, eserler, etkinlikler, menü isimleri, sosyal medya linkleri ve hangi sayfada hangi fotoğrafın kullanılacağı
+- `src/styles/site.css`: renkler, fontlar ve tüm görünüm (en üstteki değişkenler)
+- `public/images/`: fotoğraflar (her biri `.webp` + `.jpg`)
+- `src/pages/[...lang]/`: sayfa düzenleri
+
+`main` dalına her gönderimde site otomatik olarak yeniden yayınlanır. Ayrıca haftada bir kendiliğinden derlenir, böylece tarihi geçen etkinlikler "Geçmiş" altına düşer.
+
+## Bilgisayarda çalıştırmak
+
+```
+npm install
+npm run dev
+```

@@ -1,0 +1,85 @@
+---
+import '@fontsource/jost/300.css';
+import '@fontsource/jost/400.css';
+import '@fontsource/jost/500.css';
+import '@fontsource/cormorant-garamond/300.css';
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/400-italic.css';
+import '../styles/site.css';
+import { LANGS, focal, nav, site, ui, type Lang } from '../data';
+import { href } from '../lib';
+
+interface Props {
+  lang: Lang;
+  slug?: string;        // '' = ana sayfa
+  title?: string;
+  bg?: string;          // arka plan fotoğrafı
+  home?: boolean;
+}
+const { lang, slug = '', title, bg, home = false } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${ui.role[lang]}`;
+const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {LANGS.map((l) => <link rel="alternate" hreflang={l} href={`https://meliksahalkan.com${href(l, slug)}`} />)}
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:image" content="https://meliksahalkan.com/images/cello.jpg" />
+</head>
+<body class={home ? 'is-home' : ''}>
+  {bg && (
+    <div class="backdrop" aria-hidden="true">
+      <picture>
+        <source srcset={`/images/${bg}.webp`} type="image/webp" />
+        <img src={`/images/${bg}.jpg`} alt="" style={focal[bg] ? `object-position:${focal[bg]}` : undefined} />
+      </picture>
+    </div>
+  )}
+  <slot name="backdrop" />
+
+  <header class="panel nav-panel">
+    <a class="mark" href={href(lang)} aria-label={site.name}>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" /><text x="32" y="41" text-anchor="middle">mA</text></svg>
+    </a>
+    <a class="brand" href={href(lang)}>
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-role">{ui.role[lang]}</span>
+    </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="menu">{ui.menu[lang]}</button>
+    <div class="menu" id="menu">
+      <nav>
+        <ul>
+          {nav.map((n) => (
+            <li><a href={href(lang, n.slug)} aria-current={n.slug === slug ? 'page' : undefined}>{n.label[lang]}<span aria-hidden="true">›</span></a></li>
+          ))}
+        </ul>
+      </nav>
+      <div class="langs">
+        {LANGS.map((l) => <a href={href(l, slug)} hreflang={l} aria-current={l === lang ? 'true' : undefined}>{l.toUpperCase()}</a>)}
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <script>
+    const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
+    const panel = document.querySelector('.nav-panel')!;
+    btn.addEventListener('click', () => {
+      const open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    });
+  </script>
+</body>
+</html>

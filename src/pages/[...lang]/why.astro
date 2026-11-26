@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import { nav, photos, why, type Lang } from '../../data';
+import { langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+const title = nav.find((n) => n.slug === 'why')!.label[lang];
+---
+<Base lang={lang} slug="why" title={title} bg={photos.why}>
+  <Sheet title={title}>
+    <p class="statement">{why[lang]}</p>
+  </Sheet>
+</Base>

@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import Pic from '../../components/Pic.astro';
+import { categories, nav, photos, works, type Lang } from '../../data';
+import { langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+const title = nav.find((n) => n.slug === 'what')!.label[lang];
+---
+<Base lang={lang} slug="what" title={title} bg={photos.what}>
+  <Sheet title={title}>
+    <div class="cats">
+      {categories.map((c) => (
+        <a class="cat" href={`#${c.id}`}>
+          <Pic name={c.image} />
+          <span class="cat-label"><strong>{c.title[lang]}</strong><span>{c.blurb[lang]}</span></span>
+        </a>
+      ))}
+    </div>
+    {categories.map((c) => (
+      <section class="cat-section" id={c.id}>
+        <h2>{c.title[lang]}</h2>
+        <ul class="rows">
+          {works.filter((w) => w.cat === c.id).map((w) => (
+            <li>
+              <span class="k">{w.year}</span>
+              <div>
+                <div class="work-title">{w.title}</div>
+                <div class="work-meta">{w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </Sheet>
+</Base>

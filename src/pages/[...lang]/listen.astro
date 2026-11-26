@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import { nav, photos, ui, type Lang } from '../../data';
+import { langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+const title = nav.find((n) => n.slug === 'listen')!.label[lang];
+---
+<Base lang={lang} slug="listen" title={title} bg={photos.listen}>
+  <Sheet title={title}>
+    <p class="lead">{ui.listenSoon[lang]}</p>
+  </Sheet>
+</Base>
