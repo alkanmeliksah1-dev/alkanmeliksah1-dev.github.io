@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import Pic from '../../components/Pic.astro';
+import { events, photos, ui, type Lang } from '../../data';
+import { dateParts, langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+const today = new Date().toISOString().slice(0, 10);
+const sorted = [...events].sort((a, b) => b.date.localeCompare(a.date));
+const upcoming = sorted.filter((e) => e.date >= today).reverse();
+const past = sorted.filter((e) => e.date < today);
+const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
+---
+<Base lang={lang} slug="events" bg={photos.events}>
+  <Sheet lang={lang} slug="events">
+    {groups.map(([label, list], gi) => (
+      <>
+        <h2 style={gi === 0 ? 'margin-top:0' : undefined}>{label}</h2>
+        {list.length === 0 ? <p class="lead" style="font-size:22px">{ui.noUpcoming[lang]}</p> : (
+          <ul class="events">
+            {list.map((e) => {
+              const d = dateParts(e.date, lang);
+              return (
+                <li class="event">
+                  <div class="date"><span class="d">{d.day}</span><span class="m label">{d.month} {d.year}</span></div>
+                  <div class="event-body">
+                    <h3>{e.title}</h3>
+                    {(e.work || e.performers) && <p>{e.work && <em>{e.work}</em>}{e.work && e.performers && ' · '}{e.performers}</p>}
+                    <p>{e.venue[lang]}{e.time && ` · ${e.time}`}</p>
+                    {e.note && <p>{e.note[lang]}</p>}
+                  </div>
+                  {e.poster ? <a class="poster graded" href={`/images/${e.poster}.jpg`} target="_blank" rel="noopener" aria-label={ui.poster[lang]}><Pic name={e.poster} /></a> : <span></span>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </>
+    ))}
+  </Sheet>
+</Base>

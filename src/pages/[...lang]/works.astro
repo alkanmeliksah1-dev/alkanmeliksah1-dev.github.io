@@ -2,19 +2,18 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import { categories, nav, photos, works, type Lang } from '../../data';
+import { categories, photos, ui, works, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
-const title = nav.find((n) => n.slug === 'what')!.label[lang];
 ---
-<Base lang={lang} slug="what" title={title} bg={photos.what}>
-  <Sheet title={title}>
+<Base lang={lang} slug="works" bg={photos.works}>
+  <Sheet lang={lang} slug="works">
     <div class="cats">
       {categories.map((c) => (
         <a class="cat" href={`#${c.id}`}>
           <Pic name={c.image} />
-          <span class="cat-label"><strong>{c.title[lang]}</strong><span>{c.blurb[lang]}</span></span>
+          <span class="cat-label"><strong>{c.title[lang]}</strong><span class="label">{c.blurb[lang]}</span></span>
         </a>
       ))}
     </div>
@@ -28,7 +27,13 @@ const title = nav.find((n) => n.slug === 'what')!.label[lang];
               <div>
                 <div class="work-title">{w.title}</div>
                 <div class="work-meta">{w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</div>
+                {w.links && (
+                  <div class="links">
+                    {w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]} ↗</a>)}
+                  </div>
+                )}
               </div>
+              {w.poster ? <a class="thumb graded" href={`/images/${w.poster}.jpg`} target="_blank" rel="noopener" aria-label={`${ui.poster[lang]}: ${w.title}`}><Pic name={w.poster} /></a> : <span></span>}
             </li>
           ))}
         </ul>

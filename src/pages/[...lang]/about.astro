@@ -2,28 +2,22 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import { awards, bio, education, masterclasses, nav, photos, site, ui, type Lang } from '../../data';
+import { awards, bio, education, masterclasses, photos, site, ui, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
-const title = nav.find((n) => n.slug === 'who')!.label[lang];
 ---
-<Base lang={lang} slug="who" title={title} bg={photos.who}>
-  <Sheet title={title}>
-    <div class="who-grid">
-      <figure><Pic name={photos.portrait} alt={site.name} loading="eager" /></figure>
+<Base lang={lang} slug="about" bg={photos.about}>
+  <Sheet lang={lang} slug="about">
+    <div class="about-grid">
+      <figure class="graded"><Pic name={photos.portrait} alt={site.name} loading="eager" /></figure>
       <div class="prose">{bio[lang].map((p) => <p>{p}</p>)}</div>
     </div>
-
     <h2>{ui.education[lang]}</h2>
     <ul class="rows">{education.map((e) => <li><span class="k">{e.years}</span><span>{e.what[lang]}</span></li>)}</ul>
-
     <h2>{ui.masterclasses[lang]}</h2>
     <ul class="rows">{masterclasses.map((m) => <li><span class="k">{m.when[lang]}</span><span>{m.who}</span></li>)}</ul>
-
     <h2>{ui.awards[lang]}</h2>
     <ul class="rows">{awards.map((a) => <li><span class="k">{a.when[lang]}</span><span>{a.what[lang]}</span></li>)}</ul>
-
-    <div class="moments" style="margin-top:44px">{photos.moments.map((m) => <Pic name={m} />)}</div>
   </Sheet>
 </Base>

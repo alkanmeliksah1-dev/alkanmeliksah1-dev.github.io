@@ -1,5 +1,7 @@
 ---
-const { title } = Astro.props as { title: string };
+import { nav, type Lang } from '../data';
+const { lang, slug } = Astro.props as { lang: Lang; slug: string };
+const title = nav.find((n) => n.slug === slug)!.label[lang];
 ---
 <article class="panel sheet">
   <h1 class="sheet-title">{title}</h1>

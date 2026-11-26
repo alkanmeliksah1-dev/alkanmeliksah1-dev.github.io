@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import Pic from '../../components/Pic.astro';
+import { gallery, photos, ui, type Lang } from '../../data';
+import { langPaths } from '../../lib';
+export const getStaticPaths = langPaths;
+const { lang } = Astro.props as { lang: Lang };
+---
+<Base lang={lang} slug="images" bg={photos.images}>
+  <Sheet lang={lang} slug="images">
+    {gallery.map((g, gi) => (
+      <section id={g.id}>
+        <h2 style={gi === 0 ? 'margin-top:0' : undefined}>{g.title[lang]}</h2>
+        <div class="gallery">
+          {g.items.map((it) => (
+            <figure class="graded" data-full={`/images/${it.img}.jpg`} data-caption={it.caption[lang]} tabindex="0">
+              <Pic name={it.img} alt={it.caption[lang]} />
+              <figcaption>{it.caption[lang]}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    ))}
+    <dialog class="lightbox">
+      <button aria-label={ui.close[lang]}>×</button>
+      <img alt="" />
+      <p></p>
+    </dialog>
+  </Sheet>
+  <script>
+    const dlg = document.querySelector<HTMLDialogElement>('dialog.lightbox')!;
+    const img = dlg.querySelector('img')!, cap = dlg.querySelector('p')!;
+    const open = (f: HTMLElement) => {
+      img.src = f.querySelector('img')!.currentSrc || f.dataset.full!;
+      img.alt = cap.textContent = f.dataset.caption || '';
+      dlg.showModal();
+    };
+    document.querySelectorAll<HTMLElement>('.gallery figure').forEach((f) => {
+      f.addEventListener('click', () => open(f));
+      f.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(f); });
+    });
+    dlg.addEventListener('click', () => dlg.close());
+  </script>
+</Base>

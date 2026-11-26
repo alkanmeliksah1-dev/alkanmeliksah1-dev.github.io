@@ -1,34 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Pic from '../../components/Pic.astro';
 import { photos, site, ui, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const [first, last] = site.name.split(' ');
 ---
-<Base lang={lang} home>
-  <div class="slides" slot="backdrop" aria-hidden="true">
-    {photos.home.map((p, i) => <div class={i === 0 ? 'slide on' : 'slide'}><Pic name={p} loading={i === 0 ? 'eager' : 'lazy'} /></div>)}
-  </div>
+<Base lang={lang} bg={photos.home} home>
   <div class="hero-name">
     <h1>{first}<br />{last}</h1>
-    <p>{ui.roles[lang]} — {ui.city[lang]}</p>
+    <p class="label">{ui.roles[lang]} — {ui.city[lang]}</p>
   </div>
-  <div class="dots">
-    {photos.home.map((_, i) => <button aria-label={`${i + 1}`} aria-current={i === 0 ? 'true' : 'false'}></button>)}
-  </div>
-  <script>
-    const slides = [...document.querySelectorAll('.slide')];
-    const dots = [...document.querySelectorAll('.dots button')];
-    let i = 0, timer: number;
-    const show = (n: number) => {
-      slides[i].classList.remove('on'); dots[i].setAttribute('aria-current', 'false');
-      i = (n + slides.length) % slides.length;
-      slides[i].classList.add('on'); dots[i].setAttribute('aria-current', 'true');
-    };
-    const start = () => { clearInterval(timer); timer = window.setInterval(() => show(i + 1), 7000); };
-    dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) start();
-  </script>
 </Base>
