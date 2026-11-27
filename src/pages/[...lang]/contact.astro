@@ -68,9 +68,10 @@ const nlAction = site.forms.newsletter[lang];
   email: site.email, contact: site.forms.contact, lang,
 })}></div>
 <script>
-  // Her sayfa açılışında (yenilemeden gelinse de) sekmeleri ve formları yeniden bağla
-  document.addEventListener('astro:page-load', () => {
-  const holder = document.getElementById('contact-l'); if (!holder) return;
+  // Sayfa her açıldığında (yenilemeden gelinse de, betik geç yüklense de) bir kez bağlanır
+  const init = () => {
+  const holder = document.getElementById('contact-l'); if (!holder || holder.dataset.bound) return;
+  holder.dataset.bound = '1';
   const L = JSON.parse(holder.dataset.l);
 
   // ---- sekmeler ----
@@ -150,6 +151,8 @@ const nlAction = site.forms.newsletter[lang];
       }
     });
   });
-  });
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
 </Base>

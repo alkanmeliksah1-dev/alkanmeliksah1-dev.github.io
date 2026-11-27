@@ -185,6 +185,8 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     };
 
     const setup = () => {
+      const hdr = document.querySelector<HTMLElement>('.nav-panel');
+      if (!hdr || hdr.dataset.bound) return; hdr.dataset.bound = '1';
       document.querySelector('.menu-btn')?.addEventListener('click', () => setMenu(!panel()!.classList.contains('open')));
       panel()?.querySelector('.scrim')?.addEventListener('click', () => setMenu(false));
       document.querySelectorAll('.langs a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')!); } catch {} }));
@@ -217,6 +219,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
     // yeni sayfa ekrana gelmeden arka planı yerine koy
     document.addEventListener('astro:after-swap', () => { document.documentElement.dataset.swapped = ''; setMenu(false); setupBackdrop(); });
+    setup();
     document.addEventListener('astro:page-load', setup);
   </script>
 </body>

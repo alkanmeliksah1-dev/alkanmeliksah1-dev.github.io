@@ -37,35 +37,56 @@ const { lang } = Astro.props as { lang: Lang };
     ))}
   </Sheet>
   <script>
-    document.addEventListener('astro:page-load', () => {
-      const tabs = [...document.querySelectorAll<HTMLButtonElement>('.gallery-tabs button')];
-      if (!tabs.length) return;
-      // görünür hale gelen fotoğraflar, yüklendikçe sırayla alttan süzülerek belirir
+    // Galeri. Betik, sayfa yenilenmeden gelindiğinde de (Safari dahil) her seferinde bir kez bağlanır.
+    const init = () => {
+      const root = document.querySelector<HTMLElement>('.gallery-tabs');
+      if (!root || root.dataset.bound) return;
+      root.dataset.bound = '1';
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>('button')];
+      const layoutOf = (sec: Element) => sec.querySelector(matchMedia('(max-width: 700px)').matches ? '.g2' : '.g3');
+
+      // Fotoğraf önce tamamen inip çözülür, sonra yalnızca GPU ile (saydamlık + kaydırma) süzülür: takılma olmaz
+      const appear = (f: HTMLElement, delay: number) => {
+        const img = f.querySelector('img')!;
+        const pic = f.querySelector('picture')!;
+        img.loading = 'eager';
+        const run = () => {
+          pic.style.willChange = 'opacity, transform';
+          f.style.setProperty('--d', `${delay}ms`);
+          requestAnimationFrame(() => f.classList.add('in'));
+          setTimeout(() => { pic.style.willChange = ''; }, delay + 1300);
+        };
+        (img.complete && img.naturalWidth ? img.decode() : new Promise((r) => { img.addEventListener('load', r, { once: true }); img.addEventListener('error', r, { once: true }); }).then(() => img.decode()))
+          .catch(() => {}).then(run);
+      };
+      // ekrana yaklaşan fotoğrafları önceden indir, ekrana girince sırayla göster
+      const pre = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { (e.target.querySelector('img') as HTMLImageElement).loading = 'eager'; pre.unobserve(e.target); } }), { rootMargin: '900px 0px' });
       const io = new IntersectionObserver((es) => {
         let n = 0;
-        es.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const f = e.target as HTMLElement; io.unobserve(f);
-          const img = f.querySelector('img')!;
-          f.style.setProperty('--d', `${Math.min(n++, 6) * 90}ms`);
-          const go = () => requestAnimationFrame(() => f.classList.add('in'));
-          img.complete ? go() : (img.addEventListener('load', go, { once: true }), img.addEventListener('error', go, { once: true }));
-        });
+        es.filter((e) => e.isIntersecting).forEach((e) => { io.unobserve(e.target); appear(e.target as HTMLElement, Math.min(n++, 6) * 80); });
       }, { rootMargin: '0px 0px 40px 0px' });
-      const reveal = () => document.querySelectorAll<HTMLElement>('section.gallery:not([hidden]) figure:not(.in)').forEach((f) => io.observe(f));
+      const reveal = (id: string) => {
+        const lay = layoutOf(document.getElementById(id)!);
+        lay?.querySelectorAll<HTMLElement>('figure').forEach((f) => { pre.observe(f); io.observe(f); });
+      };
       const show = (id: string) => {
         tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
         document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
       };
-      // sekme değişince o sekmenin fotoğrafları efektle yeniden gelir
-      tabs.forEach((t) => t.addEventListener('click', () => {
+      tabs.forEach((t) => {
         const id = t.getAttribute('aria-controls')!;
-        document.querySelectorAll<HTMLElement>(`#${id} figure`).forEach((f) => { io.unobserve(f); f.classList.remove('in'); });
-        show(id);
-        requestAnimationFrame(() => requestAnimationFrame(reveal));
-      }));
-      if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
-      reveal();
-    });
+        // üzerine gelince o sekmenin görsellerini önceden indir
+        t.addEventListener('pointerenter', () => layoutOf(document.getElementById(id)!)?.querySelectorAll('img').forEach((i) => (i.loading = 'eager')), { once: true });
+        t.addEventListener('click', () => {
+          document.querySelectorAll<HTMLElement>(`#${id} figure`).forEach((f) => { io.unobserve(f); f.classList.remove('in'); });
+          show(id);
+          requestAnimationFrame(() => requestAnimationFrame(() => reveal(id)));
+        });
+      });
+      const start = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : tabs[0].getAttribute('aria-controls')!;
+      show(start); reveal(start);
+    };
+    init();
+    document.addEventListener('astro:page-load', init);
   </script>
 </Base>
