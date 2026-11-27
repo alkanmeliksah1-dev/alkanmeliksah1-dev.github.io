@@ -489,14 +489,18 @@ img, picture, svg, video, iframe, canvas, figure, hr, button, select,
   -webkit-user-select: none; user-select: none;
 }
 img, svg, a { -webkit-user-drag: none; }
-::selection { background: rgba(198, 165, 113, .32); }
-/* Safari, seçim bu öğelerin üzerinden geçince onları yine boyar: vurguyu tamamen görünmez yap */
-img::selection, picture::selection, svg::selection, svg *::selection, video::selection, iframe::selection, figure::selection, figure *::selection,
-button::selection, button *::selection, hr::selection,
-.backdrop::selection, .backdrop *::selection, .page-ghost::selection, .page-ghost *::selection,
-.nav-panel::selection, .nav-panel *::selection, .brand::selection, .brand *::selection,
-.tabs::selection, .tabs *::selection, .ctabs::selection, .ctabs *::selection, .socials::selection, .socials *::selection,
-.video::selection, .video *::selection, .entry-poster::selection, .entry-poster *::selection,
-.detail-poster::selection, .detail-poster *::selection, .cat::selection, .cat *::selection, picture *::selection {
+/* Safari seçim geçtiği her kutuyu (sayfa, panel, görsel) boyar. Bu yüzden vurgu varsayılan olarak
+   görünmez; yalnızca yazı taşıyan öğelerde pirinç tonunda görünür. */
+::selection { background: transparent; }
+p::selection, h1::selection, h2::selection, h3::selection, h4::selection, a::selection, span::selection,
+em::selection, strong::selection, b::selection, i::selection, small::selection, label::selection, time::selection,
+dd::selection, dt::selection, td::selection, th::selection, blockquote::selection, figcaption::selection,
+address::selection, cite::selection, q::selection, sup::selection, sub::selection {
+  background: rgba(198, 165, 113, .32);
+}
+/* seçilemeyen bölgeler, seçim üzerlerinden geçse de boyanmaz */
+.nav-panel *::selection, .brand *::selection, .backdrop *::selection, .page-ghost *::selection,
+.tabs *::selection, .ctabs *::selection, .socials *::selection, .video *::selection, .cat *::selection,
+.entry-poster *::selection, .detail-poster *::selection, figure *::selection, button *::selection, svg *::selection {
   background: transparent;
 }
