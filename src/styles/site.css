@@ -480,3 +480,13 @@ html[data-swapped] .sheet, html[data-swapped] .hero-name { animation: none; }
 }
 /* sayfadan ayrılırken söndürülen eski görüntüde hiçbir animasyon baştan başlamaz */
 .page-ghost *, .page-ghost *::before, .page-ghost *::after { animation: none !important; transition: none !important; }
+
+/* ---------- metin seçimi ----------
+   İmleçle yalnızca yazılar seçilir: fotoğraflar, arka plan, bayraklar, simgeler, düğmeler,
+   oynatıcılar ve menü seçime girmez, sürüklenmez. */
+img, picture, svg, video, iframe, canvas, figure, hr, button, select,
+.backdrop, .page-ghost, .nav-panel, .brand, .scrim, .tabs, .ctabs, .socials, .video, .entry-poster, .detail-poster, .cat {
+  -webkit-user-select: none; user-select: none;
+}
+img, svg, a { -webkit-user-drag: none; }
+::selection { background: rgba(198, 165, 113, .32); color: var(--ink); }
