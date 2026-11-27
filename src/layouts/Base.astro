@@ -10,6 +10,7 @@ import Flag from '../components/Flag.astro';
 import { ClientRouter } from 'astro:transitions';
 import images from '../images.json';
 import { href } from '../lib';
+import { pageDescription, pageLd, type Share } from '../seo';
 
 interface Props {
   lang: Lang;
@@ -18,8 +19,11 @@ interface Props {
   home?: boolean;
   section?: string;     // menüde vurgulanacak bölüm (alt sayfalar için)
   title?: string;       // sayfa başlığı (alt sayfalar için)
+  description?: string; // arama ve paylaşım açıklaması (verilmezse içerikten üretilir)
+  image?: Share;        // paylaşım görseli (verilmezse genel görsel)
+  ld?: object;          // arama motorları için yapılandırılmış veri
 }
-const { lang, slug = '', bg, home = false, section, title } = Astro.props;
+const { lang, slug = '', bg, home = false, section, title, description: desc, image, ld } = Astro.props;
 const active = section ?? slug;
 const bgMeta = bg ? (images as Record<string, { w: number; h: number; widths: number[] }>)[bg] : undefined;
 const anchor = bg ? anchors[bg] : undefined;
@@ -36,7 +40,9 @@ const bgOf = (navSlug: string) => {
   return { 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
 };
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
-const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
+const description = desc ?? pageDescription(lang, slug);
+const share = image ?? { url: 'https://meliksahalkan.com/og.jpg', w: 1200, h: 630, alt: site.name };
+const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang] : undefined);
 ---
 <!DOCTYPE html>
 <html lang={lang} transition:animate="initial" data-reveal>
@@ -99,13 +105,20 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <meta property="og:site_name" content={site.name} />
   <meta property="og:url" content={`https://meliksahalkan.com${href(lang, slug)}`} />
   <meta property="og:locale" content={{ en: 'en_US', tr: 'tr_TR', fr: 'fr_FR' }[lang]} />
-  <meta property="og:image" content="https://meliksahalkan.com/og.jpg" />
-  <meta property="og:image:secure_url" content="https://meliksahalkan.com/og.jpg" />
+  <meta property="og:image" content={share.url} />
+  <meta property="og:image:secure_url" content={share.url} />
   <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content={site.name} />
+  <meta property="og:image:width" content={String(share.w)} />
+  <meta property="og:image:height" content={String(share.h)} />
+  <meta property="og:image:alt" content={share.alt} />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={share.url} />
+  <meta name="twitter:image:alt" content={share.alt} />
+  <meta name="author" content={site.name} />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <script type="application/ld+json" set:html={JSON.stringify(structured)} />
   <link rel="canonical" href={`https://meliksahalkan.com${href(lang, slug)}`} />
 </head>
 <body class:list={[{ 'is-home': home }, slug && !slug.includes('/') ? `page-${slug}` : null]}>

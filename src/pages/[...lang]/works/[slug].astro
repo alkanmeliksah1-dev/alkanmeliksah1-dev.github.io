@@ -1,8 +1,9 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { workDescription, workImage, workLd } from '../../../seo';
 import Sheet from '../../../components/Sheet.astro';
 import Lines from '../../../components/Lines.astro';
-import { photos, ui, works, type Lang } from '../../../data';
+import { nav, photos, ui, works, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
 import { eventEyebrow, eventsOf, workSub } from '../../../facts';
 export const getStaticPaths = () => detailPaths(works);
@@ -10,7 +11,8 @@ const { lang, item: w } = Astro.props as { lang: Lang; item: (typeof works)[numb
 const notes = w.notes ? (w.notes[lang] ?? w.notes.en) : undefined;
 const notesLang = w.notes && w.notes[lang] ? lang : 'en';
 ---
-<Base lang={lang} slug={`works/${w.slug}`} section="works" title={w.title} bg={photos.works}>
+<Base lang={lang} slug={`works/${w.slug}`} section="works" title={w.title} bg={photos.works}
+  description={workDescription(w, lang)} image={workImage(w, lang)} ld={workLd(w, lang, nav.find((n) => n.slug === 'works')!.label[lang])}>
   <Sheet lang={lang} slug="works" title={w.title} kicker={w.year}>
     {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
     {eventsOf(w).map((e) => (

@@ -1,9 +1,10 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { eventDescription, eventImage, eventLd } from '../../../seo';
 import Sheet from '../../../components/Sheet.astro';
 import Pic from '../../../components/Pic.astro';
 import Lines from '../../../components/Lines.astro';
-import { events, photos, ui, type Lang } from '../../../data';
+import { events, nav, photos, ui, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
 import { eventEyebrow, eventHeading, workOf, workSub } from '../../../facts';
 export const getStaticPaths = () => detailPaths(events);
@@ -11,7 +12,8 @@ const { lang, item: e } = Astro.props as { lang: Lang; item: (typeof events)[num
 const w = workOf(e);
 const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
 ---
-<Base lang={lang} slug={`events/${e.slug}`} section="events" title={e.title} bg={photos.events}>
+<Base lang={lang} slug={`events/${e.slug}`} section="events" title={e.title} bg={photos.events}
+  description={eventDescription(e, lang)} image={eventImage(e, lang)} ld={eventLd(e, lang, nav.find((n) => n.slug === 'events')!.label[lang])}>
   <Sheet lang={lang} slug="events" title={eventHeading(e)} kicker={eventEyebrow(e, lang)}>
     <div class:list={['detail', { 'has-poster': e.poster }]}>
       <div>

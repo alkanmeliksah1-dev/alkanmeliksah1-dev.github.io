@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import { gallery, photos, ui, type Lang } from '../../data';
+import { gallery, photos, site, ui, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 import images from '../../images.json';
 const meta = images as Record<string, { w: number; h: number }>;
@@ -28,7 +28,7 @@ const { lang } = Astro.props as { lang: Lang };
           <div class={`gcols g${n}`}>
             {split(g.items, n).map((col) => (
               <div class="gcol">
-                {col.map((it) => <figure class="graded pop"><Pic name={it.img} alt={it.alt} sizes={n === 3 ? '260px' : '46vw'} /></figure>)}
+                {col.map((it) => <figure class="graded pop"><Pic name={it.img} alt={g.id === 'portraits' && !it.alt.includes('Alkan') ? `${site.name} — ${it.alt}` : it.alt} sizes={n === 3 ? '260px' : '46vw'} /></figure>)}
               </div>
             ))}
           </div>
