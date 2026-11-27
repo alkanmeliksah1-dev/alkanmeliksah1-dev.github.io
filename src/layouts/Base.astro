@@ -42,7 +42,8 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <html lang={lang} transition:animate="initial" data-reveal>
 <head>
   <meta charset="UTF-8" />
-  <ClientRouter fallback="none" />
+  <script is:inline>/* tarayıcının ekranı donduran kendi geçişi yerine sayfa betiğinin geçişi: tıklamalar hiç beklemez */ try { Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true }); } catch (e) {}</script>
+  <ClientRouter fallback="swap" />
   <noscript><style>.gallery figure picture { opacity: 1 !important; transform: none !important; }</style></noscript>
   <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
@@ -219,12 +220,60 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     document.fonts?.ready.then(() => place?.());
     matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
     // yeni sayfa ekrana gelmeden arka planı yerine koy
-    // geçiş animasyonu bitince sayfa betiklerine haber ver (galeri ağır işini geçişten sonra yapar)
+    // Sayfa geçişi: tıklanan sayfaya hemen geçilir. Eski sayfa ayrı bir katmana alınıp kendi
+    // hızında sönerken yeni sayfa üstünde belirir; art arda tıklamalarda hiçbir efekt yarıda
+    // kesilmez, hiçbiri de beklemez. Menü, isim ve gren yerinde kalır.
+    const EASE = 'cubic-bezier(.4, 0, .2, 1)';
+    const still = matchMedia('(prefers-reduced-motion: reduce)');
     document.addEventListener('astro:before-swap', (ev: any) => {
-      const done = ev.viewTransition?.finished?.catch(() => {}) ?? Promise.resolve();
-      (window as any).__settled = done;
-      done.then(() => { if ((window as any).__settled === done) (window as any).__settled = null; });
+      if (still.matches) return;
+      const orig = ev.swap;
+      ev.swap = () => {
+        const ob = document.body, sy = scrollY, w = ob.clientWidth, cls = ob.className;
+        const pick = (sel: string) => ob.querySelector<HTMLElement>(sel);
+        const oldBd = pick(':scope > .backdrop'), oldMain = pick(':scope > main'), oldFoot = pick(':scope > .foot'), oldBrand = pick(':scope > .brand');
+        const parts = [oldBd, oldMain, oldFoot, oldBrand].filter(Boolean) as HTMLElement[];
+        const op = new Map(parts.map((n) => [n, getComputedStyle(n).opacity]));
+        const r = orig();
+        const after = () => {
+          const nb = document.body;
+          const newBrand = nb.querySelector(':scope > .brand');
+          // eski sayfa: o anki görünüşüyle donar ve yavaşça söner
+          const layer = document.createElement('div');
+          layer.className = 'page-ghost'; layer.setAttribute('aria-hidden', 'true'); (layer as any).inert = true;
+          const fixed = document.createElement('div'); fixed.className = cls; fixed.style.cssText = 'position:absolute;inset:0';
+          const flow = document.createElement('div'); flow.className = cls; flow.style.cssText = `position:absolute;left:0;top:${-sy}px;width:${w}px`;
+          parts.forEach((n) => {
+            n.getAnimations?.().forEach((a) => a.cancel());
+            n.style.opacity = op.get(n)!;
+            n.querySelectorAll('iframe').forEach((f) => f.remove());
+          });
+          if (oldBd) fixed.append(oldBd);
+          if (oldBrand && !newBrand) fixed.append(oldBrand);
+          if (oldMain) flow.append(oldMain);
+          if (oldFoot) flow.append(oldFoot);
+          layer.append(fixed, flow);
+          document.documentElement.append(layer);
+          layer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 750, delay: 180, easing: EASE, fill: 'forwards' })
+            .finished.then(() => layer.remove(), () => layer.remove());
+          // yeni sayfa: eskinin üstünde belirir
+          const ins = [...nb.querySelectorAll<HTMLElement>(':scope > .backdrop, :scope > main, :scope > .foot')];
+          if (newBrand && !oldBrand) ins.push(newBrand as HTMLElement);
+          const anims = ins.map((n) => n.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 600, easing: EASE }));
+          const done = Promise.all(anims.map((a) => a.finished.catch(() => {}))).then(() => {});
+          (window as any).__settled = done;
+          done.then(() => { if ((window as any).__settled === done) (window as any).__settled = null; });
+        };
+        return r && typeof r.then === 'function' ? r.then(after) : after();
+      };
     });
+    // tıklanan menü bağlantısı, sayfa gelmeden önce seçili görünür
+    addEventListener('click', (e) => {
+      const a = (e.target as Element)?.closest?.('.menu nav a[href]');
+      if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      document.querySelectorAll('.menu nav a.chosen').forEach((x) => x.classList.remove('chosen'));
+      a.classList.add('chosen');
+    }, true);
     document.addEventListener('astro:after-swap', () => { document.documentElement.dataset.swapped = ''; setMenu(false); setupBackdrop(); });
     setup();
     document.addEventListener('astro:page-load', setup);

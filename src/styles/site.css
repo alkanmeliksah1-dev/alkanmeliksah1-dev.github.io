@@ -151,10 +151,15 @@ img { display: block; max-width: 100%; }
   display: block; padding: 5px 0;
   font: 400 15px/1.5 var(--text);
   color: var(--dim);
-  transition: color .3s, transform .3s;
+  transition: color .35s, transform .45s cubic-bezier(.2, .7, .2, 1), opacity .35s;
 }
 @media (hover: hover) { .menu li a:hover { color: var(--ink); transform: translateX(3px); } }
 .menu li a[aria-current] { color: var(--accent); }
+/* tıklanınca seçim hemen belli olur; yeni sayfada seçili bağlantı yerine yumuşakça oturur */
+.menu li a.chosen { color: var(--accent); transform: translateX(6px); }
+.menu li a[aria-current] { animation: menu-arrive .8s cubic-bezier(.2, .7, .2, 1) both; }
+html:not([data-swapped]) .menu li a[aria-current] { animation: none; }
+@keyframes menu-arrive { from { transform: translateX(6px); } to { transform: none; } }
 .langs { display: flex; gap: 2px; padding-top: 6px; }
 .langs a { display: grid; place-items: center; width: 44px; height: 44px; }
 .langs a:first-child { margin-left: -11px; }
@@ -436,22 +441,16 @@ html.menu-open { overflow: hidden; }
 /* ---------- sayfa ve dil geçişi (yenilemeden) ----------
    Tüm sayfa tek parça olarak yumuşakça çözülür: menü, gren ve arka plan birlikte kalır,
    hiçbir parça öne/arkaya atlamaz. Eski ve yeni görüntü üst üste karışır, ekran kararmaz. */
-::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
-  animation-duration: .6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+/* tarayıcının kendi geçişi kapalı: geçişi sayfa betiği yapar (eski sayfa ayrı katmanda söner) */
+::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+.page-ghost {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
+  color: var(--ink); font: 400 var(--fs)/1.7 var(--text); -webkit-font-smoothing: antialiased;
 }
 
 /* geçiş sürerken de menüye tıklanabilsin: üstteki geçiş katmanı tıklamayı yutmaz,
    yeni tıklama eski geçişi hemen bitirip yenisini başlatır */
 ::view-transition { pointer-events: none; }
-
-/* isim, ana sayfadaki büyük yerinden sol üstteki yerine (ve geri) akarak gider */
-.brand, .hero-name h1 { view-transition-name: site-name; }
-::view-transition-group(site-name) { animation-duration: .9s; animation-timing-function: cubic-bezier(.65, 0, .2, 1); }
-::view-transition-old(site-name), ::view-transition-new(site-name) { height: 100%; width: auto; animation-duration: .9s; mix-blend-mode: normal; }
-::view-transition-old(site-name) { animation-name: name-out; }
-::view-transition-new(site-name) { animation-name: name-in; }
-@keyframes name-out { 0% { opacity: 1; filter: blur(0); } 55%, 100% { opacity: 0; filter: blur(4px); } }
-@keyframes name-in { 0%, 35% { opacity: 0; filter: blur(4px); } 100% { opacity: 1; filter: blur(0); } }
 
 /* yenilemeden gelinen sayfalarda içerik yerinden zıplamaz; geçişin kendisi yumuşak */
 html[data-swapped] .sheet, html[data-swapped] .hero-name { animation: none; }
