@@ -178,6 +178,12 @@ export const works: {
     note: { en: 'Premiered at Bilgi New Music Festival 16, Istanbul', tr: 'İlk seslendirme: Bilgi Yeni Müzik Festivali 16, İstanbul', fr: 'Création au Bilgi New Music Festival 16, Istanbul' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
     notes: {
+      tr: [
+        'Ab-ı Revan, adını tasavvuf geleneğinde disiplin ve meşakkatle dolu bir hayatın ortasında bile kalpten durmaksızın akan bir sevinç, huzur ve iç berraklığı olarak tarif edilen hâlden alır. Eser, bu çelişkinin içinde doğan sesin izini sürer: dışarıda yoğun bir arınma pratiği, içeride ise her şeye rağmen taşan bir ferahlık. Müzik bu gerilimi bozmadan taşımayı amaçlar; hiç durmadan akan, ama nereye aktığını bilmeyen bir su gibi.',
+      ],
+      fr: [
+        'Ab-ı Revan tire son nom d’un état que la tradition soufie décrit comme une joie, une paix et une clarté intérieure qui coulent sans cesse dans le cœur, même au sein d’une vie de discipline et d’épreuves. L’œuvre suit la voix qui naît de cette contradiction : au-dehors, une pratique intense de purification ; au-dedans, un soulagement qui déborde malgré tout. La musique cherche à maintenir cette tension intacte, comme une eau qui ne cesse jamais de couler, sans pourtant savoir où elle coule.',
+      ],
       en: [
         'Ab-ı Revan takes its name from a state described in Sufi tradition as a joy, peace, and inner clarity that flows ceaselessly through the heart, even amid a life of discipline and hardship. The piece follows the voice born within this contradiction: an intense practice of purification on the outside, and within, a sense of relief that overflows regardless. The music aims to hold this tension intact, like water that never stops running, yet does not know where it runs.',
       ],
@@ -188,6 +194,11 @@ export const works: {
     scoring: { en: 'for a performer, an actor and electronics', tr: 'bir icracı, bir oyuncu ve elektronikler için', fr: 'pour un interprète, un acteur et électroniques' },
     note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
     notes: {
+      fr: [
+        'Öteyakadan Takaza Act.0 est une pièce de théâtre musical centrée sur le moment d’émergence du texte de Ferit Edgü, Orhan Duru : Ölmeden Önce - Öldükten Sonra. Sur scène est mis en jeu ce seuil où Edgü écrit le texte et où les mots n’ont pas encore entièrement trouvé leur forme. Le son, la parole et le corps comblent peu à peu le vide entre la mémoire et l’absence.',
+        'Un instrument seul forme la colonne vertébrale de ce processus. Des motifs cycliques issus de l’instrument sont fragmentés et amplifiés par l’électronique, créant leur propre temps. À mesure que chaque timbre entendu s’infiltre dans les syllabes et se mêle à la formation du langage, l’écrit, l’entendu et l’imaginé s’entrelacent.',
+        'Act.0, plutôt qu’une scène narrative au sens traditionnel, est une structure qui suit l’émergence même du texte à travers le son. Elle met en scène l’acte d’écrire non pas comme la simple transmission d’une pensée, mais comme un processus par lequel une figure absente prend forme physiquement. Dans cette représentation, tout ce processus s’incarne dans le corps d’un violoncelle.',
+      ],
       tr: [
         'Öteyakadan Takaza Act.0, Ferit Edgü’nün Orhan Duru: Ölmeden Önce - Öldükten Sonra metninin ortaya çıkış anına odaklanan bir müzik tiyatrosudur. Sahnede, Edgü\'nün metni yazdığı ve kelimelerin henüz bütünüyle formunu bulmadığı o eşik canlandırılır. Ses, söz ve beden; hafıza ile yokluk arasındaki boşluğu yavaş yavaş kaplar.',
         'Bu sürecin omurgasını yalnız bir enstrüman oluşturur. Enstrümandan çıkan döngüsel motifler, elektroniklerle parçalanıp genişleyerek kendi zamanını yaratır. Duyulan her tını hecelere sızarak dilin oluşumuna karışırken; yazılan, duyulan ve hayal edilen iç içe geçer.',
@@ -209,6 +220,14 @@ export const works: {
       { kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/mahzen-ul-esrar' },
     ],
     notes: {
+      tr: [
+        'Semplice Quartet için bestelenen ve Nizami Gencevi’nin 12. yüzyılda yazdığı aynı adlı eserden esinlenen Mahzen-ül Esrar, sanki zamanın sınırlarının dışında, bir boşlukta asılı kalmışçasına başlar. Nizami’nin “İnsan ruhunun derinliklerinde saklı hikmet, yalnızca nefsini arındıranların ulaşabileceği bir hazinedir” sözünün özünün izini sürerken eser, sessizlikten perküsif bir zenginliğe doğru kademeli bir dönüşüm sunar; tıpkı yedi vadiden geçebilmek için önce Huzur Denizi’ne dalması gereken Mahzen-ül Esrar yolcusunun yolculuğu gibi.',
+        'Başlangıçta belirgin biçimde tanımlanmamış soyut müzikal çizgiler, giderek daha berrak bir yapıya evrilir ve açılış malzemesinin yankılarıyla doruğa ulaşır. Nizami’nin merkezî teması olan Nefis Terbiyesi’ni çağdaş bir ses çerçevesinde yeniden yorumlamayı amaçlayan Mahzen-ül Esrar, kadim bir metnin karanlıktan aydınlığa uzanan mistik yolculuğunu 21. yüzyılın tını renkleriyle yeniden canlandıran müzikal bir tahayyül ortaya koyar.',
+      ],
+      fr: [
+        'Mahzen-ül Esrar, écrite pour le Semplice Quartet et inspirée de l’œuvre homonyme de Nizami Gandjavi au XIIe siècle, commence comme suspendue dans le vide, hors des limites du temps. Tout en suivant l’essence de cette parole de Nizami : « La sagesse cachée au fond de l’âme humaine est un trésor accessible seulement à ceux qui purifient leur nafs », la pièce présente une transformation progressive du silence vers une richesse percussive, à l’image du voyage du voyageur de Mahzen-ül Esrar, qui doit d’abord s’immerger dans la Mer de la Sérénité pour traverser les sept vallées.',
+        'Les lignes musicales, d’abord abstraites et indistinctes, évoluent peu à peu vers une structure plus lumineuse, jusqu’à culminer dans des échos du matériau initial. Cherchant à réinterpréter le thème central de Nizami, la discipline de soi, dans un cadre sonore contemporain, Mahzen-ül Esrar propose une réinvention musicale du voyage mystique d’un texte ancien, des ténèbres vers la lumière, ravivé par les couleurs de timbre du XXIe siècle.',
+      ],
       en: [
         'Mahzen-ül Esrar, composed for the Semplice Quartet and inspired by the work of the same name written by Nizami Ganjavi in the 12th century, begins as if suspended in a void, outside the bounds of time. While tracing the essence of Nizami’s statement, “The wisdom hidden in the depths of the human soul is a treasure accessible only to those who purify their nafs,” the piece presents a gradual transformation from silence to percussive richness—mirroring the journey of the traveler in Mahzen-ül Esrar, who must first immerse themselves in the Sea of Serenity to pass through the seven valleys.',
         'The initially abstract musical lines, not clearly defined at the beginning, gradually evolve into a more lucid structure, culminating in echoes of the opening material. Seeking to reinterpret Nizami’s central theme of Self-Discipline through a contemporary sonic framework, Mahzen-ül Esrar brings forth a musical reimagining of an ancient text’s mystical journey from darkness to light—revived through the timbral colors of the 21st century.',
@@ -220,6 +239,24 @@ export const works: {
     scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
     note: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international Gilgamesh' },
     notes: {
+      tr: [
+        'İnsanlığın yazıya geçirilmiş en eski anlatılarından biri olan Gılgamış Destanı, yaklaşık 4.000 yıl önce Sümer kil tabletlerine kazınmış olmasına rağmen güncelliğini korumaktadır. Uruk kralı Gılgamış’ın dostluk, kayıp, yas ve ölümsüzlük arayışı temaları etrafında örülen bu kadim hikâye, insanlığın varoluşsal sorulara yanıt arayışının evrensel bir yansımasıdır.',
+        'Bu kompozisyon, Gılgamış’ın mitolojik yolculuğunun üç ayrı evresini bir ses manzarasında yeniden canlandırmayı amaçlar:',
+        '1. Gılgamış ile Enkidu’nun Dostluğu: Bir çatışma olarak başlayıp giderek dostluğa dönüşen trombon ile arp arasındaki diyalog, Gılgamış’ın vahşi adam Enkidu ile ilişkisini temsil eder.',
+        '2. Enkidu’nun Ölümü ve Yas: Elektronik sesler ile trombon arasındaki gergin pasajlar, Gılgamış’ın dostunun kaybı karşısındaki çaresizliğini ve kederini ifade eder.',
+        '3. Ölümsüzlük Arayışı: Arp ve elektronik tınılar, Gılgamış’ın ölümsüzlük arayışındaki umut ve umutsuzluk gelgitlerini yansıtırken, eserin sonunda trombon insanın ölümlülüğünü kabullenişinin derin yankısını taşır.',
+        'Bu kompozisyon, insanlığın en kadim hikâyelerinden birini 21. yüzyılın ses paletinde yeniden yorumlamak için akustik çalgıları —trombon ve arp— elektronik tınılarla bir araya getirir. Trombon, Gılgamış’ın kahramanca ve melankolik karakterini temsil eder; arp, mitolojik dünyanın gizemli atmosferini somutlaştırır; elektronik tınılar ise zamanın akışını simgeler.',
+        'Gılgamış’ın yolculuğu aslında herkesin yolculuğudur: sevmek, kaybetmek ve nihayetinde ardında anlamlı bir hikâye bırakarak ölümlü doğamızı kabullenme çabası...',
+      ],
+      fr: [
+        'L’Épopée de Gilgamesh, l’un des plus anciens récits écrits de l’humanité, reste d’actualité bien qu’elle ait été gravée sur des tablettes d’argile sumériennes il y a environ 4 000 ans. Ce récit ancien, tissé autour des thèmes de l’amitié, de la perte, du deuil et de la quête d’immortalité de Gilgamesh, roi d’Uruk, représente une réflexion universelle sur la recherche, par l’humanité, de réponses aux questions existentielles.',
+        'Cette composition cherche à faire revivre trois phases distinctes du voyage mythologique de Gilgamesh dans un paysage sonore :',
+        '1. L’amitié de Gilgamesh et d’Enkidu : le dialogue entre le trombone et la harpe, qui commence comme un conflit et se transforme peu à peu en amitié, représente la relation de Gilgamesh avec l’homme sauvage Enkidu.',
+        '2. La mort d’Enkidu et le deuil : les passages tendus entre les sons électroniques et le trombone expriment l’impuissance et le chagrin de Gilgamesh face à la perte de son ami.',
+        '3. La quête d’immortalité : la harpe et les timbres électroniques reflètent les marées d’espoir et de désespoir dans la quête d’immortalité de Gilgamesh, tandis qu’à la fin de la pièce, le trombone porte la résonance profonde de l’acceptation de la mortalité humaine.',
+        'Cette composition réunit des instruments acoustiques — trombone et harpe — et des timbres électroniques pour réinterpréter l’une des plus anciennes histoires de l’humanité dans la palette sonore du XXIe siècle. Le trombone représente le caractère héroïque et mélancolique de Gilgamesh ; la harpe incarne l’atmosphère mystérieuse du monde mythologique ; et les timbres électroniques symbolisent l’écoulement du temps.',
+        'Le voyage de Gilgamesh est, en vérité, celui de chacun : l’effort d’aimer, de perdre et, finalement, d’accepter notre nature mortelle tout en laissant derrière soi une histoire qui ait un sens...',
+      ],
       // Jenny Lewis'in "After Gilgamesh" alıntısı telif nedeniyle buraya eklenmedi; istenirse
       // "A passage from ..." paragrafı alıntıyla birlikte üçüncü paragraftan sonra eklenebilir.
       en: [
@@ -237,15 +274,31 @@ export const works: {
     slug: 'butimar', year: '2024', cat: 'concert', title: 'Butimar',
     scoring: { en: 'for solo flute', tr: 'solo flüt için', fr: 'pour flûte seule' },
     notes: {
+      tr: [
+        'Bu eser, Fars mitolojisinden doğan ve daha sonra Türk-İslam kültüründe önem kazanan bir efsane olan Butimar kuşunun gizemli yaşamından ve trajik kaderinden esinlenmiştir. Butimar, denize duyduğu derin sevgiyle bilinir. Suyun üzerinde süzülür, yüzeyinin altına dalar, ama ondan asla içmez.',
+        'Efsaneye göre Butimar denizi öylesine derinden sever ki ondan içmeye kıyamaz ve böylece susuzluktan ölür. Bu trajik paradoks —sevdiğinin yanı başında olup ona dokunamamak; hayat kaynağının içinde yaşayıp ondan pay alamamak— Butimar’ı aşkın ve hasretin güçlü bir simgesi hâline getirmiştir.',
+        'Butimar efsanesi kadim Fars şiir geleneğine dayanır ve yalnızca mitolojik kahramanları değil, doğanın sembolik figürlerini de ölümsüzleştiren bir destan olan Firdevsî’nin Şehnâme’sinde anılır. Zamanla bu efsane Orta Doğu ve Orta Asya kültürlerine yayılmış; Farsça “su kuşu” anlamına gelen “bahri mâ”dan türeyen adı da Butimar’a dönüşmüştür.',
+        'Bu müzik eseri, Butimar’ın denize olan tutkusunu, ona yakın olup ondan içememenin çelişkisini ve nihayetinde susuzluktan ölme kaderini betimler. Kuş denizin üzerinde süzülür, derinliklerine dalar, yeniden yükselir ve aşk uğruna feda ettiği hayatının son anlarında göğe yükselir. Flüt; kuşun sesini, derin iç çekişlerini ve denizle kurduğu duyusal bağı temsil ederken, nefesi ve tınlaması denizin enginliğini, erişilmezliğini ve derin iç yankılarını betimler.',
+        'Bu eser, yalnızca bir kuşu betimlemenin ötesine geçer. İnsanlığın imkânsız özlemlerini, erişilebilir olanın içinde yaşarken erişilmez olana duyulan hasreti ve bu paradoksun yarattığı dayanılmaz gerilimi yansıtır.',
+        'Batıdan doğuya uzanan efsanevi göçüyle Butimar kuşu, farklı kültürleri ve dünyaları birbirine bağlayan bir simge olarak belirir. Bu kompozisyon, onun mistik yolculuğunu, sevdiğine yakın olmanın hem sevincini hem acısını, solo flütün nefesi ve sesi aracılığıyla anlatmayı amaçlar.',
+      ],
+      fr: [
+        'Cette pièce s’inspire de la vie mystérieuse et du destin tragique de l’oiseau Butimar, une légende née de la mythologie persane qui a ensuite pris une place importante dans la culture turco-islamique. Le Butimar est connu pour son profond amour de la mer. Il glisse au-dessus de l’eau, plonge sous sa surface, mais n’en boit jamais.',
+        'Selon la légende, le Butimar aime la mer si profondément qu’il ne peut se résoudre à y boire, et meurt ainsi de soif. Ce paradoxe tragique — être auprès de ce que l’on aime sans pouvoir le toucher ; vivre au sein de sa source de vie sans pouvoir y prendre part — a fait du Butimar un puissant symbole de l’amour et du désir.',
+        'La légende du Butimar s’enracine dans l’ancienne tradition poétique persane et est mentionnée dans le Shâhnâmeh de Ferdowsi, une épopée qui immortalise non seulement des héros mythiques, mais aussi des figures symboliques de la nature. Au fil du temps, cette légende s’est répandue dans les cultures du Moyen-Orient et d’Asie centrale, et le nom, dérivé du persan « bahri mâ », qui signifie « oiseau d’eau », est devenu Butimar.',
+        'Cette œuvre musicale dépeint la passion du Butimar pour la mer, la contradiction d’en être proche sans pouvoir y boire et, finalement, son destin de mourir de soif. L’oiseau glisse au-dessus de la mer, plonge dans ses profondeurs, remonte, et dans les derniers instants de sa vie, sacrifiée par amour, s’élève vers le ciel. La flûte représente la voix de l’oiseau, ses profonds soupirs et son lien sensuel avec la mer, tandis que son souffle et sa résonance dépeignent l’immensité, l’inaccessibilité et les profonds échos intérieurs de la mer.',
+        'Cette pièce va au-delà de la simple représentation d’un oiseau. Elle reflète les désirs impossibles de l’humanité, l’aspiration à l’inaccessible tout en vivant au sein de l’accessible, et la tension insupportable que crée ce paradoxe.',
+        'Par sa migration légendaire d’ouest en est, l’oiseau Butimar apparaît comme un symbole reliant des cultures et des mondes différents. Cette composition cherche à raconter son voyage mystique, la joie comme la douleur d’être proche de ce qu’il aime, à travers le souffle et la voix de la flûte seule.',
+      ],
       // Cahit Külebi'nin "Butimar" şiirinden alıntı telif nedeniyle buraya eklenmedi;
       // istenirse ilk paragraftan sonra eklenebilir.
       en: [
         'This piece is inspired by the mysterious life and tragic fate of the Butimar bird, a legend originating from Persian mythology that later gained prominence in Turkish-Islamic culture. The Butimar is known for its deep love of the sea. It glides over the water, dives beneath its surface, yet never drinks from it.',
         'According to legend, the Butimar loves the sea so deeply that it cannot bring itself to drink from it, and thus dies of thirst. This tragic paradox – being next to what you love, yet unable to touch it; living within your life source, but unable to partake in it – has made the Butimar a powerful symbol of love and longing.',
         'The Butimar legend is rooted in the ancient Persian poetic tradition and is mentioned in Firdausi\'s Shahnameh, an epic poem that immortalizes not only mythical heroes but also symbolic figures of nature. Over time, this legend spread across Middle Eastern and Central Asian cultures, and the name, derived from the Persian "bahri mâ" meaning "water bird," evolved into Butimar.',
-        'This musical work portrays the Butimar\'s passion for the sea, the contradiction of being near it yet unable to drink from it, and ultimately, its fate of dying of thirst. The bird glides over the sea, dives into its depths, rises again, and in the final moments of its life, sacrificed for love, ascends to the sky. The oboe represents the bird\'s voice, its deep sighs, and its sensual connection with the sea, while the electronic sounds depict the vastness, inaccessibility, and profound inner echoes of the sea.',
+        'This musical work portrays the Butimar\'s passion for the sea, the contradiction of being near it yet unable to drink from it, and ultimately, its fate of dying of thirst. The bird glides over the sea, dives into its depths, rises again, and in the final moments of its life, sacrificed for love, ascends to the sky. The flute represents the bird\'s voice, its deep sighs, and its sensual connection with the sea, while its breath and resonance depict the vastness, inaccessibility, and profound inner echoes of the sea.',
         'This piece goes beyond merely portraying a bird. It reflects humanity\'s impossible longings, the yearning for the unattainable while living within the attainable, and the unbearable tension this paradox creates.',
-        'With its legendary migration from west to east, the Butimar bird emerges as a symbol bridging different cultures and worlds. This composition aims to narrate its mystical journey, both the joy and pain of being close to what it loves, through the intricate meeting of oboe and electronic sounds.',
+        'With its legendary migration from west to east, the Butimar bird emerges as a symbol bridging different cultures and worlds. This composition aims to narrate its mystical journey, both the joy and pain of being close to what it loves, through the breath and voice of the solo flute.',
       ],
     },
   },
