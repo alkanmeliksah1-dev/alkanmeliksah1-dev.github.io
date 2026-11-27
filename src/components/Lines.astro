@@ -4,9 +4,9 @@ import { eventWho, eventWhere } from '../facts';
 import type { Lang } from '../data';
 const { e, lang, talk = false } = Astro.props as { e: any; lang: Lang; talk?: boolean };
 // söyleşilerde icracı satırı ve saat gösterilmez
-const who = talk ? '' : eventWho(e, lang);
+const who = talk ? [] : eventWho(e, lang);
 ---
 <div class="lines">
-  {who && <p>{who}</p>}
+  {who.length > 0 && <p>{who.map((p, i) => <>{i > 0 && ' · '}{p.k && <span class="k">{p.k}</span>}{p.k ? ' ' : ''}{p.v}</>)}</p>}
   <p class="muted">{eventWhere(e, lang, talk)}</p>
 </div>

@@ -5,7 +5,7 @@ import Pic from '../../components/Pic.astro';
 import Lines from '../../components/Lines.astro';
 import { events, photos, ui, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
-import { eventEyebrow, eventHeading } from '../../facts';
+import { eventEyebrow, eventHeading, workOf, workSub } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const today = new Date().toISOString().slice(0, 10);
@@ -27,6 +27,7 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
               <div class="entry-body">
                 <p class="eyebrow">{eventEyebrow(e, lang)}</p>
                 <h3 class="entry-title"><a class="card-link" href={href(lang, `events/${e.slug}`)}>{eventHeading(e)}</a></h3>
+                {workSub(workOf(e), lang) && <p class="sub">{workSub(workOf(e), lang)}</p>}
                 <Lines e={e} lang={lang} />
               </div>
               {e.poster && <div class="entry-poster"><a class="pop" href={href(lang, `events/${e.slug}`)} tabindex="-1" aria-hidden="true"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 70vw, 200px" /></a></div>}

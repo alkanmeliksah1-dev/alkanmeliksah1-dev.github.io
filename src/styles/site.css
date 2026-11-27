@@ -107,11 +107,12 @@ img { display: block; max-width: 100%; }
 }
 @media (hover: hover) { .menu li a:hover { color: var(--ink); transform: translateX(3px); } }
 .menu li a[aria-current] { color: var(--accent); }
-.langs { display: flex; gap: 6px; padding-top: 8px; }
-.langs a { padding: 8px 6px; }
-.langs a:first-child { margin-left: -6px; }
-.langs a[aria-current], .langs a:hover { color: var(--ink); }
-.langs a[aria-current] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 5px; }
+.langs { display: flex; gap: 2px; padding-top: 6px; }
+.langs a { display: grid; place-items: center; width: 44px; height: 44px; }
+.langs a:first-child { margin-left: -11px; }
+.langs svg { display: block; width: 22px; height: 15px; border-radius: 1.5px; box-shadow: 0 0 0 1px rgba(235, 227, 213, .18); opacity: .55; filter: saturate(.7); transition: opacity .25s, filter .25s, box-shadow .25s; }
+.langs a:hover svg { opacity: .9; }
+.langs a[aria-current] svg { opacity: 1; filter: none; box-shadow: 0 0 0 1px var(--accent), 0 0 0 3px rgba(198, 165, 113, .25); }
 .menu-btn { display: none; }
 
 /* ---------- içerik paneli ---------- */
@@ -193,6 +194,9 @@ a.work-title:hover, a.work-title:focus-visible { color: var(--accent); text-deco
 .entry-poster .pop { display: block; width: 100%; }
 
 /* etiketsiz bilgi satırları */
+.sub { color: var(--dim); font-style: italic; margin: -6px 0 12px; }
+.sheet .sub:first-of-type { margin-top: 0; }
+.lines .k { font: 400 11px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
 .lines p { margin: 0; }
 .lines p + p { margin-top: 2px; }
 .perf { margin-top: 14px; }
@@ -366,3 +370,9 @@ html.menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Galeri arka planı: fotoğraf biraz sağa kayar, sağdaki müzisyen panelin arkasından çıkar */
+@media (min-width: 901px) {
+  .page-gallery .backdrop img { object-position: 0% 55% !important; transform: scale(1.08); transform-origin: 0% 50%; }
+}
+.page-approach .backdrop img { filter: var(--grade) brightness(.36) !important; }

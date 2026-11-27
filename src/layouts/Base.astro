@@ -6,6 +6,7 @@ import '@fontsource/cormorant-garamond/300.css';
 import '../styles/site.css';
 import { LANGS, anchors, focal, nav, site, ui, type Lang } from '../data';
 import Pic from '../components/Pic.astro';
+import Flag from '../components/Flag.astro';
 import images from '../images.json';
 import { href } from '../lib';
 
@@ -34,6 +35,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -78,7 +80,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         </ul>
       </nav>
       <div class="langs">
-        {LANGS.map((l) => <a href={href(l, slug)} hreflang={l} aria-current={l === lang ? 'true' : undefined}>{l.toUpperCase()}</a>)}
+        {(['tr', 'en', 'fr'] as const).map((l) => <a href={href(l, slug)} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined} aria-label={{ tr: 'Türkçe', en: 'English', fr: 'Français' }[l]} title={{ tr: 'Türkçe', en: 'English', fr: 'Français' }[l]}><Flag code={l} /></a>)}
       </div>
     </div>
   </header>

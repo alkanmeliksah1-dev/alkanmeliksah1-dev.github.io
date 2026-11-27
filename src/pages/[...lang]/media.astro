@@ -4,7 +4,7 @@ import Sheet from '../../components/Sheet.astro';
 import Lines from '../../components/Lines.astro';
 import { events, mediaSections, photos, recordings, ui, works, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
-import { eventEyebrow } from '../../facts';
+import { eventEyebrow, workSub } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 // SoundCloud oynatıcısı açık renkli; sayfada tersine çevrilerek koyu gösterilir.
@@ -28,6 +28,7 @@ const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURICom
                   <div class="entry-body">
                     <p class="eyebrow"><a href={href(lang, `events/${e.slug}`)}>{eventEyebrow(e, lang)}</a></p>
                     <h3 class="entry-title">{w ? <a href={href(lang, `works/${w.slug}`)}>{title}</a> : title}</h3>
+                    {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
                     <Lines e={e} lang={lang} talk={r.section === 'talks'} />
                     <div class="player">
                       {r.type === 'youtube'

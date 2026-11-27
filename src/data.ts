@@ -379,7 +379,7 @@ export const works: {
   },
   {
     slug: 'ro-ap', year: '2026', cat: 'stage', title: 'Ro-Ap',
-    role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, director: 'Abdül Süsler',
+    role: { en: 'Music, sound design and mixing', tr: 'Müzik, ses tasarımı ve miksaj', fr: 'Musique, création sonore et mixage' }, director: 'Abdül Süsler',
   },
   {
     slug: 'happy-days', year: '2026', cat: 'stage', title: 'Happy Days',
@@ -440,7 +440,7 @@ export const events: {
     ],
   },
   {
-    slug: 'ro-ap', kind: 'theatre', date: '2026-12-14',
+    slug: 'ro-ap', kind: 'theatre', date: '2026-12-14', time: '20:00',
     title: 'Ro-Ap', work: 'ro-ap',
   },
   {
@@ -491,7 +491,7 @@ export const events: {
     ],
   },
   {
-    slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07',
+    slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07', time: '20:30',
     title: 'Tek Bi’ Mutlu An!', work: 'tek-bi-mutlu-an',
     venue: R('ClapHall, Istanbul', 'ClapHall, İstanbul', 'ClapHall, Istanbul'),
     poster: 'poster-tekbimutluan',
@@ -538,7 +538,7 @@ export const events: {
     source: 'https://sesinyolculugu.com/festivaller/17-2/2-konser/',
   },
   {
-    slug: 'happy-days', kind: 'theatre', date: '2026-03-27',
+    slug: 'happy-days', kind: 'theatre', date: '2026-03-27', time: '20:00',
     title: 'Happy Days (Mutlu Günler)', work: 'happy-days',
     venue: TOPKAPI, poster: 'poster-mutlugunler',
     credits: [
@@ -553,7 +553,7 @@ export const events: {
     ],
   },
   {
-    slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25',
+    slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25', time: '20:00',
     title: 'A Place with the Pigs (Domuz Ahırı)', work: 'a-place-with-the-pigs',
     venue: TOPKAPI, poster: 'poster-domuzahiri',
     credits: [
@@ -671,7 +671,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // ---------- Fotoğraflar ----------
 // Fotoğrafın hangi kısmının görüneceği (yatay% dikey%), kırpıldığında
 export const focal: Record<string, string> = {
-  'bg-score': '32% 35%', 'bg-desk': '84% 30%', 'bg-church': '50% 45%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
+  'bg-score': '32% 35%', 'bg-drawing': '55% 45%', 'bg-curtain': '58% 30%', 'bg-rehearse': '48% 25%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
   'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
@@ -686,18 +686,19 @@ export const anchors: Record<string, { fx: number; at: number | 'between'; fit?:
   'reading-wide': { fx: 0.953, at: 0.93 },
   standing: { fx: 0.42, at: 0.9, fit: 'height' },
   'bg-score': { fx: 0.32, at: 0.86, fit: 'height' },
-  'bg-desk': { fx: 0.84, at: 0.9, fit: 'height' },
-  'bg-church': { fx: 0.5, at: 0.82, fit: 'height' },
+  'bg-drawing': { fx: 0.55, at: 0.88, fit: 'height' },
+  'bg-curtain': { fx: 0.58, at: 0.85, fit: 'height' },
+  'bg-rehearse': { fx: 0.48, at: 0.9, fit: 'height' },
 };
 
 // Her sayfanın arka plan fotoğrafı
 export const photos = {
   home: 'night-wide',
-  approach: 'reading-wide',
-  about: 'standing',
+  approach: 'bg-drawing',
+  about: 'reading-wide',
   works: 'bg-score',
-  events: 'bg-church',
-  media: 'bg-desk',
+  events: 'bg-rehearse',
+  media: 'bg-curtain',
   gallery: 'bg-rehearsal',
   contact: 'bg-eic',
   portrait: 'studio',

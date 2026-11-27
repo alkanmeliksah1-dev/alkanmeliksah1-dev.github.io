@@ -4,7 +4,7 @@ import Sheet from '../../../components/Sheet.astro';
 import Lines from '../../../components/Lines.astro';
 import { photos, ui, works, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
-import { eventEyebrow, eventsOf } from '../../../facts';
+import { eventEyebrow, eventsOf, workSub } from '../../../facts';
 export const getStaticPaths = () => detailPaths(works);
 const { lang, item: w } = Astro.props as { lang: Lang; item: (typeof works)[number] };
 const notes = w.notes ? (w.notes[lang] ?? w.notes.en) : undefined;
@@ -12,6 +12,7 @@ const notesLang = w.notes && w.notes[lang] ? lang : 'en';
 ---
 <Base lang={lang} slug={`works/${w.slug}`} section="works" title={w.title} bg={photos.works}>
   <Sheet lang={lang} slug="works" title={w.title} kicker={w.year}>
+    {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
     {eventsOf(w).map((e) => (
       <div class="perf">
         <a class="perf-name" href={href(lang, `events/${e.slug}`)}>{eventEyebrow(e, lang)}</a>

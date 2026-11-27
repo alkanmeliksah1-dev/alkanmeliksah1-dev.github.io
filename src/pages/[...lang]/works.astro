@@ -5,7 +5,7 @@ import Pic from '../../components/Pic.astro';
 import Lines from '../../components/Lines.astro';
 import { categories, photos, works, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
-import { eventEyebrow, eventsOf } from '../../facts';
+import { eventEyebrow, eventsOf, workSub } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 ---
@@ -28,6 +28,7 @@ const { lang } = Astro.props as { lang: Lang };
               <div class="entry-body">
                 <p class="eyebrow">{w.year}</p>
                 <h3 class="entry-title"><a class="card-link" href={href(lang, `works/${w.slug}`)}>{w.title}</a></h3>
+                {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
                 {eventsOf(w).map((e) => (
                   <div class="perf">
                     <a class="perf-name" href={href(lang, `events/${e.slug}`)}>{eventEyebrow(e, lang)}</a>

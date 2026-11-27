@@ -4,7 +4,7 @@ from PIL import Image
 SRC, OUT, MAN = sys.argv[1], sys.argv[2], sys.argv[3]
 os.makedirs(OUT, exist_ok=True)
 for f in os.listdir(OUT): os.remove(os.path.join(OUT, f))
-BG = {'night-wide','reading-wide','standing','bg-score','bg-desk','bg-church','bg-rehearsal','bg-eic'}
+BG = {'night-wide','reading-wide','bg-score','bg-drawing','bg-curtain','bg-rehearse','bg-rehearsal','bg-eic'}
 man = {}
 for f in sorted(os.listdir(SRC)):
     if not f.endswith('.jpg'): continue

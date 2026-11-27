@@ -16,11 +16,8 @@ export const eventDate = (e: Event, lang: Lang) => {
 export const eventsOf = (w: Work) => events.filter((e) => e.work === w.slug).sort((a, b) => b.date.localeCompare(a.date));
 export const workOf = (e: Event) => works.find((x) => x.slug === e.work);
 
-const directed: Record<Lang, (n: string) => string> = {
-  en: (n) => `directed by ${n}`,
-  tr: (n) => `${n} yönetiminde`,
-  fr: (n) => `mise en scène de ${n}`,
-};
+const L_TEXT: Record<Lang, string> = { en: 'Text', tr: 'Metin', fr: 'Texte' };
+const L_DIR: Record<Lang, string> = { en: 'Director', tr: 'Yönetmen', fr: 'Mise en scène' };
 const venueTba: Record<Lang, string> = { en: 'Venue to be announced', tr: 'Mekân açıklanacak', fr: 'Lieu à annoncer' };
 
 // Büyük harfe çevirme: Türkçe adlar Türkçe kurala (i → İ), İngilizce adlar İngilizce kurala (i → I) göre.
@@ -37,13 +34,16 @@ export const eventEyebrow = (e: Event, lang: Lang) => {
 // Büyük başlık: konser ve albümde çalışmanın adı, tiyatroda oyunun adı.
 export const eventHeading = (e: Event) => (e.kind === 'theatre' ? e.title : workOf(e)?.title ?? e.title);
 
-// Kim: icracılar ya da (tiyatroda) yazar · yönetmen
-export const eventWho = (e: Event, lang: Lang) => {
+// Başlığın altındaki silik satır: konser eserlerinde kadro (çalgılar), tiyatroda Melikşah'ın görevi.
+export const workSub = (w: Work | undefined, lang: Lang) => (w ? (w.scoring ?? w.role)?.[lang] ?? '' : '');
+
+// Kim: icracılar ya da (tiyatroda) metin yazarı ve yönetmen. k = küçük etiket.
+export const eventWho = (e: Event, lang: Lang): { k?: string; v: string }[] => {
   if (e.kind === 'theatre') {
     const w = workOf(e);
-    return [w?.text, w?.director && directed[lang](w.director)].filter(Boolean).join(' · ');
+    return [w?.text && { k: L_TEXT[lang], v: w.text }, w?.director && { k: L_DIR[lang], v: w.director }].filter(Boolean) as { k?: string; v: string }[];
   }
-  return e.performers ?? '';
+  return e.performers ? [{ v: e.performers }] : [];
 };
 
 // Nerede ve ne zaman

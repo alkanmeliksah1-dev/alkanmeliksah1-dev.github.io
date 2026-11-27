@@ -5,7 +5,7 @@ import Pic from '../../../components/Pic.astro';
 import Lines from '../../../components/Lines.astro';
 import { events, photos, ui, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
-import { eventEyebrow, eventHeading, workOf } from '../../../facts';
+import { eventEyebrow, eventHeading, workOf, workSub } from '../../../facts';
 export const getStaticPaths = () => detailPaths(events);
 const { lang, item: e } = Astro.props as { lang: Lang; item: (typeof events)[number] };
 const w = workOf(e);
@@ -15,6 +15,7 @@ const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
   <Sheet lang={lang} slug="events" title={eventHeading(e)} kicker={eventEyebrow(e, lang)}>
     <div class:list={['detail', { 'has-poster': e.poster }]}>
       <div>
+        {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
         <Lines e={e} lang={lang} />
         {w && w.notes && <p class="links"><a href={href(lang, `works/${w.slug}`)}>{ui.programNotes[lang]}</a></p>}
         {e.lineup && (
