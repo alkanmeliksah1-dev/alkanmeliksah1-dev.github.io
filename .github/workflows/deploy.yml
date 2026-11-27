@@ -41,3 +41,26 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Bing, Yandex ve IndexNow kullanan diğer arama motorlarına değişikliği anında bildirir
+  # (yalnızca siteye yeni bir şey gönderildiğinde; gece derlemelerinde değil).
+  indexnow:
+    needs: deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: IndexNow
+        run: |
+          sleep 30
+          python3 - <<'PY'
+          import json, re, urllib.request
+          key = "c22730e5822cb397e4d46738354e73ad"
+          xml = urllib.request.urlopen("https://meliksahalkan.com/sitemap.xml").read().decode()
+          urls = re.findall(r"<loc>([^<]+)</loc>", xml)
+          body = json.dumps({"host": "meliksahalkan.com", "key": key, "keyLocation": f"https://meliksahalkan.com/{key}.txt", "urlList": urls}).encode()
+          req = urllib.request.Request("https://api.indexnow.org/indexnow", data=body, headers={"Content-Type": "application/json; charset=utf-8"})
+          try:
+              print("IndexNow:", urllib.request.urlopen(req).status, len(urls), "adres")
+          except Exception as e:
+              print("IndexNow bildirimi başarısız (site etkilenmez):", e)
+          PY
