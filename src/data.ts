@@ -48,6 +48,7 @@ export const ui = {
   },
   city: { en: 'Istanbul', tr: 'İstanbul', fr: 'Istanbul' },
   menu: { en: 'Menu', tr: 'Menü', fr: 'Menu' },
+  rights: { en: 'All rights reserved.', tr: 'Tüm hakları saklıdır.', fr: 'Tous droits réservés.' },
   close: { en: 'Close', tr: 'Kapat', fr: 'Fermer' },
   education: { en: 'Education', tr: 'Eğitim', fr: 'Formation' },
   masterclasses: { en: 'Masterclasses', tr: 'Masterclass\'lar', fr: 'Masterclasses' },
@@ -462,7 +463,7 @@ const PIGS_CREDITS: Credit[] = [
       { role: R('Technical', 'Teknik', 'Technique'), names: 'Salih Çağan Turucalı' },
       { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
     ];
-const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta');
+const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall, Istanbul', 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu, İstanbul', 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta, Istanbul');
 
 // Etkinlik türü: konser, tiyatro prömiyeri ya da albüm yayını.
 // work: bu etkinlikteki kendi çalışmanın slug'ı (çalışmalar sayfasıyla bağlantı buradan kurulur).
@@ -763,7 +764,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // ---------- Fotoğraflar ----------
 // Fotoğrafın hangi kısmının görüneceği (yatay% dikey%), kırpıldığında
 export const focal: Record<string, string> = {
-  'bg-score': '32% 35%', 'bg-drawing': '55% 45%', 'bg-curtain': '58% 30%', 'bg-rehearse': '48% 25%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
+  'bg-score': '32% 35%', 'bg-drawing': '55% 45%', 'bg-curtain': '47% 30%', 'bg-rehearse': '48% 25%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
   'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
@@ -779,7 +780,7 @@ export const anchors: Record<string, { fx: number; at: number | 'between'; fit?:
   standing: { fx: 0.42, at: 0.9, fit: 'height' },
   'bg-score': { fx: 0.32, at: 0.86, fit: 'height' },
   'bg-drawing': { fx: 0.55, at: 0.88, fit: 'height' },
-  'bg-curtain': { fx: 0.58, at: 0.85, fit: 'height' },
+  'bg-curtain': { fx: 0.58, at: 0.93, fit: 'height' },
   'bg-rehearse': { fx: 0.48, at: 0.9, fit: 'height' },
 };
 

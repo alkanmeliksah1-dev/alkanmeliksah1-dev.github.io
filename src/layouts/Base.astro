@@ -32,6 +32,8 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
+  <meta name="view-transition" content="same-origin" />
+  <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
     // İlk girişte dil: Türkiye'den ya da Türkçe tarayıcıdan → TR, Fransa / Fransızca → FR, diğerleri EN.
     // Yalnızca varsayılan (İngilizce) adreslere dışarıdan gelindiğinde çalışır; bayrakla yapılan seçim hatırlanır.
@@ -91,6 +93,12 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     </div>
   )}
 
+  {!home && (
+    <a class="brand" href={href(lang, '')} aria-label={site.name}>
+      {[...site.name].map((c, i) => <span style={`--i:${i}`}>{c === ' ' ? '\u00a0' : c}</span>)}
+    </a>
+  )}
+
   <header class="nav-panel">
     <div class="scrim" aria-hidden="true"></div>
     <button class="menu-btn" aria-expanded="false" aria-controls="menu">
@@ -113,6 +121,10 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <main>
     <slot />
   </main>
+
+  <footer class:list={['foot', { 'foot--home': home }]}>
+    <p>© {new Date().getFullYear()} {site.name}. {ui.rights[lang]}</p>
+  </footer>
 
   <script>
     const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
