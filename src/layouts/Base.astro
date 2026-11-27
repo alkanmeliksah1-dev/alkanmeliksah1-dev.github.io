@@ -45,11 +45,11 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <script is:inline>/* tarayıcının ekranı donduran kendi geçişi yerine sayfa betiğinin geçişi: tıklamalar hiç beklemez */ try { Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true }); } catch (e) {}</script>
   <ClientRouter fallback="swap" />
   <script is:inline>
-    // Büyük ekranlarda tasarım (1440×900) orantısıyla büyür: isim, menü, içerik ve telif birlikte ölçeklenir.
+    // Büyük ekranlarda tasarım (1360×780 tarayıcı alanı) orantısıyla büyür: isim, menü, içerik ve telif birlikte ölçeklenir.
     (function () {
       if (window.__fit) return; window.__fit = true;
       var f = function () {
-        var z = Math.min(innerWidth / 1440, innerHeight / 900);
+        var z = innerWidth <= 900 ? 1 : Math.min(innerWidth / 1360, innerHeight / 780);
         document.documentElement.style.setProperty('--z', Math.max(1, Math.min(z, 2.4)).toFixed(4));
       };
       f(); addEventListener('resize', f); document.addEventListener('astro:after-swap', f);
@@ -178,10 +178,12 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         const w = byHeight ? vh * ratio : Math.max(vh * ratio, vw), h = w / ratio;
         let ax = parseFloat(at) * vw;
         if (at === 'between') {
-          const m = document.querySelector('.nav-panel')!.getBoundingClientRect();
+          // menünün sağ kenarı hesaptan (ölçeklenmiş öğe ölçümü tarayıcıdan tarayıcıya değişebilir)
+          const z = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--z')) || 1;
+          const left = vw > 900 ? (44 + 250) * z : Math.max(document.querySelector('.nav-panel')!.getBoundingClientRect().right, 0);
           const n = document.querySelector('.hero-name h1');
           const right = n ? n.getBoundingClientRect().left : vw;
-          ax = (Math.max(m.right, 0) + right) / 2;
+          ax = (left + right) / 2;
         }
         const left = byHeight ? Math.min(vw - w * 0.5, ax - fx * w) : Math.min(0, Math.max(vw - w, ax - fx * w));
         img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);

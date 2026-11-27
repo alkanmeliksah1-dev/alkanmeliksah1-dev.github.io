@@ -378,13 +378,13 @@ a.contact-line:hover { color: var(--accent); }
 
 /* ---------- Ana sayfa ---------- */
 .hero-name {
-  position: fixed; right: clamp(24px, 5vw, 76px); bottom: clamp(48px, 9vh, 96px);
+  position: fixed; right: calc(clamp(24px, 5vw, 76px) * var(--z, 1)); bottom: calc(clamp(48px, 9vh, 96px) * var(--z, 1));
   text-align: right;
   animation: rise 1.8s .3s cubic-bezier(.2, .7, .2, 1) both;
 }
-.hero-name h1 { font: 300 clamp(56px, 9.5vw, 140px)/.9 var(--display); letter-spacing: -.01em; }
+.hero-name h1 { font: 300 calc(clamp(56px, 9.5vw, 140px) * var(--z, 1))/.9 var(--display); letter-spacing: -.01em; }
 .hero-name h1 .sur { color: var(--accent); }
-.hero-name p { margin-top: 20px; }
+.hero-name p { margin-top: 20px; zoom: var(--z, 1); }
 
 /* ---------- mobil ---------- */
 html.menu-open { overflow: hidden; }
@@ -473,8 +473,10 @@ html[data-swapped] .sheet, html[data-swapped] .hero-name { animation: none; }
 [data-reveal] .gallery figure.in picture { opacity: 1; transform: none; }
 
 /* ---------- büyük ekranlar ----------
-   Tasarım 1440×900 için kuruldu; daha büyük ekranda arayüz aynı oranla büyür,
+   Tasarım 1440 genişlik, tarayıcı çubukları çıkınca ~790 yükseklik için kuruldu; daha büyük ekranda arayüz aynı oranla büyür,
    arka plan zaten ekrana göre yerleştiği için bütün kompozisyon birlikte ölçeklenir. */
-@media (min-width: 1441px) and (min-height: 901px) {
-  .brand, .nav-panel, .sheet, .foot, .hero-name { zoom: var(--z, 1); }
+@media (min-width: 901px) {
+  .brand, .nav-panel, .sheet, .foot { zoom: var(--z, 1); }
 }
+/* sayfadan ayrılırken söndürülen eski görüntüde hiçbir animasyon baştan başlamaz */
+.page-ghost *, .page-ghost *::before, .page-ghost *::after { animation: none !important; transition: none !important; }
