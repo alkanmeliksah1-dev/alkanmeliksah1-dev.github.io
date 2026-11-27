@@ -17,7 +17,7 @@ const { lang } = Astro.props as { lang: Lang };
     {gallery.map((g, i) => (
       <section class="gallery" id={g.id} role="tabpanel" aria-labelledby={`tab-${g.id}`} hidden={i !== 0}>
         {g.items.map((it) => (
-          <figure class="graded"><Pic name={it.img} alt={it.alt} /></figure>
+          <figure class="graded"><Pic name={it.img} alt={it.alt} sizes="(max-width: 560px) 62vw, (max-width: 900px) 40vw, 260px" /></figure>
         ))}
       </section>
     ))}

@@ -1,8 +1,18 @@
 ---
+// Duyarlı görsel: tarayıcı ekran boyuna uygun dosyayı seçer.
 import { focal } from '../data';
-const { name, alt = '', loading = 'lazy' } = Astro.props as { name: string; alt?: string; loading?: 'lazy' | 'eager' };
+import images from '../images.json';
+interface Props { name: string; alt?: string; loading?: 'lazy' | 'eager'; sizes?: string; priority?: boolean }
+const { name, alt = '', loading = 'lazy', sizes = '(max-width: 900px) 100vw, 50vw', priority = false } = Astro.props;
+const meta = (images as Record<string, { w: number; h: number; widths: number[] }>)[name];
+if (!meta) throw new Error(`Görsel bulunamadı: ${name}`);
+const srcset = meta.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ');
 ---
 <picture>
-  <source srcset={`/images/${name}.webp`} type="image/webp" />
-  <img src={`/images/${name}.jpg`} alt={alt} loading={loading} decoding="async" style={focal[name] ? `object-position:${focal[name]}` : undefined} />
+  <source type="image/webp" srcset={srcset} sizes={sizes} />
+  <img
+    src={`/images/${name}.jpg`} alt={alt} width={meta.w} height={meta.h}
+    loading={priority ? 'eager' : loading} decoding="async" fetchpriority={priority ? 'high' : undefined}
+    style={focal[name] ? `object-position:${focal[name]}` : undefined}
+  />
 </picture>

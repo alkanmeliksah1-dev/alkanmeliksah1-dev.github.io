@@ -65,7 +65,7 @@ export const ui = {
 };
 
 // ---------- Yaklaşım ----------
-// TR metin Melikşah'ın kendi metni. EN ve FR çeviri taslağıdır, kontrol edilmeli.
+// TR ve EN metinler Melikşah'ın kendi metni. FR çeviri taslağıdır, kontrol edilmeli.
 export const statement: Record<Lang, string[]> = {
   tr: [
     'İstanbul merkezli besteci Melikşah Alkan (d. 2005), müziği salt fiziksel ve materyalist bir ses organizasyonu olarak ele almayı reddederek tüm sanatsal odağını sesin metafiziksel ve dramatik potansiyeline yöneltir.',
@@ -73,10 +73,11 @@ export const statement: Record<Lang, string[]> = {
     'Nitekim Alkan, akustik ve elektronik dokuları sahnede kendi gerçekliğini dayatan tiyatral karakterler gibi kurgularken, dramaturjiyi dekoratif bir eklenti olarak değil, inşa ettiği işitsel mimarinin organik bir bileşeni kılıp çok katmanlı ve tinsel bir ses mekânı yaratmaktadır.',
   ],
   en: [
-    'Istanbul-based composer Melikşah Alkan (b. 2005) refuses to treat music as a merely physical, materialist organisation of sound, and directs his entire artistic focus toward the metaphysical and dramatic potential of sound.',
-    'Starting from the idea that every auditory form must take shape around its own "inner necessity", his structural decisions follow directly from the aim of revealing the unseen spiritual layers and inner dynamics of sound.',
-    'Alkan builds acoustic and electronic textures as theatrical characters that impose their own reality on stage. Rather than treating dramaturgy as a decorative addition, he makes it an organic component of the auditory architecture he constructs, creating a multi-layered, spiritual sound-space.',
+    'Istanbul-based composer Melikşah Alkan (b. 2005) rejects the treatment of music as a purely physical and materialistic organization of sound, directing his entire artistic focus toward its metaphysical and dramatic potential.',
+    'His structural decisions, driven by the idea that every auditory form must take shape around its own "inner necessity," are a direct result of his aim to reveal the invisible, spiritual layers and internal dynamics of sound.',
+    'Indeed, as he constructs acoustic and electronic textures like theatrical characters imposing their own reality on stage, Alkan utilizes dramaturgy not as a decorative appendage, but as an organic component of the auditory architecture he builds, thereby creating a multi-layered and numinous sound space.',
   ],
+
   fr: [
     'Compositeur basé à Istanbul, Melikşah Alkan (né en 2005) refuse d’envisager la musique comme une simple organisation physique et matérialiste du son, et consacre toute son attention artistique au potentiel métaphysique et dramatique du son.',
     'Partant de l’idée que chaque forme sonore doit se construire autour de sa propre « nécessité intérieure », ses choix structurels découlent directement de la volonté de révéler les strates spirituelles invisibles et les dynamiques internes du son.',
@@ -156,13 +157,13 @@ export const categories: { id: string; image: string; title: T; blurb: T }[] = [
 type Link = { kind: 'listen' | 'watch'; url: string };
 export const works: { year: string; cat: string; title: string; scoring: T; note?: T; poster?: string; links?: Link[] }[] = [
   {
-    year: '2026', cat: 'concert', title: 'Ab-ı Revan',
+    year: '2026', cat: 'concert', title: 'Ab-ı Revan', poster: 'poster-bilgi16',
     scoring: { en: 'for Les Solistes de l’Ensemble intercontemporain', tr: 'Les Solistes de l’Ensemble intercontemporain için', fr: 'pour Les Solistes de l’Ensemble intercontemporain' },
     note: { en: 'Premiered at Bilgi New Music Festival 16, Istanbul', tr: 'İlk seslendirme: Bilgi Yeni Müzik Festivali 16, İstanbul', fr: 'Création au Bilgi New Music Festival 16, Istanbul' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
   },
   {
-    year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar',
+    year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar', poster: 'poster-sy16',
     scoring: { en: 'for string quartet', tr: 'yaylı çalgılar dörtlüsü için', fr: 'pour quatuor à cordes' },
     note: { en: 'Semplice Quartet — Journey of Sound 16, Atatürk Cultural Centre; performed again at Journey of Sound 17', tr: 'Semplice Quartet — Sesin Yolculuğu 16, Atatürk Kültür Merkezi; Sesin Yolculuğu 17’de yeniden seslendirildi', fr: 'Semplice Quartet — Sesin Yolculuğu 16, Centre culturel Atatürk ; reprise à Sesin Yolculuğu 17' },
     links: [
@@ -171,12 +172,12 @@ export const works: { year: string; cat: string; title: string; scoring: T; note
     ],
   },
   {
-    year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0',
+    year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0', poster: 'poster-iymg7',
     scoring: { en: 'for cello, electronics and performer', tr: 'viyolonsel, elektronikler ve oyuncu için', fr: 'pour violoncelle, électroniques et performeur' },
     note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
   },
   {
-    year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
+    year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality', poster: 'cover-gilgamesh3',
     scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
     note: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international Gilgamesh' },
   },
@@ -326,6 +327,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
     id: 'posters', title: { en: 'Posters', tr: 'Afişler', fr: 'Affiches' },
     items: [
       { img: 'poster-iymg7', alt: 'İzmir New Music Days VII poster' },
+      { img: 'cover-gilgamesh3', alt: 'Gilgamesh III — for harp, trombone and fixed media (album cover)' },
       { img: 'poster-nextgen7', alt: 'Next Generation Series VII' },
       { img: 'poster-bilgi16', alt: 'Bilgi New Music Festival 16 poster' },
       { img: 'poster-tekbimutluan', alt: 'Tek Bi’ Mutlu An! poster' },
@@ -341,6 +343,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // ---------- Fotoğraflar ----------
 // Mobilde fotoğrafın hangi kısmının görüneceği (yatay% dikey%)
 export const focal: Record<string, string> = {
+  'night-ext': '50% 30%', 'railway-ext': '50% 42%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
   'church-concert': '50% 70%', 'mahzen-bow': '42% 50%', score: '40% 40%', 'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'church-concert-wide': '50% 60%', 'mahzen-rehearsal': '60% 30%', 'outside-close': '45% 25%',
@@ -348,13 +351,13 @@ export const focal: Record<string, string> = {
 
 // Her sayfanın arka plan fotoğrafı
 export const photos = {
-  home: 'night',
+  home: 'night-ext',
   approach: 'reading',
   about: 'standing',
   works: 'church-concert-wide',
   events: 'cello',
   media: 'desk',
   gallery: 'rehearsal',
-  contact: 'railway',
+  contact: 'railway-ext',
   portrait: 'studio',
 };

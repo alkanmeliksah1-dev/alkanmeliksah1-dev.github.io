@@ -14,7 +14,7 @@ const icons: Record<string, string> = {
 };
 const socials = Object.entries(site.social).filter(([, url]) => url);
 ---
-<Base lang={lang} slug="contact" bg={photos.contact} lowered>
+<Base lang={lang} slug="contact" bg={photos.contact}>
   <Sheet lang={lang} slug="contact">
     <a class="contact-line" href={`mailto:${site.email}`}>{site.email}</a>
     {socials.length > 0 && (

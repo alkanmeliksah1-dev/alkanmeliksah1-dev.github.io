@@ -12,7 +12,7 @@ const { lang } = Astro.props as { lang: Lang };
     <div class="cats">
       {categories.map((c) => (
         <a class="cat" href={`#${c.id}`}>
-          <Pic name={c.image} />
+          <Pic name={c.image} sizes="(max-width: 900px) 66vw, 380px" />
           <span class="cat-label"><strong>{c.title[lang]}</strong><span class="label">{c.blurb[lang]}</span></span>
         </a>
       ))}
@@ -33,7 +33,7 @@ const { lang } = Astro.props as { lang: Lang };
                   </div>
                 )}
               </div>
-              {w.poster ? <span class="thumb graded"><Pic name={w.poster} alt="" /></span> : <span></span>}
+              {w.poster ? <span class="thumb graded"><Pic name={w.poster} alt="" sizes="92px" /></span> : <span></span>}
             </li>
           ))}
         </ul>

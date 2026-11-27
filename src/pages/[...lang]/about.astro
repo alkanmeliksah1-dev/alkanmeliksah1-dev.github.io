@@ -10,7 +10,7 @@ const { lang } = Astro.props as { lang: Lang };
 <Base lang={lang} slug="about" bg={photos.about}>
   <Sheet lang={lang} slug="about">
     <div class="about-grid">
-      <figure class="graded"><Pic name={photos.portrait} alt={site.name} loading="eager" /></figure>
+      <figure class="graded"><Pic name={photos.portrait} alt={site.name} loading="eager" sizes="280px" /></figure>
       <div class="prose">{bio[lang].map((p) => <p>{p}</p>)}</div>
     </div>
   </Sheet>

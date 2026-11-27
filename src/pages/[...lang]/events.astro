@@ -30,7 +30,7 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
                     {(e.venue || e.time) && <p>{e.venue?.[lang]}{e.venue && e.time && ' · '}{e.time}</p>}
                     {e.note && <p>{e.note[lang]}</p>}
                   </div>
-                  {e.poster ? <span class="poster graded"><Pic name={e.poster} alt="" /></span> : <span></span>}
+                  {e.poster ? <span class="poster graded"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 62vw, 240px" /></span> : <span></span>}
                 </li>
               );
             })}

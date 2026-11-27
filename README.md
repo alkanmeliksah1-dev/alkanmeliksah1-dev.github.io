@@ -17,3 +17,11 @@ Melikşah Alkan'ın besteci sitesi. [Astro](https://astro.build) ile üretilir, 
 npm install
 npm run dev
 ```
+
+## Yeni fotoğraf eklemek
+
+Fotoğrafın yüksek çözünürlüklü JPG'sini bir klasöre koyup şu komutu çalıştır; tüm boyutları ve `src/images.json`'u üretir:
+
+```
+python3 scripts/responsive.py <kaynak-klasör> public/images src/images.json
+```
