@@ -2,10 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import Facts from '../../components/Facts.astro';
+import Lines from '../../components/Lines.astro';
 import { events, photos, ui, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
-import { eventFacts, kindLabel } from '../../facts';
+import { eventEyebrow, eventHeading } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const today = new Date().toISOString().slice(0, 10);
@@ -23,13 +23,13 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
         <h2 style={gi === 0 ? 'margin-top:0' : undefined}>{label}</h2>
         <ul class="entries">
           {list.map((e) => (
-            <li class:list={['entry', { 'has-poster': e.poster }]}>
+            <li class:list={['entry', 'card', { 'has-poster': e.poster }]}>
               <div class="entry-body">
-                <p class="eyebrow">{kindLabel(e, lang)}</p>
-                <h3 class="entry-title"><a href={href(lang, `events/${e.slug}`)}>{e.title}</a></h3>
-                <Facts rows={eventFacts(e, lang)} />
+                <p class="eyebrow">{eventEyebrow(e, lang)}</p>
+                <h3 class="entry-title"><a class="card-link" href={href(lang, `events/${e.slug}`)}>{eventHeading(e)}</a></h3>
+                <Lines e={e} lang={lang} />
               </div>
-              {e.poster && <div class="entry-poster"><div class="pop"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 70vw, 200px" /></div></div>}
+              {e.poster && <div class="entry-poster"><a class="pop" href={href(lang, `events/${e.slug}`)} tabindex="-1" aria-hidden="true"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 70vw, 200px" /></a></div>}
             </li>
           ))}
         </ul>

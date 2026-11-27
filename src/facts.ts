@@ -1,49 +1,53 @@
-// Çalışma ve etkinlik bilgilerini her yerde aynı sırada, aynı etiketlerle üretir.
-import { eventKinds, events, ui, works, type Lang } from './data';
-import { fullDate, href } from './lib';
+// Çalışma, etkinlik ve medya kartlarında her yerde aynı sırada, aynı biçimde gösterilen bilgiler.
+// Düzen: üstte küçük etiket (festival / etkinlik adı), büyük başlık (çalışmanın adı),
+// altında etiketsiz düz satırlar: kim tarafından, nerede, ne zaman.
+import { eventKinds, events, works, type Lang } from './data';
+import { fullDate } from './lib';
 
-export type Row = { label: string; value: string; href?: string }[];
 type Work = (typeof works)[number];
 type Event = (typeof events)[number];
 
 export const eventDate = (e: Event, lang: Lang) => {
   const d = fullDate(e.date, lang);
   const shown = e.month ? d.replace(/^\d+\s+/, '').replace(/^(\w)/, (c) => c.toUpperCase()) : d;
-  return e.time ? `${shown} · ${e.time}` : shown;
+  return e.time ? `${shown}, ${e.time}` : shown;
 };
 
-export const eventsOf = (w: Work) => events.filter((e) => e.work === w.slug).sort((a, b) => a.date.localeCompare(b.date));
+export const eventsOf = (w: Work) => events.filter((e) => e.work === w.slug).sort((a, b) => b.date.localeCompare(a.date));
+export const workOf = (e: Event) => works.find((x) => x.slug === e.work);
 
-// Çalışma satırları
-export const workFacts = (w: Work, lang: Lang): { label: string; items: { text: string; href?: string }[] }[] => {
-  const rows: { label: string; items: { text: string; href?: string }[] }[] = [];
-  if (w.scoring) rows.push({ label: ui.f_scoring[lang], items: [{ text: w.scoring[lang] }] });
-  if (w.role) rows.push({ label: ui.f_role[lang], items: [{ text: w.role[lang] }] });
-  if (w.text) rows.push({ label: ui.f_text[lang], items: [{ text: w.text }] });
-  if (w.director) rows.push({ label: ui.f_director[lang], items: [{ text: w.director }] });
-  const evs = eventsOf(w);
-  if (evs.length) {
-    const label = evs[0].kind === 'release' ? ui.f_release[lang] : evs[0].kind === 'theatre' ? ui.f_premiere[lang] : ui.f_performances[lang];
-    rows.push({ label, items: evs.map((e) => ({ text: `${eventDate(e, lang).split(' · ')[0]} — ${e.title}`, href: href(lang, `events/${e.slug}`) })) });
-  }
-  if (w.award) rows.push({ label: ui.f_award[lang], items: [{ text: w.award[lang] }] });
-  return rows;
+const directed: Record<Lang, (n: string) => string> = {
+  en: (n) => `directed by ${n}`,
+  tr: (n) => `${n} yönetiminde`,
+  fr: (n) => `mise en scène de ${n}`,
+};
+const venueTba: Record<Lang, string> = { en: 'Venue to be announced', tr: 'Mekân açıklanacak', fr: 'Lieu à annoncer' };
+
+// Büyük harfe çevirme: Türkçe adlar Türkçe kurala (i → İ), İngilizce adlar İngilizce kurala (i → I) göre.
+const TR_WORDS = new Set(['sesin', 'bilgi', 'müziksev']);
+const isTr = (w: string) => /[ğışçöüİĞŞÇÖÜ]/.test(w) || TR_WORDS.has(w.toLocaleLowerCase('tr'));
+export const upper = (text: string) => text.split(/(\s+)/).map((w) => w.toLocaleUpperCase(isTr(w) ? 'tr' : 'en')).join('');
+
+// Küçük üst etiket (büyük harfle): konserde festival/etkinlik adı, albümde albüm adı + tür, tiyatroda tür.
+export const eventEyebrow = (e: Event, lang: Lang) => {
+  const kind = eventKinds[e.kind][lang].toLocaleUpperCase(lang);
+  return e.kind === 'concert' ? upper(e.title) : e.kind === 'release' ? `${upper(e.title)} · ${kind}` : kind;
 };
 
-// Etkinlik satırları
-export const eventFacts = (e: Event, lang: Lang): { label: string; items: { text: string; href?: string }[] }[] => {
-  const w = works.find((x) => x.slug === e.work);
-  const rows: { label: string; items: { text: string; href?: string }[] }[] = [];
-  rows.push({ label: ui.f_date[lang], items: [{ text: eventDate(e, lang) }] });
-  if (e.kind === 'release') rows.push({ label: ui.f_label[lang], items: [{ text: e.label ?? ui.tba[lang] }] });
-  else rows.push({ label: ui.f_venue[lang], items: [{ text: e.venue?.[lang] ?? ui.tba[lang] }] });
-  if (w) rows.push({ label: ui.f_work[lang], items: [{ text: w.title, href: href(lang, `works/${w.slug}`) }] });
+// Büyük başlık: konser ve albümde çalışmanın adı, tiyatroda oyunun adı.
+export const eventHeading = (e: Event) => (e.kind === 'theatre' ? e.title : workOf(e)?.title ?? e.title);
+
+// Kim: icracılar ya da (tiyatroda) yazar · yönetmen
+export const eventWho = (e: Event, lang: Lang) => {
   if (e.kind === 'theatre') {
-    if (w?.text) rows.push({ label: ui.f_text[lang], items: [{ text: w.text }] });
-    if (w?.director) rows.push({ label: ui.f_director[lang], items: [{ text: w.director }] });
-    if (w?.role) rows.push({ label: ui.f_role[lang], items: [{ text: w.role[lang] }] });
-  } else if (e.performers) rows.push({ label: ui.f_performers[lang], items: [{ text: e.performers }] });
-  return rows;
+    const w = workOf(e);
+    return [w?.text, w?.director && directed[lang](w.director)].filter(Boolean).join(' · ');
+  }
+  return e.performers ?? '';
 };
+
+// Nerede ve ne zaman
+export const eventWhere = (e: Event, lang: Lang, noTime = false) =>
+  [e.kind === 'release' ? e.label : e.venue?.[lang] ?? venueTba[lang], noTime ? fullDate(e.date, lang) : eventDate(e, lang)].filter(Boolean).join(' · ');
 
 export const kindLabel = (e: Event, lang: Lang) => eventKinds[e.kind][lang];

@@ -1,31 +1,50 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
-import { photos, recordings, ui, works, type Lang } from '../../data';
+import Lines from '../../components/Lines.astro';
+import { events, mediaSections, photos, recordings, ui, works, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
+import { eventEyebrow } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
-const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23c6a571&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`;
+// SoundCloud oynatıcısı açık renkli; sayfada tersine çevrilerek koyu gösterilir.
+// Renk parametresi, tersine çevrildikten sonra sitenin pirinç rengine (#c6a571) denk gelecek şekilde seçildi.
+const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%238e5a39&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&show_artwork=false&visual=false`;
 ---
 <Base lang={lang} slug="media" bg={photos.media}>
   <Sheet lang={lang} slug="media">
-    <ul class="entries">
-      {recordings.map((r) => {
-        const w = works.find((x) => x.title === r.title);
-        return (
-          <li class="entry">
-            <div class="entry-body">
-              <p class="eyebrow">{r.type === 'youtube' ? 'YouTube' : 'SoundCloud'}</p>
-              <h3 class="entry-title">{w ? <a href={href(lang, `works/${w.slug}`)}>{r.title}</a> : r.title}</h3>
-              <p class="muted" style="margin:-8px 0 16px">{r.meta[lang]}</p>
-              {r.type === 'youtube'
-                ? <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${r.id}`} title={r.title} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
-                : <iframe class="sc" src={sc(r.url)} title={r.title} loading="lazy" allow="autoplay"></iframe>}
-              <p class="links"><a href={r.url} target="_blank" rel="noopener">{r.type === 'youtube' ? ui.watchOn[lang] : ui.listenOn[lang]}</a></p>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+    {mediaSections.map((s, si) => {
+      const list = recordings.filter((r) => r.section === s.id);
+      return list.length > 0 && (
+        <section>
+          <h2 style={si === 0 ? 'margin-top:0' : undefined}>{s.title[lang]}</h2>
+          <ul class="entries">
+            {list.map((r) => {
+              const e = events.find((x) => x.slug === r.event)!;
+              const title = typeof r.title === 'string' ? r.title : r.title[lang];
+              const w = works.find((x) => x.title === title);
+              return (
+                <li class="entry">
+                  <div class="entry-body">
+                    <p class="eyebrow"><a href={href(lang, `events/${e.slug}`)}>{eventEyebrow(e, lang)}</a></p>
+                    <h3 class="entry-title">{w ? <a href={href(lang, `works/${w.slug}`)}>{title}</a> : title}</h3>
+                    <Lines e={e} lang={lang} talk={r.section === 'talks'} />
+                    <div class="player">
+                      {r.type === 'youtube'
+                        ? <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${r.id}`} title={title} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+                        : <iframe class="sc" src={sc(r.url)} title={title} loading="lazy" allow="autoplay"></iframe>}
+                    </div>
+                    <p class="links">
+                      <a href={r.url} target="_blank" rel="noopener">{r.type === 'youtube' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>
+                      {r.listen && <a href={r.listen} target="_blank" rel="noopener">{ui.listenOn[lang]}</a>}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      );
+    })}
   </Sheet>
 </Base>

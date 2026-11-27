@@ -1,9 +1,9 @@
 ---
 import { nav, type Lang } from '../data';
-const { lang, slug, title } = Astro.props as { lang: Lang; slug: string; title?: string };
+const { lang, slug, title, kicker } = Astro.props as { lang: Lang; slug: string; title?: string; kicker?: string };
 const heading = title ?? nav.find((n) => n.slug === slug)!.label[lang];
 ---
 <article class="panel sheet">
-  <h1 class="sheet-title">{heading}</h1>
+  {kicker ? <header class="sheet-title has-kicker"><p class="eyebrow">{kicker}</p><h1>{heading}</h1></header> : <h1 class="sheet-title">{heading}</h1>}
   <slot />
 </article>

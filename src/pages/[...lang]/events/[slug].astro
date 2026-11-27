@@ -2,20 +2,21 @@
 import Base from '../../../layouts/Base.astro';
 import Sheet from '../../../components/Sheet.astro';
 import Pic from '../../../components/Pic.astro';
-import Facts from '../../../components/Facts.astro';
+import Lines from '../../../components/Lines.astro';
 import { events, photos, ui, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
-import { eventFacts, kindLabel } from '../../../facts';
+import { eventEyebrow, eventHeading, workOf } from '../../../facts';
 export const getStaticPaths = () => detailPaths(events);
 const { lang, item: e } = Astro.props as { lang: Lang; item: (typeof events)[number] };
+const w = workOf(e);
 const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
 ---
 <Base lang={lang} slug={`events/${e.slug}`} section="events" title={e.title} bg={photos.events}>
-  <Sheet lang={lang} slug="events" title={e.title}>
+  <Sheet lang={lang} slug="events" title={eventHeading(e)} kicker={eventEyebrow(e, lang)}>
     <div class:list={['detail', { 'has-poster': e.poster }]}>
       <div>
-        <p class="eyebrow">{kindLabel(e, lang)}</p>
-        <Facts rows={eventFacts(e, lang)} />
+        <Lines e={e} lang={lang} />
+        {w && w.notes && <p class="links"><a href={href(lang, `works/${w.slug}`)}>{ui.programNotes[lang]}</a></p>}
         {e.lineup && (
           <>
             <h2>{ui.performers[lang]}</h2>

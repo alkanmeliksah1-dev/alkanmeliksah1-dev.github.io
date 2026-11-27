@@ -1,0 +1,12 @@
+---
+// Etiketsiz bilgi satırları: kim tarafından, nerede, ne zaman.
+import { eventWho, eventWhere } from '../facts';
+import type { Lang } from '../data';
+const { e, lang, talk = false } = Astro.props as { e: any; lang: Lang; talk?: boolean };
+// söyleşilerde icracı satırı ve saat gösterilmez
+const who = talk ? '' : eventWho(e, lang);
+---
+<div class="lines">
+  {who && <p>{who}</p>}
+  <p class="muted">{eventWhere(e, lang, talk)}</p>
+</div>

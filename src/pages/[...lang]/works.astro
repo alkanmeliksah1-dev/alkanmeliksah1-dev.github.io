@@ -2,10 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
-import Facts from '../../components/Facts.astro';
-import { categories, photos, ui, works, type Lang } from '../../data';
+import Lines from '../../components/Lines.astro';
+import { categories, photos, works, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
-import { workFacts } from '../../facts';
+import { eventEyebrow, eventsOf } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 ---
@@ -13,7 +13,7 @@ const { lang } = Astro.props as { lang: Lang };
   <Sheet lang={lang} slug="works">
     <div class="cats">
       {categories.map((c) => (
-        <a class="cat" href={`#${c.id}`}>
+        <a class="cat pop" href={`#${c.id}`}>
           <Pic name={c.image} sizes="(max-width: 900px) 92vw, 380px" />
           <span class="cat-label"><strong>{c.title[lang]}</strong><span class="label">{c.blurb[lang]}</span></span>
         </a>
@@ -24,12 +24,17 @@ const { lang } = Astro.props as { lang: Lang };
         <h2>{c.title[lang]}</h2>
         <ul class="entries">
           {works.filter((w) => w.cat === c.id).sort((a, b) => b.year.localeCompare(a.year)).map((w) => (
-            <li class="entry">
+            <li class="entry card">
               <div class="entry-body">
                 <p class="eyebrow">{w.year}</p>
-                <h3 class="entry-title"><a href={href(lang, `works/${w.slug}`)}>{w.title}</a></h3>
-                <Facts rows={workFacts(w, lang)} />
-                {w.links && <p class="links">{w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}</p>}
+                <h3 class="entry-title"><a class="card-link" href={href(lang, `works/${w.slug}`)}>{w.title}</a></h3>
+                {eventsOf(w).map((e) => (
+                  <div class="perf">
+                    <a class="perf-name" href={href(lang, `events/${e.slug}`)}>{eventEyebrow(e, lang)}</a>
+                    <Lines e={e} lang={lang} />
+                  </div>
+                ))}
+                {w.award && <p class="award">{w.award[lang]}</p>}
               </div>
             </li>
           ))}

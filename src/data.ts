@@ -122,9 +122,9 @@ export const ui = {
     fr: 'Le message n’a pas pu être envoyé. Écrivez directement à',
   },
   nlLead: {
-    en: 'Subscribe to hear about new works, premieres and releases. I write a few times a year, only when there is something worth sharing.',
-    tr: 'Yeni eserler, prömiyerler ve yayınlardan haberdar olmak için abone olun. Yılda birkaç kez, yalnızca paylaşmaya değer bir haber olduğunda yazarım.',
-    fr: 'Abonnez-vous pour être informé des nouvelles œuvres, créations et parutions. J’écris quelques fois par an, seulement quand il y a quelque chose à partager.',
+    en: 'Sign up with your email address to receive news and updates.',
+    tr: 'Haberler ve güncellemeler için e-posta adresinizle kaydolun.',
+    fr: 'Inscrivez-vous avec votre adresse e-mail pour recevoir les nouvelles et actualités.',
   },
   nlNote: {
     en: 'Your address is used only for this newsletter and never shared. You can unsubscribe at any time with the link in every email.',
@@ -595,18 +595,25 @@ export const events: {
 ];
 
 // ---------- Ne duyulur? (kayıtlar) ----------
-export const recordings: { title: string; meta: T; type: 'youtube' | 'soundcloud'; url: string; id?: string }[] = [
+// Medya. event = ilgili etkinlik (yer, tarih ve icracılar oradan gelir; her kayıtta aynı düzen).
+// section: 'recordings' (kayıtlar) ya da 'talks' (söyleşiler).
+export const mediaSections: { id: 'recordings' | 'talks'; title: T }[] = [
+  { id: 'recordings', title: { en: 'Recordings', tr: 'Kayıtlar', fr: 'Enregistrements' } },
+  { id: 'talks', title: { en: 'Conversations', tr: 'Söyleşiler', fr: 'Entretiens' } },
+];
+export const recordings: { section: 'recordings' | 'talks'; title: string | T; event: string; type: 'youtube' | 'soundcloud'; url: string; id?: string; listen?: string }[] = [
   {
-    title: 'Mahzen-ül Esrar', type: 'youtube', url: 'https://youtu.be/PCFpS51N-qs', id: 'PCFpS51N-qs',
-    meta: { en: 'Semplice Quartet · Atatürk Cultural Centre, 2025', tr: 'Semplice Quartet · Atatürk Kültür Merkezi, 2025', fr: 'Semplice Quartet · Centre culturel Atatürk, 2025' },
+    section: 'recordings', title: 'Ab-ı Revan', event: 'bilgi-new-music-festival-16',
+    type: 'soundcloud', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan',
   },
   {
-    title: 'Ab-ı Revan', type: 'soundcloud', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan',
-    meta: { en: 'Les Solistes de l’Ensemble intercontemporain · 2026', tr: 'Les Solistes de l’Ensemble intercontemporain · 2026', fr: 'Les Solistes de l’Ensemble intercontemporain · 2026' },
+    section: 'recordings', title: 'Mahzen-ül Esrar', event: 'sesin-yolculugu-16',
+    type: 'youtube', url: 'https://youtu.be/PCFpS51N-qs', id: 'PCFpS51N-qs',
+    listen: 'https://soundcloud.com/meliksahalkan/mahzen-ul-esrar',
   },
   {
-    title: 'Mahzen-ül Esrar', type: 'soundcloud', url: 'https://soundcloud.com/meliksahalkan/mahzen-ul-esrar',
-    meta: { en: 'Semplice Quartet · audio', tr: 'Semplice Quartet · ses kaydı', fr: 'Semplice Quartet · audio' },
+    section: 'talks', title: { en: 'Conversation at MÜZİKSEV', tr: 'MÜZİKSEV’de söyleşi', fr: 'Entretien au MÜZİKSEV' }, event: 'izmir-new-music-days-vii',
+    type: 'youtube', url: 'https://www.youtube.com/watch?v=nRWSITAPrCY', id: 'nRWSITAPrCY',
   },
 ];
 
@@ -664,7 +671,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // ---------- Fotoğraflar ----------
 // Fotoğrafın hangi kısmının görüneceği (yatay% dikey%), kırpıldığında
 export const focal: Record<string, string> = {
-  'bg-mahzen': '50% 55%', 'bg-sy17': '50% 60%', 'bg-cello': '62% 50%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
+  'bg-score': '32% 35%', 'bg-desk': '84% 30%', 'bg-church': '50% 45%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
   'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
@@ -678,6 +685,9 @@ export const anchors: Record<string, { fx: number; at: number | 'between'; fit?:
   'night-wide': { fx: 0.5, at: 'between' },
   'reading-wide': { fx: 0.953, at: 0.93 },
   standing: { fx: 0.42, at: 0.9, fit: 'height' },
+  'bg-score': { fx: 0.32, at: 0.86, fit: 'height' },
+  'bg-desk': { fx: 0.84, at: 0.9, fit: 'height' },
+  'bg-church': { fx: 0.5, at: 0.82, fit: 'height' },
 };
 
 // Her sayfanın arka plan fotoğrafı
@@ -685,9 +695,9 @@ export const photos = {
   home: 'night-wide',
   approach: 'reading-wide',
   about: 'standing',
-  works: 'bg-mahzen',
-  events: 'bg-sy17',
-  media: 'bg-cello',
+  works: 'bg-score',
+  events: 'bg-church',
+  media: 'bg-desk',
   gallery: 'bg-rehearsal',
   contact: 'bg-eic',
   portrait: 'studio',
