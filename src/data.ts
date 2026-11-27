@@ -250,7 +250,7 @@ export const works: {
 }[] = [
   {
     slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan',
-    scoring: { en: 'for Les Solistes de l’Ensemble intercontemporain', tr: 'Les Solistes de l’Ensemble intercontemporain için', fr: 'pour Les Solistes de l’Ensemble intercontemporain' },
+    scoring: { en: 'for clarinet, bass clarinet, cello and double bass', tr: 'klarnet, bas klarnet, çello ve kontrbas için', fr: 'pour clarinette, clarinette basse, violoncelle et contrebasse' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
     notes: {
       tr: [
