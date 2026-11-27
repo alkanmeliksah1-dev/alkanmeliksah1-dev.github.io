@@ -115,7 +115,6 @@ body:not(.is-home) .nav-panel { top: 104px; }
 
 /* ---------- telif ---------- */
 .foot { margin: -20px var(--edge) 34px calc(44px + var(--nav-w) + 28px); max-width: 840px; font-size: 12px; letter-spacing: .04em; color: var(--dim); }
-.foot .sur { color: var(--accent); letter-spacing: .08em; }
 .foot--home { position: fixed; left: 44px; bottom: 26px; margin: 0; z-index: 5; }
 
 /* ---------- dokunuş efektleri ---------- */
@@ -354,6 +353,7 @@ a.contact-line:hover { color: var(--accent); }
   animation: rise 1.8s .3s cubic-bezier(.2, .7, .2, 1) both;
 }
 .hero-name h1 { font: 300 clamp(56px, 9.5vw, 140px)/.9 var(--display); letter-spacing: -.01em; }
+.hero-name h1 .sur { color: var(--accent); }
 .hero-name p { margin-top: 20px; }
 
 /* ---------- mobil ---------- */
@@ -411,7 +411,7 @@ html.menu-open { overflow: hidden; }
   .hero-name { left: 20px; right: 20px; text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
@@ -421,13 +421,9 @@ html.menu-open { overflow: hidden; }
 }
 .page-approach .backdrop img { filter: var(--grade) brightness(.36) !important; }
 
-/* ---------- sayfa geçişi (yenilemeden) ----------
-   Arka plan: yeni fotoğraf hazır olunca altta tam görünür, eskisi üstünden çözülür (kararma yok).
-   İçerik: eskisi hızla söner, yenisi kendi yükselme efektiyle gelir. Menü ve isim yerinde kalır. */
-::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-::view-transition-new(backdrop) { animation: none; }
-::view-transition-old(backdrop) { animation: vt-dissolve .5s cubic-bezier(.4, 0, .2, 1) both; }
-::view-transition-old(page) { animation: vt-dissolve .22s ease-out both; }
-::view-transition-new(page) { animation: none; }
-::view-transition-group(backdrop), ::view-transition-group(page) { animation: none; }
-@keyframes vt-dissolve { to { opacity: 0; } }
+/* ---------- sayfa ve dil geçişi (yenilemeden) ----------
+   Tüm sayfa tek parça olarak yumuşakça çözülür: menü, gren ve arka plan birlikte kalır,
+   hiçbir parça öne/arkaya atlamaz. Eski ve yeni görüntü üst üste karışır, ekran kararmaz. */
+::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+  animation-duration: .6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+}

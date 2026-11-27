@@ -8,7 +8,7 @@ const [first, last] = site.name.split(' ');
 ---
 <Base lang={lang} bg={photos.home} home>
   <div class="hero-name">
-    <h1>{first}<br />{last}</h1>
+    <h1>{first}<br /><span class="sur">{last.toLocaleUpperCase('tr')}</span></h1>
     <p class="label">{ui.roles[lang]} — {ui.city[lang]}</p>
   </div>
 </Base>

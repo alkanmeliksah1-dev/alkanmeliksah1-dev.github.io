@@ -39,7 +39,7 @@ const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${si
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 ---
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={lang} transition:animate="initial">
 <head>
   <meta charset="UTF-8" />
   <ClientRouter fallback="none" />
@@ -97,7 +97,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 </head>
 <body class:list={[{ 'is-home': home }, slug && !slug.includes('/') ? `page-${slug}` : null]}>
   {bg && (
-    <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true" transition:name="backdrop"
+    <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true"
       data-fx={anchor?.fx} data-at={anchor?.at} data-fit={anchor?.fit} data-ratio={anchor ? ratio.toFixed(4) : undefined}
       style={anchor ? `--fx:${anchor.fx * 100}%` : undefined}>
       <Pic name={bg} sizes={bgSizes} priority />
@@ -105,7 +105,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   )}
 
   {!home && (
-    <p class="brand" aria-label={site.name} transition:name="brand" transition:animate="none">
+    <p class="brand" aria-label={site.name}>
       {[...'Melikşah'].map((c, i) => <span style={`--i:${i}`}>{c}</span>)}<span style="--i:8">&nbsp;</span><span class="sur">{[...'ALKAN'].map((c, i) => <span style={`--i:${i + 9}`}>{c}</span>)}</span>
     </p>
   )}
@@ -129,12 +129,12 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     </div>
   </header>
 
-  <main transition:name="page">
+  <main>
     <slot />
   </main>
 
   <footer class:list={['foot', { 'foot--home': home }]}>
-    <p>© {new Date().getFullYear()} Melikşah <span class="sur">ALKAN</span> — {ui.rights[lang].replace(/\.$/, '')}</p>
+    <p>© {new Date().getFullYear()} {site.name} — {ui.rights[lang].replace(/\.$/, '')}</p>
   </footer>
 
   <script>
@@ -173,7 +173,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         const left = byHeight ? Math.min(vw - w * 0.5, ax - fx * w) : Math.min(0, Math.max(vw - w, ax - fx * w));
         img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);
       };
-      place(); bd.classList.add('is-placed');
+      bd.classList.add('is-placed'); place();   // önce görünür yap, aynı karede yerleştir: sonradan belirme olmaz
     };
 
     // Menü bağlantısının üzerine gelince o sayfanın arka planını önceden indir
