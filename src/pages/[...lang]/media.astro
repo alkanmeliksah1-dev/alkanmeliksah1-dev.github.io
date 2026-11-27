@@ -32,19 +32,8 @@ const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURICom
                     <Lines e={e} lang={lang} talk={r.section === 'talks'} />
                     <div class="player">
                       {r.type === 'youtube'
-                        ? (
-                          <button type="button" class="facade video" data-embed={`https://www.youtube-nocookie.com/embed/${r.id}?autoplay=1&rel=0`} data-title={title} aria-label={`${ui.watchOn[lang]}: ${title}`}>
-                            <img src={`https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
-                            <span class="play" aria-hidden="true"></span>
-                          </button>
-                        )
-                        : (
-                          <button type="button" class="facade sc-facade" data-embed={sc(r.url).replace('auto_play=false', 'auto_play=true')} data-title={title} data-sc aria-label={`${ui.listenOn[lang]}: ${title}`}>
-                            <span class="play" aria-hidden="true"></span>
-                            <span class="sc-meta"><span class="sc-who">Melikşah Alkan</span><span class="sc-title">{title}</span></span>
-                            <span class="sc-brand" aria-hidden="true">SoundCloud</span>
-                          </button>
-                        )}
+                        ? <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${r.id}`} title={title} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+                        : <iframe class="sc" src={sc(r.url)} title={title} loading="lazy" allow="autoplay"></iframe>}
                     </div>
                     <p class="links">
                       <a href={r.url} target="_blank" rel="noopener">{r.type === 'youtube' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>
@@ -59,17 +48,4 @@ const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURICom
       );
     })}
   </Sheet>
-  <script>
-    // Video ve ses oynatıcıları yalnızca tıklanınca yüklenir: sayfa anında açılır.
-    document.addEventListener('astro:page-load', () => {
-      document.querySelectorAll<HTMLButtonElement>('.facade').forEach((b) => b.addEventListener('click', () => {
-        const f = document.createElement('iframe');
-        f.src = b.dataset.embed!; f.title = b.dataset.title!;
-        f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
-        f.className = b.hasAttribute('data-sc') ? 'sc' : '';
-        if (b.hasAttribute('data-sc')) b.replaceWith(f);
-        else { const wrap = document.createElement('div'); wrap.className = 'video'; wrap.append(f); b.replaceWith(wrap); }
-      }, { once: true }));
-    });
-  </script>
 </Base>

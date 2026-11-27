@@ -33,7 +33,7 @@ const bgOf = (navSlug: string) => {
   if (!m) return {};
   const a = anchors[name], r = m.w / m.h;
   const sizes = a?.fit === 'height' ? `${Math.round(r * 100)}vh` : a ? `max(100vw, ${Math.round(r * 100)}vh)` : '100vw';
-  return { 'data-bg': name, 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
+  return { 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
 };
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
@@ -42,7 +42,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
-  <ClientRouter fallback="swap" />
+  <ClientRouter fallback="none" />
   <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
     // İlk girişte dil: Türkiye'den ya da Türkçe tarayıcıdan → TR, Fransa / Fransızca → FR, diğerleri EN.
@@ -105,9 +105,9 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   )}
 
   {!home && (
-    <a class="brand" href={href(lang, '')} aria-label={site.name}>
-      {[...site.name].map((c, i) => <span style={`--i:${i}`}>{c === ' ' ? '\u00a0' : c}</span>)}
-    </a>
+    <p class="brand" aria-label={site.name} transition:name="brand" transition:animate="none">
+      {[...'Melikşah'].map((c, i) => <span style={`--i:${i}`}>{c}</span>)}<span style="--i:8">&nbsp;</span><span class="sur">{[...'ALKAN'].map((c, i) => <span style={`--i:${i + 9}`}>{c}</span>)}</span>
+    </p>
   )}
 
   <header class="nav-panel">
@@ -129,17 +129,17 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     </div>
   </header>
 
-  <main>
+  <main transition:name="page">
     <slot />
   </main>
 
   <footer class:list={['foot', { 'foot--home': home }]}>
-    <p>© {new Date().getFullYear()} {site.name}. {ui.rights[lang]}</p>
+    <p>© {new Date().getFullYear()} Melikşah <span class="sur">ALKAN</span> — {ui.rights[lang].replace(/\.$/, '')}</p>
   </footer>
 
   <script>
-    // Sayfa geçişleri istemci tarafında yapılır (ClientRouter): başlık ve menü yeniden yüklenmez.
-    // Bu yüzden kurulum her sayfa değişiminde yeniden çalışır; belge düzeyindeki dinleyiciler bir kez eklenir.
+    // Sayfalar ve diller yenilenmeden değişir (ClientRouter). Menü ve isim yerinde kalır;
+    // yeni sayfanın arka plan fotoğrafı inip hazır olmadan geçiş yapılmaz, böylece ekran kararmaz.
     let place: (() => void) | null = null;
     const panel = () => document.querySelector('.nav-panel');
     const setMenu = (open: boolean) => {
@@ -176,40 +176,36 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
       place(); bd.classList.add('is-placed');
     };
 
-    // Görüntü alanına yaklaşan görselleri erkenden yükle (Safari'nin geç tembel yüklemesine karşı)
-    let io: IntersectionObserver | null = null;
-    const warmImages = () => {
-      io?.disconnect();
-      io = new IntersectionObserver((es) => es.forEach((e) => {
-        if (e.isIntersecting) { (e.target as HTMLImageElement).loading = 'eager'; io!.unobserve(e.target); }
-      }), { rootMargin: '1400px 0px' });
-      document.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((i) => io!.observe(i));
-    };
-
-    // Menüdeki sayfanın arka plan fotoğrafını, üzerine gelinince önceden indir
+    // Menü bağlantısının üzerine gelince o sayfanın arka planını önceden indir
     const warmed = new Set<string>();
-    const warmLinks = () => {
-      document.querySelectorAll<HTMLAnchorElement>('a[data-bg]').forEach((a) => {
-        const go = () => {
-          const k = a.dataset.bg!; if (warmed.has(k)) return; warmed.add(k);
-          const im = new Image(); im.sizes = a.dataset.bgSizes!; im.srcset = a.dataset.bgSrcset!;
-        };
-        a.addEventListener('pointerenter', go, { once: true });
-        a.addEventListener('touchstart', go, { once: true, passive: true });
-        a.addEventListener('focus', go, { once: true });
-      });
+    const warm = (srcset?: string, sizes?: string) => {
+      if (!srcset || warmed.has(srcset)) return;
+      warmed.add(srcset); const im = new Image(); im.sizes = sizes ?? '100vw'; im.srcset = srcset;
     };
 
     const setup = () => {
       document.querySelector('.menu-btn')?.addEventListener('click', () => setMenu(!panel()!.classList.contains('open')));
       panel()?.querySelector('.scrim')?.addEventListener('click', () => setMenu(false));
       document.querySelectorAll('.langs a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')!); } catch {} }));
+      document.querySelectorAll<HTMLAnchorElement>('a[data-bg-srcset]').forEach((a) => {
+        const go = () => warm(a.dataset.bgSrcset, a.dataset.bgSizes);
+        a.addEventListener('pointerenter', go, { once: true });
+        a.addEventListener('focus', go, { once: true });
+      });
       setupBackdrop();
-      warmImages();
-      warmLinks();
     };
 
-    // bir kez: belge düzeyindeki dinleyiciler
+    // Yeni sayfanın arka plan fotoğrafı inip çözülmeden geçişi başlatma (en çok 1,2 sn bekle)
+    document.addEventListener('astro:before-preparation', (ev: any) => {
+      const original = ev.loader;
+      ev.loader = async () => {
+        await original();
+        const src = ev.newDocument?.querySelector('.backdrop source');
+        const srcset = src?.getAttribute('srcset'); if (!srcset) return;
+        const im = new Image(); im.sizes = src.getAttribute('sizes') ?? '100vw'; im.srcset = srcset;
+        await Promise.race([im.decode().catch(() => {}), new Promise((r) => setTimeout(r, 1200))]);
+      };
+    });
     document.addEventListener('pointerdown', (e) => {
       const p = panel();
       if (p?.classList.contains('open') && !(e.target as Element).closest('.menu, .menu-btn')) setMenu(false);
@@ -218,7 +214,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     addEventListener('resize', () => place?.(), { passive: true });
     document.fonts?.ready.then(() => place?.());
     matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
-    // yeni sayfa çizilmeden önce arka planı yerleştir (yanıp sönme olmasın)
+    // yeni sayfa ekrana gelmeden arka planı yerine koy
     document.addEventListener('astro:after-swap', () => { setMenu(false); setupBackdrop(); });
     document.addEventListener('astro:page-load', setup);
   </script>
