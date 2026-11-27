@@ -51,13 +51,19 @@ const { lang } = Astro.props as { lang: Lang };
           const go = () => requestAnimationFrame(() => f.classList.add('in'));
           img.complete ? go() : (img.addEventListener('load', go, { once: true }), img.addEventListener('error', go, { once: true }));
         });
-      }, { rootMargin: '0px 0px -6% 0px' });
+      }, { rootMargin: '0px 0px 40px 0px' });
       const reveal = () => document.querySelectorAll<HTMLElement>('section.gallery:not([hidden]) figure:not(.in)').forEach((f) => io.observe(f));
       const show = (id: string) => {
         tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
         document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
       };
-      tabs.forEach((t) => t.addEventListener('click', () => { show(t.getAttribute('aria-controls')!); reveal(); }));
+      // sekme değişince o sekmenin fotoğrafları efektle yeniden gelir
+      tabs.forEach((t) => t.addEventListener('click', () => {
+        const id = t.getAttribute('aria-controls')!;
+        document.querySelectorAll<HTMLElement>(`#${id} figure`).forEach((f) => { io.unobserve(f); f.classList.remove('in'); });
+        show(id);
+        requestAnimationFrame(() => requestAnimationFrame(reveal));
+      }));
       if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
       reveal();
     });

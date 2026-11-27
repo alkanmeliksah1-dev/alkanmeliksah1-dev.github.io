@@ -318,6 +318,9 @@ a.contact-line:hover { color: var(--accent); }
 .ctabs { margin: 34px 0 6px; }
 .cpanel { padding-top: 18px; }
 .tabs-ready .cpanel[hidden] { display: none; }
+/* mesaj / bülten arasında geçerken içerik yumuşakça süzülür */
+.tabs-ready .cpanel:not([hidden]) { animation: panel-in .55s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes panel-in { from { opacity: 0; transform: translateY(12px); } }
 .cform { display: grid; gap: 18px; max-width: 560px; }
 .nl-lead { max-width: 560px; margin-bottom: 20px; }
 .field { display: grid; gap: 6px; }

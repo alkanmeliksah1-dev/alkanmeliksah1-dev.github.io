@@ -62,14 +62,19 @@ const nlAction = site.forms.newsletter[lang];
       </form>
     </section>
   </Sheet>
-</Base>
 
-<script is:inline define:vars={{ L: {
+<div id="contact-l" hidden data-l={JSON.stringify({
   sending: t('fSending'), ok: t('msgOk'), err: t('msgErr'), nlConfirm: t('nlConfirm'), nlOk: t('nlOk'),
   email: site.email, contact: site.forms.contact, lang,
-} }}>
+})}></div>
+<script>
+  // Her sayfa açılışında (yenilemeden gelinse de) sekmeleri ve formları yeniden bağla
+  document.addEventListener('astro:page-load', () => {
+  const holder = document.getElementById('contact-l'); if (!holder) return;
+  const L = JSON.parse(holder.dataset.l);
+
   // ---- sekmeler ----
-  const tabs = [...document.querySelectorAll('.ctabs [role=tab]')];
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('.ctabs [role=tab]')];
   const show = (id, focus) => {
     tabs.forEach((b) => {
       const on = b.getAttribute('aria-controls') === id;
@@ -89,7 +94,6 @@ const nlAction = site.forms.newsletter[lang];
       show(n.getAttribute('aria-controls'), true);
     });
   });
-  if (!window.__ctHash) { window.__ctHash = true; addEventListener('hashchange', () => { const t = document.querySelector('.ctabs [aria-controls="p-newsletter"]'); if (t && location.hash === '#newsletter') t.click(); }); }
 
   // ---- formlar ----
   const post = (url, data) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
@@ -146,4 +150,6 @@ const nlAction = site.forms.newsletter[lang];
       }
     });
   });
+  });
 </script>
+</Base>
