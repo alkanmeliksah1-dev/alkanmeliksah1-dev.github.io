@@ -1,0 +1,54 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Sheet from '../../../components/Sheet.astro';
+import Pic from '../../../components/Pic.astro';
+import { events, photos, ui, works, type Lang } from '../../../data';
+import { detailPaths, fullDate, href } from '../../../lib';
+export const getStaticPaths = () => detailPaths(events);
+const { lang, item: e } = Astro.props as { lang: Lang; item: (typeof events)[number] };
+const myWork = works.find((w) => w.event === e.slug);
+---
+<Base lang={lang} slug={`events/${e.slug}`} section="events" title={e.title} bg={photos.events}>
+  <Sheet lang={lang} slug="events" title={e.title}>
+    <div class:list={['event-detail', { 'has-poster': e.poster }]}>
+      <div>
+        <p class="event-date label">{fullDate(e.date, lang)}{e.time && ` · ${e.time}`}</p>
+        {e.venue && <p>{e.venue[lang]}</p>}
+        {e.note && <p class="muted">{e.note[lang]}</p>}
+        {myWork && <p class="links"><a href={href(lang, `works/${myWork.slug}`)}>{myWork.title} — {ui.programNotes[lang]}</a></p>}
+
+        {e.lineup && (
+          <>
+            <h2>{ui.performers[lang]}</h2>
+            <ul class="rows plain">{e.lineup.map((p) => <li><span>{p.name}</span><span class="muted">{p.role[lang]}</span></li>)}</ul>
+          </>
+        )}
+        {!e.lineup && e.performers && !e.credits && (<><h2>{ui.performers[lang]}</h2><p>{e.performers}</p></>)}
+
+        {e.program && (
+          <>
+            <h2>{e.programTitle?.[lang] ?? ui.program[lang]}</h2>
+            <ol class="program">
+              {e.program.map((p) => (
+                <li class:list={{ me: p.me }}>
+                  <span class="composer">{p.composer}</span>
+                  {p.work && <span class="pwork"><em>{p.work}</em>{p.year && ` (${p.year})`}</span>}
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+
+        {e.credits && (
+          <>
+            <h2>{ui.credits[lang]}</h2>
+            <ul class="rows plain">{e.credits.map((c) => <li><span class="muted">{c.role[lang]}</span><span class:list={{ me: c.names.includes('Melikşah Alkan') }}>{c.names}</span></li>)}</ul>
+          </>
+        )}
+        {e.source && <p class="note">{ui.source[lang]}: <a href={e.source} target="_blank" rel="noopener">{new URL(e.source).hostname.replace('www.', '')}</a></p>}
+      </div>
+      {e.poster && <figure class="detail-poster pop"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 760px) 80vw, 300px" /></figure>}
+    </div>
+    <p class="back"><a href={href(lang, 'events')}>{ui.allEvents[lang]}</a></p>
+  </Sheet>
+</Base>

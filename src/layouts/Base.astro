@@ -14,11 +14,14 @@ interface Props {
   slug?: string;        // '' = ana sayfa
   bg?: string;          // arka plan fotoğrafı
   home?: boolean;
+  section?: string;     // menüde vurgulanacak bölüm (alt sayfalar için)
+  title?: string;       // sayfa başlığı (alt sayfalar için)
 }
-const { lang, slug = '', bg, home = false } = Astro.props;
+const { lang, slug = '', bg, home = false, section, title } = Astro.props;
+const active = section ?? slug;
 const bgMeta = bg ? (images as Record<string, { widths: number[] }>)[bg] : undefined;
-const current = nav.find((n) => n.slug === slug);
-const pageTitle = home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
+const current = nav.find((n) => n.slug === active);
+const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 ---
 <!DOCTYPE html>
@@ -52,7 +55,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
       <nav>
         <ul>
           {nav.map((n) => (
-            <li><a href={href(lang, n.slug)} aria-current={n.slug === slug ? 'page' : undefined}>{n.label[lang]}</a></li>
+            <li><a href={href(lang, n.slug)} aria-current={n.slug === active ? 'page' : undefined}>{n.label[lang]}</a></li>
           ))}
         </ul>
       </nav>

@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Sheet from '../../../components/Sheet.astro';
+import { events, photos, ui, works, type Lang } from '../../../data';
+import { detailPaths, href } from '../../../lib';
+export const getStaticPaths = () => detailPaths(works);
+const { lang, item: w } = Astro.props as { lang: Lang; item: (typeof works)[number] };
+const notes = w.notes ? (w.notes[lang] ?? (lang === 'tr' ? w.notes.tr : undefined) ?? w.notes.en) : undefined;
+const notesLang = w.notes && w.notes[lang] ? lang : 'en';
+const found = w.event ? events.find((e) => e.slug === w.event) : undefined;
+const ev = found && (found.program || found.credits || found.lineup) ? found : undefined;
+---
+<Base lang={lang} slug={`works/${w.slug}`} section="works" title={w.title} bg={photos.works}>
+  <Sheet lang={lang} slug="works" title={w.title}>
+    <p class="work-meta">{w.year} · {w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</p>
+    {(w.links || ev) && (
+      <div class="links">
+        {w.links?.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}
+        {ev && <a href={href(lang, `events/${ev.slug}`)}>{w.cat === 'stage' ? ui.credits[lang] : ui.viewEvent[lang]}</a>}
+      </div>
+    )}
+    {notes && (
+      <>
+        <h2>{ui.programNotes[lang]}</h2>
+        <div class="prose" lang={notesLang}>{notes.map((p) => <p>{p}</p>)}</div>
+      </>
+    )}
+    <p class="back"><a href={href(lang, 'works')}>{ui.allWorks[lang]}</a></p>
+  </Sheet>
+</Base>

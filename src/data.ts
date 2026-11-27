@@ -52,6 +52,15 @@ export const ui = {
     fr: 'De nouvelles dates seront bientôt annoncées.',
   },
   poster: { en: 'Poster', tr: 'Afiş', fr: 'Affiche' },
+  programNotes: { en: 'Programme note', tr: 'Program notu', fr: 'Note de programme' },
+  program: { en: 'Programme', tr: 'Program', fr: 'Programme' },
+  performers: { en: 'Performers', tr: 'İcracılar', fr: 'Interprètes' },
+  credits: { en: 'Credits', tr: 'Künye', fr: 'Générique' },
+  allWorks: { en: 'All works', tr: 'Tüm çalışmalar', fr: 'Toutes les œuvres' },
+  allEvents: { en: 'All events', tr: 'Tüm etkinlikler', fr: 'Tous les événements' },
+  premiere: { en: 'Premiere', tr: 'İlk seslendirme', fr: 'Création' },
+  viewEvent: { en: 'Concert programme', tr: 'Konser programı', fr: 'Programme du concert' },
+  source: { en: 'Source', tr: 'Kaynak', fr: 'Source' },
   listenOn: { en: 'Listen', tr: 'Dinle', fr: 'Écouter' },
   watchOn: { en: 'Watch', tr: 'İzle', fr: 'Voir' },
   contactLead: {
@@ -155,121 +164,279 @@ export const categories: { id: string; image: string; title: T; blurb: T }[] = [
 ];
 
 type Link = { kind: 'listen' | 'watch'; url: string };
-export const works: { year: string; cat: string; title: string; scoring: T; note?: T; poster?: string; links?: Link[] }[] = [
+// Program notu: paragraf dizileri. Türkçe yoksa İngilizce gösterilir; Fransızca sayfalar da İngilizce notu gösterir.
+type Notes = { en: string[]; tr?: string[]; fr?: string[] };
+type Credit = { role: T; names: string };
+
+export const works: {
+  slug: string; year: string; cat: string; title: string; scoring: T; note?: T;
+  links?: Link[]; notes?: Notes; credits?: Credit[]; event?: string;
+}[] = [
   {
-    year: '2026', cat: 'concert', title: 'Ab-ı Revan', poster: 'poster-bilgi16',
+    slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan', event: 'bilgi-new-music-festival-16',
     scoring: { en: 'for Les Solistes de l’Ensemble intercontemporain', tr: 'Les Solistes de l’Ensemble intercontemporain için', fr: 'pour Les Solistes de l’Ensemble intercontemporain' },
     note: { en: 'Premiered at Bilgi New Music Festival 16, Istanbul', tr: 'İlk seslendirme: Bilgi Yeni Müzik Festivali 16, İstanbul', fr: 'Création au Bilgi New Music Festival 16, Istanbul' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
+    notes: {
+      en: [
+        'Ab-ı Revan takes its name from a state described in Sufi tradition as a joy, peace, and inner clarity that flows ceaselessly through the heart, even amid a life of discipline and hardship. The piece follows the voice born within this contradiction: an intense practice of purification on the outside, and within, a sense of relief that overflows regardless. The music aims to hold this tension intact, like water that never stops running, yet does not know where it runs.',
+      ],
+    },
   },
   {
-    year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar', poster: 'poster-sy16',
+    slug: 'oteyakadan-takaza-act-0', year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0', event: 'izmir-new-music-days-vii',
+    scoring: { en: 'for a performer, an actor and electronics', tr: 'bir icracı, bir oyuncu ve elektronikler için', fr: 'pour un interprète, un acteur et électroniques' },
+    note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
+    notes: {
+      tr: [
+        'Öteyakadan Takaza Act.0, Ferit Edgü’nün Orhan Duru: Ölmeden Önce - Öldükten Sonra metninin ortaya çıkış anına odaklanan bir müzik tiyatrosudur. Sahnede, Edgü\'nün metni yazdığı ve kelimelerin henüz bütünüyle formunu bulmadığı o eşik canlandırılır. Ses, söz ve beden; hafıza ile yokluk arasındaki boşluğu yavaş yavaş kaplar.',
+        'Bu sürecin omurgasını yalnız bir enstrüman oluşturur. Enstrümandan çıkan döngüsel motifler, elektroniklerle parçalanıp genişleyerek kendi zamanını yaratır. Duyulan her tını hecelere sızarak dilin oluşumuna karışırken; yazılan, duyulan ve hayal edilen iç içe geçer.',
+        'Act.0, klasik anlamda bir anlatı sahnesinden ziyade; metnin bizzat ses üzerinden ortaya çıkışının izini süren bir yapıdır. Yazma eylemini salt bir düşüncenin aktarımı olarak değil; yokluğu hissedilen bir figürün fiziken biçim kazanma süreci olarak sahneler. Bu temsil özelinde, tüm bu oluşum süreci bir çellonun gövdesinde vücut bulur.',
+      ],
+      en: [
+        'Öteyakadan Takaza Act.0 is a music theater piece that focuses on the emergence of Ferit Edgü’s text, Orhan Duru: Ölmeden Önce - Öldükten Sonra. On stage, the threshold where Edgü writes the text and words have not yet fully found their form is enacted. Sound, word, and body gradually fill the void between memory and absence.',
+        'A solitary instrument forms the spine of this process. Cyclical motifs emerging from the instrument are fragmented and expanded by electronics, creating their own time. As every heard timbre seeps into syllables and blends into the formation of language; the written, the heard, and the imagined intertwine.',
+        'Act.0, rather than a narrative scene in the traditional sense, is a structure that traces the very emergence of the text through sound. It stages the act of writing not merely as the transmission of a thought, but as a process through which an absent figure takes physical form. In this specific performance, this entire process is channeled through the body of a cello.',
+      ],
+    },
+  },
+  {
+    slug: 'mahzen-ul-esrar', year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar', event: 'sesin-yolculugu-16',
     scoring: { en: 'for string quartet', tr: 'yaylı çalgılar dörtlüsü için', fr: 'pour quatuor à cordes' },
     note: { en: 'Semplice Quartet — Journey of Sound 16, Atatürk Cultural Centre; performed again at Journey of Sound 17', tr: 'Semplice Quartet — Sesin Yolculuğu 16, Atatürk Kültür Merkezi; Sesin Yolculuğu 17’de yeniden seslendirildi', fr: 'Semplice Quartet — Sesin Yolculuğu 16, Centre culturel Atatürk ; reprise à Sesin Yolculuğu 17' },
     links: [
       { kind: 'watch', url: 'https://youtu.be/PCFpS51N-qs' },
       { kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/mahzen-ul-esrar' },
     ],
+    notes: {
+      en: [
+        'Mahzen-ül Esrar, composed for the Semplice Quartet and inspired by the work of the same name written by Nizami Ganjavi in the 12th century, begins as if suspended in a void, outside the bounds of time. While tracing the essence of Nizami’s statement, “The wisdom hidden in the depths of the human soul is a treasure accessible only to those who purify their nafs,” the piece presents a gradual transformation from silence to percussive richness—mirroring the journey of the traveler in Mahzen-ül Esrar, who must first immerse themselves in the Sea of Serenity to pass through the seven valleys.',
+        'The initially abstract musical lines, not clearly defined at the beginning, gradually evolve into a more lucid structure, culminating in echoes of the opening material. Seeking to reinterpret Nizami’s central theme of Self-Discipline through a contemporary sonic framework, Mahzen-ül Esrar brings forth a musical reimagining of an ancient text’s mystical journey from darkness to light—revived through the timbral colors of the 21st century.',
+      ],
+    },
   },
   {
-    year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0', poster: 'poster-iymg7',
-    scoring: { en: 'for cello, electronics and performer', tr: 'viyolonsel, elektronikler ve oyuncu için', fr: 'pour violoncelle, électroniques et performeur' },
-    note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
-  },
-  {
-    year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality', poster: 'cover-gilgamesh3',
+    slug: 'imaginary-dialogues-of-mortality', year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
     scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
     note: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international Gilgamesh' },
+    notes: {
+      // Jenny Lewis'in "After Gilgamesh" alıntısı telif nedeniyle buraya eklenmedi; istenirse
+      // "A passage from ..." paragrafı alıntıyla birlikte üçüncü paragraftan sonra eklenebilir.
+      en: [
+        'The Epic of Gilgamesh, one of humanity\'s oldest written narratives, has remained relevant despite being inscribed on Sumerian clay tablets approximately 4,000 years ago. This ancient story, woven around the themes of friendship, loss, mourning, and the quest for immortality by Uruk\'s king Gilgamesh, represents a universal reflection of humanity\'s search for answers to existential questions.',
+        'This composition aims to revive three distinct phases of Gilgamesh\'s mythological journey in a sonic landscape:',
+        '1. The Friendship of Gilgamesh and Enkidu: The dialogue between trombone and harp, beginning as a conflict and gradually transforming into a friendship, represents Gilgamesh\'s relationship with the wild man Enkidu.',
+        '2. Enkidu\'s Death and Mourning: The tense passages between electronic sounds and trombone express Gilgamesh\'s helplessness and grief in the face of his friend\'s loss.',
+        '3. The Quest for Immortality: The harp and electronic timbres reflect the tides of hope and despair in Gilgamesh\'s search for immortality, while at the end of the piece, the trombone carries the deep resonance of accepting human mortality.',
+        'This composition brings together acoustic instruments —trombone and harp— with electronic timbres to reinterpret one of humanity\'s most ancient stories in the 21st century\'s sound palette. The trombone represents Gilgamesh\'s heroic and melancholic character; the harp embodies the mysterious atmosphere of the mythological world; and the electronic timbres symbolize the flow of time.',
+        'Gilgamesh\'s journey is, in fact, everyone\'s journey: the effort to love, lose, and ultimately accept our mortal nature while leaving behind a meaningful story...',
+      ],
+    },
   },
   {
-    year: '2024', cat: 'concert', title: 'Butimar',
+    slug: 'butimar', year: '2024', cat: 'concert', title: 'Butimar',
     scoring: { en: 'for solo flute', tr: 'solo flüt için', fr: 'pour flûte seule' },
+    notes: {
+      // Cahit Külebi'nin "Butimar" şiirinden alıntı telif nedeniyle buraya eklenmedi;
+      // istenirse ilk paragraftan sonra eklenebilir.
+      en: [
+        'This piece is inspired by the mysterious life and tragic fate of the Butimar bird, a legend originating from Persian mythology that later gained prominence in Turkish-Islamic culture. The Butimar is known for its deep love of the sea. It glides over the water, dives beneath its surface, yet never drinks from it.',
+        'According to legend, the Butimar loves the sea so deeply that it cannot bring itself to drink from it, and thus dies of thirst. This tragic paradox – being next to what you love, yet unable to touch it; living within your life source, but unable to partake in it – has made the Butimar a powerful symbol of love and longing.',
+        'The Butimar legend is rooted in the ancient Persian poetic tradition and is mentioned in Firdausi\'s Shahnameh, an epic poem that immortalizes not only mythical heroes but also symbolic figures of nature. Over time, this legend spread across Middle Eastern and Central Asian cultures, and the name, derived from the Persian "bahri mâ" meaning "water bird," evolved into Butimar.',
+        'This musical work portrays the Butimar\'s passion for the sea, the contradiction of being near it yet unable to drink from it, and ultimately, its fate of dying of thirst. The bird glides over the sea, dives into its depths, rises again, and in the final moments of its life, sacrificed for love, ascends to the sky. The oboe represents the bird\'s voice, its deep sighs, and its sensual connection with the sea, while the electronic sounds depict the vastness, inaccessibility, and profound inner echoes of the sea.',
+        'This piece goes beyond merely portraying a bird. It reflects humanity\'s impossible longings, the yearning for the unattainable while living within the attainable, and the unbearable tension this paradox creates.',
+        'With its legendary migration from west to east, the Butimar bird emerges as a symbol bridging different cultures and worlds. This composition aims to narrate its mystical journey, both the joy and pain of being close to what it loves, through the intricate meeting of oboe and electronic sounds.',
+      ],
+    },
   },
   {
-    year: '2026', cat: 'stage', title: 'Tek Bi’ Mutlu An!', poster: 'poster-tekbimutluan',
+    slug: 'tek-bi-mutlu-an', year: '2026', cat: 'stage', title: 'Tek Bi’ Mutlu An!', event: 'tek-bi-mutlu-an',
     scoring: { en: 'Sound design · dir. & choreography İlyas Odman', tr: 'Ses tasarımı · yönetmen & koreograf İlyas Odman', fr: 'Création sonore · mise en scène & chorégraphie İlyas Odman' },
   },
   {
-    year: '2026', cat: 'stage', title: 'Ro-Ap',
+    slug: 'ro-ap', year: '2026', cat: 'stage', title: 'Ro-Ap', event: 'ro-ap',
     scoring: { en: 'Music & sound design · Abdül Süsler', tr: 'Müzik & ses tasarımı · Abdül Süsler', fr: 'Musique & création sonore · Abdül Süsler' },
   },
   {
-    year: '2026', cat: 'stage', title: 'Happy Days', poster: 'poster-mutlugunler',
+    slug: 'happy-days', year: '2026', cat: 'stage', title: 'Happy Days', event: 'happy-days',
     scoring: { en: 'Music & sound design · Samuel Beckett, dir. Abdül Süsler', tr: 'Müzik & ses tasarımı · Samuel Beckett, "Mutlu Günler", yön. Abdül Süsler', fr: 'Musique & création sonore · Samuel Beckett, m.e.s. Abdül Süsler' },
   },
   {
-    year: '2026', cat: 'stage', title: 'A Place with the Pigs: A Personal Parable', poster: 'poster-domuzahiri',
+    slug: 'a-place-with-the-pigs', year: '2026', cat: 'stage', title: 'A Place with the Pigs: A Personal Parable', event: 'a-place-with-the-pigs',
     scoring: { en: 'Music & sound design · Athol Fugard, dir. Abdül Süsler', tr: 'Müzik & ses tasarımı · Athol Fugard, "Domuz Ahırı", yön. Abdül Süsler', fr: 'Musique & création sonore · Athol Fugard, m.e.s. Abdül Süsler' },
   },
 ];
 
-// ---------- Nerede, ne zaman? (etkinlikler) ----------
+// ---------- Etkinlikler ----------
 // date: YYYY-MM-DD. Bugünden sonraki tarihler otomatik "Yaklaşan" altına düşer.
-export const events: { date: string; time?: string; title: string; work?: string; performers: string; venue?: T; note?: T; poster?: string }[] = [
+// program: konserde çalınan eserler (me: true olan satır vurgulanır). credits: tiyatro ekibi.
+type ProgramItem = { composer: string; work?: string; year?: string; me?: boolean };
+const R = (en: string, tr: string, fr: string): T => ({ en, tr, fr });
+const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta');
+
+export const events: {
+  slug: string; date: string; time?: string; title: string; work?: string; performers: string;
+  venue?: T; note?: T; poster?: string; lineup?: { name: string; role: T }[];
+  program?: ProgramItem[]; programTitle?: T; credits?: Credit[]; source?: string;
+}[] = [
   {
-    date: '2026-12-14',
+    slug: 'ro-ap', date: '2026-12-14',
     title: 'Ro-Ap',
     performers: 'Abdül Süsler',
-    note: { en: 'Premiere · Music & sound design', tr: 'Prömiyer · Müzik & ses tasarımı', fr: 'Première · Musique & création sonore' },
+    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
   },
   {
-    date: '2026-10-25', time: '20:00',
+    slug: 'izmir-new-music-days-vii', date: '2026-10-25', time: '20:00',
     title: 'İzmir New Music Days VII — Next Generation Series VII',
     work: 'ÖTEYAKADAN TAKAZA Act.0',
     performers: 'Niklas Seidl',
-    venue: { en: 'MÜZİKSEV, İzmir', tr: 'MÜZİKSEV, İzmir', fr: 'MÜZİKSEV, İzmir' },
-    note: { en: 'Workshops with Niklas Seidl, 22–24 October', tr: 'Niklas Seidl ile atölye çalışmaları, 22–24 Ekim', fr: 'Ateliers avec Niklas Seidl, 22–24 octobre' },
+    venue: R('MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir'),
+    note: R('Concert “NOITU LOVE” · Workshops with Niklas Seidl, 22–24 October', '“NOITU LOVE” konseri · Niklas Seidl ile atölye çalışmaları, 22–24 Ekim', 'Concert « NOITU LOVE » · Ateliers avec Niklas Seidl, 22–24 octobre'),
     poster: 'poster-iymg7',
+    lineup: [{ name: 'Niklas Seidl', role: R('cello', 'viyolonsel', 'violoncelle') }],
+    programTitle: R('Next Generation Series VII — composers', 'Next Generation Series VII — besteciler', 'Next Generation Series VII — compositeurs'),
+    program: [
+      { composer: 'Azra Kaya' },
+      { composer: 'Melikşah Alkan', work: 'ÖTEYAKADAN TAKAZA Act.0', year: '2026', me: true },
+      { composer: 'Kaan Selçuk' },
+      { composer: 'Emir Ekberzade' },
+    ],
   },
   {
-    date: '2026-06-28', time: '20:00',
+    slug: 'bilgi-new-music-festival-16', date: '2026-06-28', time: '20:00',
     title: 'Bilgi New Music Festival 16',
     work: 'Ab-ı Revan',
     performers: 'Les Solistes de l’Ensemble intercontemporain',
-    venue: { en: 'Yeldeğirmeni Art Center, Istanbul', tr: 'Yeldeğirmeni Sanat Merkezi, İstanbul', fr: 'Centre d’art Yeldeğirmeni, Istanbul' },
-    note: { en: 'Alain Billard, Jérôme Comte, Éric-Maria Couturier, Nicolas Crosse', tr: 'Alain Billard, Jérôme Comte, Éric-Maria Couturier, Nicolas Crosse', fr: 'Alain Billard, Jérôme Comte, Éric-Maria Couturier, Nicolas Crosse' },
+    venue: R('Yeldeğirmeni Art Center, Kadıköy, Istanbul', 'Yeldeğirmeni Sanat, Kadıköy, İstanbul', 'Centre d’art Yeldeğirmeni, Kadıköy, Istanbul'),
     poster: 'poster-bilgi16',
+    lineup: [
+      { name: 'Alain Billard', role: R('clarinet / bass clarinet', 'klarnet / bas klarnet', 'clarinette / clarinette basse') },
+      { name: 'Jérôme Comte', role: R('clarinet / bass clarinet', 'klarnet / bas klarnet', 'clarinette / clarinette basse') },
+      { name: 'Éric-Maria Couturier', role: R('cello', 'viyolonsel', 'violoncelle') },
+      { name: 'Nicolas Crosse', role: R('double bass', 'kontrbas', 'contrebasse') },
+    ],
+    programTitle: R('Composers', 'Besteciler', 'Compositeurs'),
+    program: [
+      { composer: 'Atabak Amjadi' }, { composer: 'Arda Yiğit Serbes' }, { composer: 'Cenk Takınc' },
+      { composer: 'Emir Ekberzade' }, { composer: 'Yağmur Kale' }, { composer: 'Deniz Hatipoğlu' },
+      { composer: 'Tarık Mutlugöz' }, { composer: 'Evrim Bozkan' },
+      { composer: 'Melikşah Alkan', work: 'Ab-ı Revan', year: '2026', me: true },
+      { composer: 'Anıl Çelik' }, { composer: 'İrem Başer' }, { composer: 'Mert Altıparmak' },
+    ],
+    source: 'https://www.bilgi.edu.tr/tr/etkinlik/13742/bilgi-yeni-muzik-festivali-16/',
   },
   {
-    date: '2026-06-07',
+    slug: 'tek-bi-mutlu-an', date: '2026-06-07',
     title: 'Tek Bi’ Mutlu An!',
     performers: 'İlyas Odman',
-    venue: { en: 'ClapHall, Istanbul', tr: 'ClapHall, İstanbul', fr: 'ClapHall, Istanbul' },
-    note: { en: 'Premiere · Sound design', tr: 'Prömiyer · Ses tasarımı', fr: 'Première · Création sonore' },
+    venue: R('ClapHall, Istanbul', 'ClapHall, İstanbul', 'ClapHall, Istanbul'),
+    note: R('Premiere · Sound design', 'Prömiyer · Ses tasarımı', 'Première · Création sonore'),
     poster: 'poster-tekbimutluan',
+    credits: [
+      { role: R('Director / choreographer', 'Yönetmen / koreograf', 'Mise en scène / chorégraphie'), names: 'İlyas Odman' },
+      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Aleyna Yılmaz, Beste Sevin, Neslihan Yıldırım, Nevin İnci, Tanem Yılmaz' },
+      { role: R('Sound design', 'Ses tasarımı', 'Création sonore'), names: 'Melikşah Alkan' },
+      { role: R('Lighting design', 'Işık tasarımı', 'Création lumière'), names: 'Serhat Barış' },
+      { role: R('Costume design', 'Kostüm tasarımı', 'Costumes'), names: 'Hilal Polat' },
+      { role: R('Dramaturgy', 'Dramaturji', 'Dramaturgie'), names: 'Nevin İnci' },
+      { role: R('Assistants', 'Asistanlar', 'Assistants'), names: 'Canan Demir, Öyken Ege Acar' },
+      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Sıla Sert, Beste Sevin' },
+    ],
   },
   {
-    date: '2026-05-08',
+    slug: 'sesin-yolculugu-17', date: '2026-05-08', time: '15:00',
     title: 'Sesin Yolculuğu 17 — Young Composers Festival',
     work: 'Mahzen-ül Esrar',
-    performers: '',
-    venue: { en: 'MSGSÜ Sedad Hakkı Eldem Auditorium, Istanbul', tr: 'MSGSÜ Sedad Hakkı Eldem Oditoryumu, İstanbul', fr: 'Auditorium Sedad Hakkı Eldem (MSGSÜ), Istanbul' },
-    note: { en: 'Mustafa Orhan & Mehmet Efe Özşahin (violins), Nazlı Hira Örsel (viola), Balkan Alya Özgür (cello)', tr: 'Mustafa Orhan & Mehmet Efe Özşahin (keman), Nazlı Hira Örsel (viyola), Balkan Alya Özgür (viyolonsel)', fr: 'Mustafa Orhan & Mehmet Efe Özşahin (violons), Nazlı Hira Örsel (alto), Balkan Alya Özgür (violoncelle)' },
+    performers: 'Mustafa Orhan, Mehmet Efe Özşahin, Nazlı Hira Örsel, Balkan Alya Özgür',
+    venue: R('Mimar Sinan Fine Arts University, Sedad Hakkı Eldem Auditorium, Istanbul', 'Mimar Sinan Güzel Sanatlar Üniversitesi, Sedad Hakkı Eldem Oditoryumu, İstanbul', 'Université des beaux-arts Mimar Sinan, auditorium Sedad Hakkı Eldem, Istanbul'),
+    note: R('Student Ensembles Concert II', '2. Konser — Öğrenci Toplulukları', 'Concert des ensembles d’étudiants II'),
     poster: 'poster-sy17',
+    lineup: [
+      { name: 'Mustafa Orhan', role: R('violin I', '1. keman', 'violon I') },
+      { name: 'Mehmet Efe Özşahin', role: R('violin II', '2. keman', 'violon II') },
+      { name: 'Nazlı Hira Örsel', role: R('viola', 'viyola', 'alto') },
+      { name: 'Balkan Alya Özgür', role: R('cello', 'viyolonsel', 'violoncelle') },
+    ],
+    program: [
+      { composer: 'Dilhan Hıdıroğlu', work: 'Kerpe\'yi Beklerken', year: '2026' },
+      { composer: 'Hasti Esfandiari', work: 'Farklı Macera', year: '2026' },
+      { composer: 'Nazrin İbrahimova', work: 'panic, attaC#k!', year: '2026' },
+      { composer: 'Göksu Poyraz', work: 'Piyano için Üç Küçük Parça', year: '2026' },
+      { composer: 'Hasan Burak Ünal', work: 'Paslanmış Kökler', year: '2026' },
+      { composer: 'Leyla Ravza Albay', work: 'The Noise Between Voices', year: '2025' },
+      { composer: 'Berzan Bayhan', work: 'Metropolitan Gündelikler', year: '2025' },
+      { composer: 'Hümeyra Meriş Karslı', work: 'Üç Aydan Kesitler', year: '2025' },
+      { composer: 'Batuhan Alper Bozkurt', work: 'Harmony and Anarchy', year: '2023' },
+      { composer: 'Doruk Çınar Kardaş', work: 'Türk Ressamlardan İzlenimler', year: '2024' },
+      { composer: 'Deniz Sipahioğlu', work: 'İki Keman için Birkaç Müzik!', year: '2026' },
+      { composer: 'Deniz Eryiğit', work: '! Mozart\'ın Sigortaları Attı !', year: '2026' },
+      { composer: 'Melikşah Alkan', work: 'Mahzen-ül Esrar', year: '2025', me: true },
+      { composer: 'Orkay Pazarcı', work: '1982', year: '2024' },
+      { composer: 'Hayal Candaş', work: 'An', year: '2026' },
+    ],
+    source: 'https://sesinyolculugu.com/festivaller/17-2/2-konser/',
   },
   {
-    date: '2026-03-27',
+    slug: 'happy-days', date: '2026-03-27',
     title: 'Happy Days (Mutlu Günler)',
     performers: 'Samuel Beckett · dir. Abdül Süsler',
-    venue: { en: 'Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', tr: 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', fr: 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta' },
-    note: { en: 'Premiere · Music & sound design', tr: 'Prömiyer · Müzik & ses tasarımı', fr: 'Première · Musique & création sonore' },
+    venue: TOPKAPI,
+    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
     poster: 'poster-mutlugunler',
+    credits: [
+      { role: R('Text', 'Metin', 'Texte'), names: 'Samuel Beckett' },
+      { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
+      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Aleyna Yılmaz, Uğur Roman' },
+      { role: R('Assistant directors', 'Yardımcı yönetmenler', 'Assistants à la mise en scène'), names: 'Beste Sevin, Neslihan Yıldırım' },
+      { role: R('Directing assistants', 'Reji asistanları', 'Assistants de régie'), names: 'Salih Çağan Turucalı, Canan Demir' },
+      { role: R('Music & sound design', 'Müzik ve ses tasarımı', 'Musique & création sonore'), names: 'Melikşah Alkan' },
+      { role: R('Lighting design', 'Işık tasarımı', 'Création lumière'), names: 'Bedirhan İsabetli' },
+      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
+    ],
   },
   {
-    date: '2026-03-25',
+    slug: 'a-place-with-the-pigs', date: '2026-03-25',
     title: 'A Place with the Pigs (Domuz Ahırı)',
     performers: 'Athol Fugard · dir. Abdül Süsler',
-    venue: { en: 'Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', tr: 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', fr: 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta' },
-    note: { en: 'Premiere · Music & sound design', tr: 'Prömiyer · Müzik & ses tasarımı', fr: 'Première · Musique & création sonore' },
+    venue: TOPKAPI,
+    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
     poster: 'poster-domuzahiri',
+    credits: [
+      { role: R('Text', 'Metin', 'Texte'), names: 'Athol Fugard' },
+      { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
+      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Bedirhan İsabetli, Neslihan Yıldırım' },
+      { role: R('Assistant director', 'Yardımcı yönetmen', 'Assistante à la mise en scène'), names: 'Aleyna Yılmaz' },
+      { role: R('Directing assistant', 'Yönetmen yardımcısı', 'Assistant de régie'), names: 'Ege Acar' },
+      { role: R('Set design', 'Dekor tasarımı', 'Scénographie'), names: 'Uğur Roman' },
+      { role: R('Music & sound design', 'Müzik ve ses tasarımı', 'Musique & création sonore'), names: 'Melikşah Alkan' },
+      { role: R('Technical', 'Teknik', 'Technique'), names: 'Salih Çağan Turucalı' },
+      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
+    ],
   },
   {
-    date: '2025-05-03', time: '20:30',
+    slug: 'sesin-yolculugu-16', date: '2025-05-03', time: '20:30',
     title: 'Sesin Yolculuğu 16 — Young Composers Festival',
     work: 'Mahzen-ül Esrar',
     performers: 'Semplice Quartet',
-    venue: { en: 'Atatürk Cultural Centre, Theatre Hall, Istanbul', tr: 'Atatürk Kültür Merkezi, Tiyatro Salonu, İstanbul', fr: 'Centre culturel Atatürk, salle de théâtre, Istanbul' },
+    venue: R('Atatürk Cultural Centre, Theatre Hall, Istanbul', 'Atatürk Kültür Merkezi, Tiyatro Salonu, İstanbul', 'Centre culturel Atatürk, salle de théâtre, Istanbul'),
     poster: 'poster-sy16',
+    lineup: [
+      { name: 'Murat Erginol', role: R('violin I', '1. keman', 'violon I') },
+      { name: 'Yaren Budak', role: R('violin II', '2. keman', 'violon II') },
+      { name: 'Pınar Dinçer', role: R('viola', 'viyola', 'alto') },
+      { name: 'Burak Ayrancı', role: R('cello', 'viyolonsel', 'violoncelle') },
+    ],
+    program: [
+      { composer: 'Anita Sağlam', work: 'Yaylı Dörtlü için Rondo', year: '2023' },
+      { composer: 'Eylem Atalay', work: 'A Birth in 92\'', year: '2025' },
+      { composer: 'Ahmet Cemal Öksüz', work: 'Boşluk', year: '2025' },
+      { composer: 'Doğaç Öztürk', work: 'Serenity in Mass Extinction', year: '2025' },
+      { composer: 'Melikşah Alkan', work: 'Mahzen-ül Esrar', year: '2025', me: true },
+      { composer: 'Hasan Barış Gemici', work: 'İkircikli Zeybeği', year: '2022' },
+      { composer: 'Kaan Selçuk', work: 'Yaylı Dördül için Parça', year: '2025' },
+      { composer: 'Alphan Tokmakoğlu', work: 'Derdest' },
+    ],
+    source: 'https://sesinyolculugu.com/festivaller/16-2/3-konser/',
   },
 ];
 

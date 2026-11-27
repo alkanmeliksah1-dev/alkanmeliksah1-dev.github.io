@@ -18,3 +18,11 @@ export const dateParts = (iso: string, lang: Lang) => {
   const [y, m, d] = iso.split('-').map(Number);
   return { day: String(d), month: MONTHS[lang][m - 1], year: String(y) };
 };
+
+export const fullDate = (iso: string, lang: Lang) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString({ en: 'en-GB', tr: 'tr-TR', fr: 'fr-FR' }[lang], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+};
+
+export const detailPaths = <T extends { slug: string }>(items: T[]) =>
+  LANGS.flatMap((l) => items.map((item) => ({ params: { lang: l === 'en' ? undefined : l, slug: item.slug }, props: { lang: l, item } })));

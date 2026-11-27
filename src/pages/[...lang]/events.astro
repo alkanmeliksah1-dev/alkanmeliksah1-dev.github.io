@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
 import { events, photos, ui, type Lang } from '../../data';
-import { dateParts, langPaths } from '../../lib';
+import { fullDate, href, langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const today = new Date().toISOString().slice(0, 10);
@@ -11,31 +11,40 @@ const sorted = [...events].sort((a, b) => b.date.localeCompare(a.date));
 const upcoming = sorted.filter((e) => e.date >= today).reverse();
 const past = sorted.filter((e) => e.date < today);
 const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
+// kartta kısa özet: konserde besteciler, tiyatroda oyuncular
+const summary = (e: (typeof events)[number]) => {
+  if (e.program) return e.program.map((p) => p.composer).join(', ');
+  const cast = e.credits?.find((c) => c.role.en === 'Cast');
+  return cast?.names;
+};
+const detailed = (e: (typeof events)[number]) => Boolean(e.program || e.credits || e.lineup);
 ---
 <Base lang={lang} slug="events" bg={photos.events}>
   <Sheet lang={lang} slug="events">
     {groups.filter(([, list]) => list.length > 0).map(([label, list], gi) => (
       <>
         <h2 style={gi === 0 ? 'margin-top:0' : undefined}>{label}</h2>
-        {list.length > 0 && (
-          <ul class="events">
-            {list.map((e) => {
-              const d = dateParts(e.date, lang);
-              return (
-                <li class="event">
-                  <div class="date"><span class="d">{d.day}</span><span class="m label">{d.month} {d.year}</span></div>
+        <ul class="events">
+          {list.map((e) => {
+            const s = summary(e);
+            const Tag = detailed(e) ? 'a' : 'div';
+            return (
+              <li>
+                <Tag class:list={['event', { 'has-poster': e.poster, link: detailed(e) }]} href={detailed(e) ? href(lang, `events/${e.slug}`) : undefined}>
                   <div class="event-body">
+                    <p class="event-date label">{fullDate(e.date, lang)}{e.time && ` · ${e.time}`}</p>
                     <h3>{e.title}</h3>
                     {(e.work || e.performers) && <p>{e.work && <em>{e.work}</em>}{e.work && e.performers && ' · '}{e.performers}</p>}
-                    {(e.venue || e.time) && <p>{e.venue?.[lang]}{e.venue && e.time && ' · '}{e.time}</p>}
+                    {e.venue && <p>{e.venue[lang]}</p>}
                     {e.note && <p>{e.note[lang]}</p>}
+                    {s && <p class="event-summary"><span class="label">{e.program ? (e.programTitle?.[lang] ?? ui.program[lang]) : ui.credits[lang]}</span> {s}</p>}
                   </div>
-                  {e.poster ? <span class="poster graded"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 62vw, 240px" /></span> : <span></span>}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+                  {e.poster && <span class="poster pop"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 62vw, 240px" /></span>}
+                </Tag>
+              </li>
+            );
+          })}
+        </ul>
       </>
     ))}
   </Sheet>
