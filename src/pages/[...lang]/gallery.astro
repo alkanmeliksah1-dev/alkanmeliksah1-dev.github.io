@@ -84,7 +84,10 @@ const { lang } = Astro.props as { lang: Lang };
         });
       });
       const start = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : tabs[0].getAttribute('aria-controls')!;
-      show(start); reveal(start);
+      show(start);
+      // menüden gelindiyse sayfa geçişi tamamen bitene kadar bekle; iki animasyon üst üste binmez
+      const settled: Promise<unknown> | null = (window as any).__settled;
+      if (settled) settled.then(() => requestAnimationFrame(() => reveal(start))); else reveal(start);
     };
     init();
     document.addEventListener('astro:page-load', init);

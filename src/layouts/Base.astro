@@ -86,7 +86,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:url" content={`https://meliksahalkan.com${href(lang, slug)}`} />
-  <meta property="og:locale" content={{ en: 'en_GB', tr: 'tr_TR', fr: 'fr_FR' }[lang]} />
+  <meta property="og:locale" content={{ en: 'en_US', tr: 'tr_TR', fr: 'fr_FR' }[lang]} />
   <meta property="og:image" content="https://meliksahalkan.com/og.jpg" />
   <meta property="og:image:secure_url" content="https://meliksahalkan.com/og.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -198,7 +198,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
       setupBackdrop();
     };
 
-    // Yeni sayfanın arka plan fotoğrafı inip çözülmeden geçişi başlatma (en çok 1,2 sn bekle)
+    // Yeni sayfanın arka plan fotoğrafı inip çözülmeden geçişi başlatma (en çok 0,7 sn; yeni tıklama gelirse beklemeden bırak)
     document.addEventListener('astro:before-preparation', (ev: any) => {
       const original = ev.loader;
       ev.loader = async () => {
@@ -206,7 +206,8 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         const src = ev.newDocument?.querySelector('.backdrop source');
         const srcset = src?.getAttribute('srcset'); if (!srcset) return;
         const im = new Image(); im.sizes = src.getAttribute('sizes') ?? '100vw'; im.srcset = srcset;
-        await Promise.race([im.decode().catch(() => {}), new Promise((r) => setTimeout(r, 1200))]);
+        await Promise.race([im.decode().catch(() => {}), new Promise((r) => setTimeout(r, 700)),
+          new Promise((r) => ev.signal?.addEventListener('abort', r, { once: true }))]);
       };
     });
     document.addEventListener('pointerdown', (e) => {
@@ -218,6 +219,12 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     document.fonts?.ready.then(() => place?.());
     matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
     // yeni sayfa ekrana gelmeden arka planı yerine koy
+    // geçiş animasyonu bitince sayfa betiklerine haber ver (galeri ağır işini geçişten sonra yapar)
+    document.addEventListener('astro:before-swap', (ev: any) => {
+      const done = ev.viewTransition?.finished?.catch(() => {}) ?? Promise.resolve();
+      (window as any).__settled = done;
+      done.then(() => { if ((window as any).__settled === done) (window as any).__settled = null; });
+    });
     document.addEventListener('astro:after-swap', () => { document.documentElement.dataset.swapped = ''; setMenu(false); setupBackdrop(); });
     setup();
     document.addEventListener('astro:page-load', setup);

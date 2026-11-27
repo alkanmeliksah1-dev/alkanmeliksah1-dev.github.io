@@ -440,6 +440,19 @@ html.menu-open { overflow: hidden; }
   animation-duration: .6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1);
 }
 
+/* geçiş sürerken de menüye tıklanabilsin: üstteki geçiş katmanı tıklamayı yutmaz,
+   yeni tıklama eski geçişi hemen bitirip yenisini başlatır */
+::view-transition { pointer-events: none; }
+
+/* isim, ana sayfadaki büyük yerinden sol üstteki yerine (ve geri) akarak gider */
+.brand, .hero-name h1 { view-transition-name: site-name; }
+::view-transition-group(site-name) { animation-duration: .9s; animation-timing-function: cubic-bezier(.65, 0, .2, 1); }
+::view-transition-old(site-name), ::view-transition-new(site-name) { height: 100%; width: auto; animation-duration: .9s; mix-blend-mode: normal; }
+::view-transition-old(site-name) { animation-name: name-out; }
+::view-transition-new(site-name) { animation-name: name-in; }
+@keyframes name-out { 0% { opacity: 1; filter: blur(0); } 55%, 100% { opacity: 0; filter: blur(4px); } }
+@keyframes name-in { 0%, 35% { opacity: 0; filter: blur(4px); } 100% { opacity: 1; filter: blur(0); } }
+
 /* yenilemeden gelinen sayfalarda içerik yerinden zıplamaz; geçişin kendisi yumuşak */
 html[data-swapped] .sheet, html[data-swapped] .hero-name { animation: none; }
 
