@@ -12,8 +12,9 @@ interface Props {
   slug?: string;        // '' = ana sayfa
   bg?: string;          // arka plan fotoğrafı
   home?: boolean;
+  lowered?: boolean;    // fotoğrafı aşağı kaydır (yüz panelin altında görünsün)
 }
-const { lang, slug = '', bg, home = false } = Astro.props;
+const { lang, slug = '', bg, home = false, lowered = false } = Astro.props;
 const current = nav.find((n) => n.slug === slug);
 const pageTitle = home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
@@ -33,7 +34,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 </head>
 <body class={home ? 'is-home' : ''}>
   {bg && (
-    <div class={home ? 'backdrop backdrop--home' : 'backdrop'} aria-hidden="true">
+    <div class={home ? 'backdrop backdrop--home' : lowered ? 'backdrop backdrop--low' : 'backdrop'} aria-hidden="true">
       {home && <div class="backdrop-fill" style={`background-image:url(/images/${bg}.jpg)`}></div>}
       <picture>
         <source srcset={`/images/${bg}.webp`} type="image/webp" />

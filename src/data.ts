@@ -15,7 +15,7 @@ export const site = {
     youtube: 'https://www.youtube.com/@MelikşahAlkan',
     soundcloud: 'https://soundcloud.com/meliksahalkan',
     instagram: 'https://www.instagram.com/meliksah.alkan/',
-    facebook: '',
+    facebook: 'https://www.facebook.com/meliksah.alkan.79',
   },
 };
 
@@ -342,7 +342,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // Mobilde fotoğrafın hangi kısmının görüneceği (yatay% dikey%)
 export const focal: Record<string, string> = {
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
-  studio: '50% 35%', railway: '50% 30%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
+  studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
   'church-concert': '50% 70%', 'mahzen-bow': '42% 50%', score: '40% 40%', 'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'church-concert-wide': '50% 60%', 'mahzen-rehearsal': '60% 30%', 'outside-close': '45% 25%',
 };
 

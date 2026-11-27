@@ -83,6 +83,11 @@ img { display: block; max-width: 100%; }
 }
 @keyframes breathe-soft { from { transform: scale(1); } to { transform: scale(1.04); } }
 .backdrop--home::after { background: linear-gradient(to top, rgba(11, 10, 9, .9), transparent 50%), radial-gradient(120% 100% at 65% 40%, transparent 35%, rgba(11, 10, 9, .7) 100%); }
+.backdrop--low img {
+  object-position: 50% 0; animation: none; transform: translateY(30vh);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%);
+          mask-image: linear-gradient(to bottom, transparent, #000 14%);
+}
 @keyframes breathe { from { transform: scale(1.03); } to { transform: scale(1.13) translate(-1.5%, -1%); } }
 
 /* ---------- paneller ---------- */
@@ -194,11 +199,7 @@ h2 { margin: 48px 0 16px; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--accent); }
 .gallery { columns: 3 200px; column-gap: 10px; }
 .gallery[hidden] { display: none; }
-.gallery figure { break-inside: avoid; margin-bottom: 10px; cursor: zoom-in; }
-dialog.lightbox { margin: auto; max-width: min(1100px, 94vw); max-height: 92vh; background: none; border: 0; color: var(--ink); }
-dialog.lightbox::backdrop { background: rgba(8, 7, 6, .92); }
-dialog.lightbox img { max-height: 82vh; width: auto; margin: 0 auto; }
-dialog.lightbox button { position: fixed; top: 16px; right: 20px; background: none; border: 0; color: var(--ink); font: 300 32px var(--text); cursor: pointer; }
+.gallery figure { break-inside: avoid; margin-bottom: 10px; }
 
 /* ---------- Nereye yazmalı? ---------- */
 .contact-line { display: inline-block; font-size: 20px; padding: 8px 0; overflow-wrap: anywhere; }
@@ -206,9 +207,10 @@ a.contact-line { box-shadow: 0 1px 0 var(--accent); }
 a.contact-line:hover { color: var(--accent); }
 
 /* ---------- İletişim: sosyal ---------- */
-.socials { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 30px; }
-.socials a { display: inline-block; padding: 10px 0; color: var(--dim); letter-spacing: .04em; }
-.socials a:hover { color: var(--accent); }
+.socials { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.socials a { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--faint); color: var(--dim); transition: color .25s, border-color .25s; }
+.socials a:hover, .socials a:focus-visible { color: var(--accent); border-color: var(--accent); }
+.socials svg { width: 19px; height: 19px; fill: currentColor; }
 
 /* ---------- Ana sayfa ---------- */
 .hero-name {

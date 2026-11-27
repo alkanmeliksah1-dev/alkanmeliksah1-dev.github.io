@@ -29,11 +29,11 @@ const { lang } = Astro.props as { lang: Lang };
                 <div class="work-meta">{w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</div>
                 {w.links && (
                   <div class="links">
-                    {w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]} ↗</a>)}
+                    {w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}
                   </div>
                 )}
               </div>
-              {w.poster ? <a class="thumb graded" href={`/images/${w.poster}.jpg`} target="_blank" rel="noopener" aria-label={`${ui.poster[lang]}: ${w.title}`}><Pic name={w.poster} /></a> : <span></span>}
+              {w.poster ? <span class="thumb graded"><Pic name={w.poster} alt="" /></span> : <span></span>}
             </li>
           ))}
         </ul>
