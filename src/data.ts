@@ -17,6 +17,14 @@ export const site = {
     instagram: 'https://www.instagram.com/meliksah.alkan/',
     facebook: 'https://www.facebook.com/meliksah.alkan.79',
   },
+  forms: {
+    // İletişim formu: FormSubmit üzerinden doğrudan info@ adresine gelir.
+    // İlk mesajda FormSubmit bir "Activate" e-postası yollar; bir kez onaylamak yeterli.
+    contact: 'https://formsubmit.co/ajax/info@meliksahalkan.com',
+    // Bülten: Brevo'da her dil için oluşturulan formun "action" adresi (…sibforms.com/serve/…).
+    // Boş bırakılırsa abonelik talepleri e-postayla info@ adresine gelir (hiçbiri kaybolmaz).
+    newsletter: { en: '', tr: '', fr: '' } as Record<'en' | 'tr' | 'fr', string>,
+  },
 };
 
 // Menü. slug = sayfanın adresi.
@@ -62,6 +70,20 @@ export const ui = {
   viewEvent: { en: 'Concert programme', tr: 'Konser programı', fr: 'Programme du concert' },
   source: { en: 'Source', tr: 'Kaynak', fr: 'Source' },
   album: { en: 'Album', tr: 'Albüm', fr: 'Album' },
+  f_scoring: { en: 'Instrumentation', tr: 'Kadro', fr: 'Effectif' },
+  f_role: { en: 'Role', tr: 'Görev', fr: 'Rôle' },
+  f_text: { en: 'Text', tr: 'Metin', fr: 'Texte' },
+  f_director: { en: 'Director', tr: 'Yönetmen', fr: 'Mise en scène' },
+  f_award: { en: 'Award', tr: 'Ödül', fr: 'Distinction' },
+  f_performances: { en: 'Performances', tr: 'Seslendirmeler', fr: 'Exécutions' },
+  f_premiere: { en: 'Premiere', tr: 'Prömiyer', fr: 'Première' },
+  f_release: { en: 'Release', tr: 'Yayın', fr: 'Parution' },
+  f_date: { en: 'Date', tr: 'Tarih', fr: 'Date' },
+  f_venue: { en: 'Venue', tr: 'Mekân', fr: 'Lieu' },
+  f_label: { en: 'Label', tr: 'Yayıncı', fr: 'Label' },
+  f_work: { en: 'Work', tr: 'Çalışma', fr: 'Œuvre' },
+  f_performers: { en: 'Performers', tr: 'İcracılar', fr: 'Interprètes' },
+  tba: { en: 'To be announced', tr: 'Açıklanacak', fr: 'À annoncer' },
   tracklist: { en: 'Tracklist', tr: 'Parça listesi', fr: 'Liste des titres' },
   composers: { en: 'Composers', tr: 'Besteciler', fr: 'Compositeurs' },
   listenOn: { en: 'Listen', tr: 'Dinle', fr: 'Écouter' },
@@ -72,6 +94,53 @@ export const ui = {
     fr: 'Pour commandes, collaborations, partitions et enregistrements.',
   },
   email: { en: 'Email', tr: 'E-posta', fr: 'E-mail' },
+  // ---------- iletişim sayfası formları ----------
+  tabMessage: { en: 'Message', tr: 'Mesaj', fr: 'Message' },
+  tabNewsletter: { en: 'Newsletter', tr: 'Bülten', fr: 'Lettre' },
+  fName: { en: 'Name', tr: 'Ad soyad', fr: 'Nom' },
+  fNameOpt: { en: 'Name (optional)', tr: 'Ad (isteğe bağlı)', fr: 'Prénom (facultatif)' },
+  fEmail: { en: 'Email', tr: 'E-posta', fr: 'E-mail' },
+  fSubject: { en: 'Subject', tr: 'Konu', fr: 'Objet' },
+  fSubjectPick: { en: 'Select a subject', tr: 'Konu seçin', fr: 'Choisir un objet' },
+  fMessage: { en: 'Message', tr: 'Mesaj', fr: 'Message' },
+  fSend: { en: 'Send', tr: 'Gönder', fr: 'Envoyer' },
+  fSubscribe: { en: 'Subscribe', tr: 'Abone ol', fr: 'S’abonner' },
+  fSending: { en: 'Sending…', tr: 'Gönderiliyor…', fr: 'Envoi…' },
+  subjects: {
+    en: ['Commission / new work', 'Performance', 'Scores & recordings', 'Theatre & stage music', 'Press & media', 'Other'],
+    tr: ['Eser siparişi', 'Seslendirme / icra', 'Partisyon ve kayıt', 'Tiyatro ve sahne müziği', 'Basın ve medya', 'Diğer'],
+    fr: ['Commande / nouvelle œuvre', 'Interprétation', 'Partitions et enregistrements', 'Théâtre et musique de scène', 'Presse et médias', 'Autre'],
+  } as Record<Lang, string[]>,
+  msgOk: {
+    en: 'Thank you, your message has arrived. I will get back to you as soon as possible.',
+    tr: 'Teşekkürler, mesajınız ulaştı. En kısa sürede size dönüş yapacağım.',
+    fr: 'Merci, votre message est bien arrivé. Je vous répondrai dès que possible.',
+  },
+  msgErr: {
+    en: 'The message could not be sent. Please write directly to',
+    tr: 'Mesaj gönderilemedi. Lütfen doğrudan şu adrese yazın:',
+    fr: 'Le message n’a pas pu être envoyé. Écrivez directement à',
+  },
+  nlLead: {
+    en: 'Subscribe to hear about new works, premieres and releases. I write a few times a year, only when there is something worth sharing.',
+    tr: 'Yeni eserler, prömiyerler ve yayınlardan haberdar olmak için abone olun. Yılda birkaç kez, yalnızca paylaşmaya değer bir haber olduğunda yazarım.',
+    fr: 'Abonnez-vous pour être informé des nouvelles œuvres, créations et parutions. J’écris quelques fois par an, seulement quand il y a quelque chose à partager.',
+  },
+  nlNote: {
+    en: 'Your address is used only for this newsletter and never shared. You can unsubscribe at any time with the link in every email.',
+    tr: 'Adresiniz yalnızca bu bülten için kullanılır, kimseyle paylaşılmaz. Her e-postadaki bağlantıyla istediğiniz an ayrılabilirsiniz.',
+    fr: 'Votre adresse sert uniquement à cette lettre et n’est jamais partagée. Vous pouvez vous désabonner à tout moment via le lien présent dans chaque e-mail.',
+  },
+  nlConfirm: {
+    en: 'Almost done: please confirm your subscription with the link we have just sent to your inbox.',
+    tr: 'Neredeyse tamam: e-posta kutunuza gönderilen bağlantıyla aboneliğinizi onaylayın.',
+    fr: 'Presque terminé : confirmez votre abonnement grâce au lien envoyé dans votre boîte de réception.',
+  },
+  nlOk: {
+    en: 'Thank you, you are subscribed.',
+    tr: 'Teşekkürler, aboneliğiniz alındı.',
+    fr: 'Merci, votre abonnement est enregistré.',
+  },
   basedIn: { en: 'Based in', tr: 'Yaşadığı yer', fr: 'Basé à' },
   elsewhere: { en: 'Elsewhere', tr: 'Diğer', fr: 'Ailleurs' },
 };
@@ -172,14 +241,14 @@ type Notes = { en: string[]; tr?: string[]; fr?: string[] };
 type Credit = { role: T; names: string };
 
 export const works: {
-  slug: string; year: string; cat: string; title: string; scoring: T; note?: T;
-  links?: Link[]; notes?: Notes; credits?: Credit[]; event?: string;
-  album?: { title: string; scoring: T; label: string; year: string; cover: string; lineup: { name: string; role: T }[]; tracks: [string, string][] };
+  slug: string; year: string; cat: string; title: string;
+  scoring?: T;                         // konser: kadro
+  role?: T; text?: string; director?: string;   // sahne: görev, metin, yönetmen
+  award?: T; links?: Link[]; notes?: Notes;
 }[] = [
   {
-    slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan', event: 'bilgi-new-music-festival-16',
+    slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan',
     scoring: { en: 'for Les Solistes de l’Ensemble intercontemporain', tr: 'Les Solistes de l’Ensemble intercontemporain için', fr: 'pour Les Solistes de l’Ensemble intercontemporain' },
-    note: { en: 'Premiered at Bilgi New Music Festival 16, Istanbul', tr: 'İlk seslendirme: Bilgi Yeni Müzik Festivali 16, İstanbul', fr: 'Création au Bilgi New Music Festival 16, Istanbul' },
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
     notes: {
       tr: [
@@ -194,9 +263,8 @@ export const works: {
     },
   },
   {
-    slug: 'oteyakadan-takaza-act-0', year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0', event: 'izmir-new-music-days-vii',
+    slug: 'oteyakadan-takaza-act-0', year: '2026', cat: 'concert', title: 'ÖTEYAKADAN TAKAZA Act.0',
     scoring: { en: 'for a performer, an actor and electronics', tr: 'bir icracı, bir oyuncu ve elektronikler için', fr: 'pour un interprète, un acteur et électroniques' },
-    note: { en: 'Niklas Seidl — İzmir New Music Days VII', tr: 'Niklas Seidl — İzmir Yeni Müzik Günleri VII', fr: 'Niklas Seidl — Journées de musique nouvelle d’Izmir VII' },
     notes: {
       fr: [
         'Öteyakadan Takaza Act.0 est une pièce de théâtre musical centrée sur le moment d’émergence du texte de Ferit Edgü, Orhan Duru : Ölmeden Önce - Öldükten Sonra. Sur scène est mis en jeu ce seuil où Edgü écrit le texte et où les mots n’ont pas encore entièrement trouvé leur forme. Le son, la parole et le corps comblent peu à peu le vide entre la mémoire et l’absence.',
@@ -216,9 +284,8 @@ export const works: {
     },
   },
   {
-    slug: 'mahzen-ul-esrar', year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar', event: 'sesin-yolculugu-16',
+    slug: 'mahzen-ul-esrar', year: '2025', cat: 'concert', title: 'Mahzen-ül Esrar',
     scoring: { en: 'for string quartet', tr: 'yaylı çalgılar dörtlüsü için', fr: 'pour quatuor à cordes' },
-    note: { en: 'Semplice Quartet — Journey of Sound 16, Atatürk Cultural Centre; performed again at Journey of Sound 17', tr: 'Semplice Quartet — Sesin Yolculuğu 16, Atatürk Kültür Merkezi; Sesin Yolculuğu 17’de yeniden seslendirildi', fr: 'Semplice Quartet — Sesin Yolculuğu 16, Centre culturel Atatürk ; reprise à Sesin Yolculuğu 17' },
     links: [
       { kind: 'watch', url: 'https://youtu.be/PCFpS51N-qs' },
       { kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/mahzen-ul-esrar' },
@@ -240,24 +307,8 @@ export const works: {
   },
   {
     slug: 'imaginary-dialogues-of-mortality', year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
+    award: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international de composition Gilgamesh' },
     scoring: { en: 'for harp, trombone and electronics', tr: 'arp, trombon ve elektronikler için', fr: 'pour harpe, trombone et électroniques' },
-    note: { en: 'Honorable Mention, Gilgamesh International Composition Competition · album Gilgamesh III', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması · Gilgamesh III albümü', fr: 'Mention honorable, Concours international Gilgamesh · album Gilgamesh III' },
-    album: {
-      title: 'Gilgamesh III', year: '2026', label: 'Gilgamesh Arts & Culture Foundation', cover: 'cover-gilgamesh3',
-      scoring: { en: 'for harp, trombone and electronics', tr: 'arp, trombon ve elektronikler için', fr: 'pour harpe, trombone et électroniques' },
-      lineup: [
-        { name: 'Jillian Lopez', role: { en: 'harp', tr: 'arp', fr: 'harpe' } },
-        { name: 'Mattie Barbier', role: { en: 'trombone', tr: 'trombon', fr: 'trombone' } },
-      ],
-      // parçalar kapaktaki besteci sırasıyla aynı
-      tracks: [
-        ['Gilgamesh in front of Edens gates', 'Felipe Vasconcelos'], ['Fragments of the Flood', 'Shai Cohen'], ['Table 6', 'Pedro Brandão'],
-        ['Shamhat', 'Alessio Ferrante'], ['Enkidu', 'Alejandro Marco Gómez Lopera'], ['Jya, Jayba, Shamkatum', 'Arad Noroozi'],
-        ['Humbaba', 'Manolis Ekmektsoglou'], ['Song of Jungju', 'Jihyun Kim'], ['Wild Heart Enkidu', 'Soheil Shirangi'],
-        ['Gilgamesh\'s Space Odyssey', 'Afamia Al-Dayaa'], ['Deluge', 'Daniel Krumland'], ['Imaginary Dialogues of Mortality', 'Melikşah Alkan'],
-        ['How Should I answer the city?', 'Ali Araab'], ['Forest of Cedar / The Third Dream', 'Libby Fabricatore'], ['The Quest for the Cedar Forest', 'Erfan Javadi'],
-      ],
-    },
     notes: {
       tr: [
         'İnsanlığın yazıya geçirilmiş en eski anlatılarından biri olan Gılgamış Destanı, yaklaşık 4.000 yıl önce Sümer kil tabletlerine kazınmış olmasına rağmen güncelliğini korumaktadır. Uruk kralı Gılgamış’ın dostluk, kayıp, yas ve ölümsüzlük arayışı temaları etrafında örülen bu kadim hikâye, insanlığın varoluşsal sorulara yanıt arayışının evrensel bir yansımasıdır.',
@@ -323,20 +374,20 @@ export const works: {
     },
   },
   {
-    slug: 'tek-bi-mutlu-an', year: '2026', cat: 'stage', title: 'Tek Bi’ Mutlu An!', event: 'tek-bi-mutlu-an',
-    scoring: { en: 'Sound design · dir. & choreography İlyas Odman', tr: 'Ses tasarımı · yönetmen & koreograf İlyas Odman', fr: 'Création sonore · mise en scène & chorégraphie İlyas Odman' },
+    slug: 'tek-bi-mutlu-an', year: '2026', cat: 'stage', title: 'Tek Bi’ Mutlu An!',
+    role: { en: 'Sound design', tr: 'Ses tasarımı', fr: 'Création sonore' }, director: 'İlyas Odman',
   },
   {
-    slug: 'ro-ap', year: '2026', cat: 'stage', title: 'Ro-Ap', event: 'ro-ap',
-    scoring: { en: 'Music & sound design · Abdül Süsler', tr: 'Müzik & ses tasarımı · Abdül Süsler', fr: 'Musique & création sonore · Abdül Süsler' },
+    slug: 'ro-ap', year: '2026', cat: 'stage', title: 'Ro-Ap',
+    role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, director: 'Abdül Süsler',
   },
   {
-    slug: 'happy-days', year: '2026', cat: 'stage', title: 'Happy Days', event: 'happy-days',
-    scoring: { en: 'Music & sound design · Samuel Beckett, dir. Abdül Süsler', tr: 'Müzik & ses tasarımı · Samuel Beckett, "Mutlu Günler", yön. Abdül Süsler', fr: 'Musique & création sonore · Samuel Beckett, m.e.s. Abdül Süsler' },
+    slug: 'happy-days', year: '2026', cat: 'stage', title: 'Happy Days',
+    role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, text: 'Samuel Beckett', director: 'Abdül Süsler',
   },
   {
-    slug: 'a-place-with-the-pigs', year: '2026', cat: 'stage', title: 'A Place with the Pigs: A Personal Parable', event: 'a-place-with-the-pigs',
-    scoring: { en: 'Music & sound design · Athol Fugard, dir. Abdül Süsler', tr: 'Müzik & ses tasarımı · Athol Fugard, "Domuz Ahırı", yön. Abdül Süsler', fr: 'Musique & création sonore · Athol Fugard, m.e.s. Abdül Süsler' },
+    slug: 'a-place-with-the-pigs', year: '2026', cat: 'stage', title: 'A Place with the Pigs: A Personal Parable',
+    role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, text: 'Athol Fugard', director: 'Abdül Süsler',
   },
 ];
 
@@ -347,24 +398,55 @@ type ProgramItem = { composer: string; work?: string; year?: string; me?: boolea
 const R = (en: string, tr: string, fr: string): T => ({ en, tr, fr });
 const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta');
 
+// Etkinlik türü: konser, tiyatro prömiyeri ya da albüm yayını.
+// work: bu etkinlikteki kendi çalışmanın slug'ı (çalışmalar sayfasıyla bağlantı buradan kurulur).
+// month: true ise yalnızca ay ve yıl gösterilir.
+export const eventKinds: Record<'concert' | 'theatre' | 'release', T> = {
+  concert: R('Concert', 'Konser', 'Concert'),
+  theatre: R('Theatre premiere', 'Tiyatro prömiyeri', 'Première théâtrale'),
+  release: R('Album release', 'Albüm yayını', 'Sortie d’album'),
+};
 export const events: {
-  slug: string; date: string; time?: string; title: string; work?: string; performers: string;
-  venue?: T; note?: T; poster?: string; lineup?: { name: string; role: T }[];
+  slug: string; kind: 'concert' | 'theatre' | 'release'; date: string; month?: boolean; time?: string;
+  title: string; work: string; venue?: T; label?: string; performers?: string;
+  poster?: string; lineup?: { name: string; role: T }[];
   program?: ProgramItem[]; credits?: Credit[]; source?: string;
 }[] = [
   {
-    slug: 'ro-ap', date: '2026-12-14',
-    title: 'Ro-Ap',
-    performers: 'Abdül Süsler',
-    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
+    slug: 'gilgamesh-iii', kind: 'release', date: '2026-12-01', month: true,
+    title: 'Gilgamesh III', work: 'imaginary-dialogues-of-mortality',
+    label: 'Gilgamesh Arts & Culture Foundation', performers: 'Jillian Lopez, Mattie Barbier',
+    poster: 'cover-gilgamesh3',
+    lineup: [
+      { name: 'Jillian Lopez', role: R('harp', 'arp', 'harpe') },
+      { name: 'Mattie Barbier', role: R('trombone', 'trombon', 'trombone') },
+    ],
+    program: [
+      { composer: 'Felipe Vasconcelos', work: 'Gilgamesh in front of Edens gates' },
+      { composer: 'Shai Cohen', work: 'Fragments of the Flood' },
+      { composer: 'Pedro Brandão', work: 'Table 6' },
+      { composer: 'Alessio Ferrante', work: 'Shamhat' },
+      { composer: 'Alejandro Marco Gómez Lopera', work: 'Enkidu' },
+      { composer: 'Arad Noroozi', work: 'Jya, Jayba, Shamkatum' },
+      { composer: 'Manolis Ekmektsoglou', work: 'Humbaba' },
+      { composer: 'Jihyun Kim', work: 'Song of Jungju' },
+      { composer: 'Soheil Shirangi', work: 'Wild Heart Enkidu' },
+      { composer: 'Afamia Al-Dayaa', work: 'Gilgamesh\'s Space Odyssey' },
+      { composer: 'Daniel Krumland', work: 'Deluge' },
+      { composer: 'Melikşah Alkan', work: 'Imaginary Dialogues of Mortality', year: '2025', me: true },
+      { composer: 'Ali Araab', work: 'How Should I answer the city?' },
+      { composer: 'Libby Fabricatore', work: 'Forest of Cedar / The Third Dream' },
+      { composer: 'Erfan Javadi', work: 'The Quest for the Cedar Forest' },
+    ],
   },
   {
-    slug: 'izmir-new-music-days-vii', date: '2026-10-25', time: '20:00',
-    title: 'İzmir New Music Days VII — Next Generation Series VII',
-    work: 'ÖTEYAKADAN TAKAZA Act.0',
-    performers: 'Niklas Seidl',
-    venue: R('MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir'),
-    note: R('Concert “NOITU LOVE” · Workshops with Niklas Seidl, 22–24 October', '“NOITU LOVE” konseri · Niklas Seidl ile atölye çalışmaları, 22–24 Ekim', 'Concert « NOITU LOVE » · Ateliers avec Niklas Seidl, 22–24 octobre'),
+    slug: 'ro-ap', kind: 'theatre', date: '2026-12-14',
+    title: 'Ro-Ap', work: 'ro-ap',
+  },
+  {
+    slug: 'izmir-new-music-days-vii', kind: 'concert', date: '2026-10-25', time: '20:00',
+    title: 'İzmir New Music Days VII — Next Generation Series VII', work: 'oteyakadan-takaza-act-0',
+    venue: R('MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir', 'MÜZİKSEV, İzmir'), performers: 'Niklas Seidl',
     poster: 'poster-iymg7',
     lineup: [{ name: 'Niklas Seidl', role: R('cello', 'viyolonsel', 'violoncelle') }],
     program: [
@@ -382,11 +464,10 @@ export const events: {
     source: 'https://init-i2.org/uncategorized/izmir-yeni-muzik-gunleri-vii-22-27-ekim-2026/',
   },
   {
-    slug: 'bilgi-new-music-festival-16', date: '2026-06-28', time: '20:00',
-    title: 'Bilgi New Music Festival 16',
-    work: 'Ab-ı Revan',
+    slug: 'bilgi-new-music-festival-16', kind: 'concert', date: '2026-06-28', time: '20:00',
+    title: 'Bilgi New Music Festival 16', work: 'ab-i-revan',
+    venue: R('Yeldeğirmeni Art Center, Kadıköy, Istanbul', 'Yeldeğirmeni Sanat Merkezi, Kadıköy, İstanbul', 'Centre d’art Yeldeğirmeni, Kadıköy, Istanbul'),
     performers: 'Les Solistes de l’Ensemble intercontemporain',
-    venue: R('Yeldeğirmeni Art Center, Kadıköy, Istanbul', 'Yeldeğirmeni Sanat, Kadıköy, İstanbul', 'Centre d’art Yeldeğirmeni, Kadıköy, Istanbul'),
     poster: 'poster-bilgi16',
     lineup: [
       { name: 'Alain Billard', role: R('clarinet / bass clarinet', 'klarnet / bas klarnet', 'clarinette / clarinette basse') },
@@ -410,11 +491,9 @@ export const events: {
     ],
   },
   {
-    slug: 'tek-bi-mutlu-an', date: '2026-06-07',
-    title: 'Tek Bi’ Mutlu An!',
-    performers: 'İlyas Odman',
+    slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07',
+    title: 'Tek Bi’ Mutlu An!', work: 'tek-bi-mutlu-an',
     venue: R('ClapHall, Istanbul', 'ClapHall, İstanbul', 'ClapHall, Istanbul'),
-    note: R('Premiere · Sound design', 'Prömiyer · Ses tasarımı', 'Première · Création sonore'),
     poster: 'poster-tekbimutluan',
     credits: [
       { role: R('Director / choreographer', 'Yönetmen / koreograf', 'Mise en scène / chorégraphie'), names: 'İlyas Odman' },
@@ -428,12 +507,10 @@ export const events: {
     ],
   },
   {
-    slug: 'sesin-yolculugu-17', date: '2026-05-08', time: '15:00',
-    title: 'Sesin Yolculuğu 17 — Young Composers Festival',
-    work: 'Mahzen-ül Esrar',
-    performers: 'Mustafa Orhan, Mehmet Efe Özşahin, Nazlı Hira Örsel, Balkan Alya Özgür',
+    slug: 'sesin-yolculugu-17', kind: 'concert', date: '2026-05-08', time: '15:00',
+    title: 'Sesin Yolculuğu 17 — Young Composers Festival', work: 'mahzen-ul-esrar',
     venue: R('Mimar Sinan Fine Arts University, Sedad Hakkı Eldem Auditorium, Istanbul', 'Mimar Sinan Güzel Sanatlar Üniversitesi, Sedad Hakkı Eldem Oditoryumu, İstanbul', 'Université des beaux-arts Mimar Sinan, auditorium Sedad Hakkı Eldem, Istanbul'),
-    note: R('Student Ensembles Concert II', '2. Konser — Öğrenci Toplulukları', 'Concert des ensembles d’étudiants II'),
+    performers: 'Mustafa Orhan, Mehmet Efe Özşahin, Nazlı Hira Örsel, Balkan Alya Özgür',
     poster: 'poster-sy17',
     lineup: [
       { name: 'Mustafa Orhan', role: R('violin I', '1. keman', 'violon I') },
@@ -461,12 +538,9 @@ export const events: {
     source: 'https://sesinyolculugu.com/festivaller/17-2/2-konser/',
   },
   {
-    slug: 'happy-days', date: '2026-03-27',
-    title: 'Happy Days (Mutlu Günler)',
-    performers: 'Samuel Beckett · dir. Abdül Süsler',
-    venue: TOPKAPI,
-    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
-    poster: 'poster-mutlugunler',
+    slug: 'happy-days', kind: 'theatre', date: '2026-03-27',
+    title: 'Happy Days (Mutlu Günler)', work: 'happy-days',
+    venue: TOPKAPI, poster: 'poster-mutlugunler',
     credits: [
       { role: R('Text', 'Metin', 'Texte'), names: 'Samuel Beckett' },
       { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
@@ -479,12 +553,9 @@ export const events: {
     ],
   },
   {
-    slug: 'a-place-with-the-pigs', date: '2026-03-25',
-    title: 'A Place with the Pigs (Domuz Ahırı)',
-    performers: 'Athol Fugard · dir. Abdül Süsler',
-    venue: TOPKAPI,
-    note: R('Premiere · Music & sound design', 'Prömiyer · Müzik & ses tasarımı', 'Première · Musique & création sonore'),
-    poster: 'poster-domuzahiri',
+    slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25',
+    title: 'A Place with the Pigs (Domuz Ahırı)', work: 'a-place-with-the-pigs',
+    venue: TOPKAPI, poster: 'poster-domuzahiri',
     credits: [
       { role: R('Text', 'Metin', 'Texte'), names: 'Athol Fugard' },
       { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
@@ -498,11 +569,10 @@ export const events: {
     ],
   },
   {
-    slug: 'sesin-yolculugu-16', date: '2025-05-03', time: '20:30',
-    title: 'Sesin Yolculuğu 16 — Young Composers Festival',
-    work: 'Mahzen-ül Esrar',
-    performers: 'Semplice Quartet',
+    slug: 'sesin-yolculugu-16', kind: 'concert', date: '2025-05-03', time: '20:30',
+    title: 'Sesin Yolculuğu 16 — Young Composers Festival', work: 'mahzen-ul-esrar',
     venue: R('Atatürk Cultural Centre, Theatre Hall, Istanbul', 'Atatürk Kültür Merkezi, Tiyatro Salonu, İstanbul', 'Centre culturel Atatürk, salle de théâtre, Istanbul'),
+    performers: 'Semplice Quartet',
     poster: 'poster-sy16',
     lineup: [
       { name: 'Murat Erginol', role: R('violin I', '1. keman', 'violon I') },
@@ -578,7 +648,7 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
     id: 'posters', title: { en: 'Posters', tr: 'Afişler', fr: 'Affiches' },
     items: [
       { img: 'poster-iymg7', alt: 'İzmir New Music Days VII poster' },
-      { img: 'cover-gilgamesh3', alt: 'Gilgamesh III — for harp, trombone and fixed media (album cover)' },
+      { img: 'cover-gilgamesh3', alt: 'Gilgamesh III — album cover' },
       { img: 'poster-nextgen7', alt: 'Next Generation Series VII' },
       { img: 'poster-bilgi16', alt: 'Bilgi New Music Festival 16 poster' },
       { img: 'poster-tekbimutluan', alt: 'Tek Bi’ Mutlu An! poster' },
@@ -594,9 +664,10 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 // ---------- Fotoğraflar ----------
 // Fotoğrafın hangi kısmının görüneceği (yatay% dikey%), kırpıldığında
 export const focal: Record<string, string> = {
-  'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway2: '53% 14%',
+  'bg-mahzen': '50% 55%', 'bg-sy17': '50% 60%', 'bg-cello': '62% 50%', 'bg-rehearsal': '50% 55%', 'bg-eic': '62% 12%',
+  'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
-  studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
+  studio: '50% 35%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
   'church-concert': '50% 70%', 'mahzen-bow': '44% 55%', score: '38% 30%', 'sy17-concert': '55% 55%',
   'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'mahzen-rehearsal': '60% 30%',
 };
@@ -605,10 +676,7 @@ export const focal: Record<string, string> = {
 // at = ekrandaki hedef konum (0–1) ya da 'between' (menü ile isim arasının tam ortası)
 export const anchors: Record<string, { fx: number; at: number | 'between'; fit?: 'height' }> = {
   'night-wide': { fx: 0.5, at: 'between' },
-  'reading-wide': { fx: 0.815, at: 0.95 },
-  rehearsal: { fx: 0.5, at: 0.7, fit: 'height' },
-  railway2: { fx: 0.53, at: 0.9, fit: 'height' },
-  score: { fx: 0.4, at: 0.9, fit: 'height' },
+  'reading-wide': { fx: 0.953, at: 0.93 },
   standing: { fx: 0.42, at: 0.9, fit: 'height' },
 };
 
@@ -617,10 +685,10 @@ export const photos = {
   home: 'night-wide',
   approach: 'reading-wide',
   about: 'standing',
-  works: 'score',
-  events: 'sy17-concert',
-  media: 'mahzen-bow',
-  gallery: 'rehearsal',
-  contact: 'railway2',
+  works: 'bg-mahzen',
+  events: 'bg-sy17',
+  media: 'bg-cello',
+  gallery: 'bg-rehearsal',
+  contact: 'bg-eic',
   portrait: 'studio',
 };

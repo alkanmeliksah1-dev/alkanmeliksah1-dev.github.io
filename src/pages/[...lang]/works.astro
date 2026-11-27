@@ -2,8 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
+import Facts from '../../components/Facts.astro';
 import { categories, photos, ui, works, type Lang } from '../../data';
 import { href, langPaths } from '../../lib';
+import { workFacts } from '../../facts';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 ---
@@ -11,8 +13,8 @@ const { lang } = Astro.props as { lang: Lang };
   <Sheet lang={lang} slug="works">
     <div class="cats">
       {categories.map((c) => (
-        <a class="cat pop" href={`#${c.id}`}>
-          <Pic name={c.image} sizes="(max-width: 900px) 66vw, 380px" />
+        <a class="cat" href={`#${c.id}`}>
+          <Pic name={c.image} sizes="(max-width: 900px) 92vw, 380px" />
           <span class="cat-label"><strong>{c.title[lang]}</strong><span class="label">{c.blurb[lang]}</span></span>
         </a>
       ))}
@@ -20,18 +22,14 @@ const { lang } = Astro.props as { lang: Lang };
     {categories.map((c) => (
       <section class="cat-section" id={c.id}>
         <h2>{c.title[lang]}</h2>
-        <ul class="rows work-rows">
+        <ul class="entries">
           {works.filter((w) => w.cat === c.id).sort((a, b) => b.year.localeCompare(a.year)).map((w) => (
-            <li>
-              <span class="k">{w.year}</span>
-              <div>
-                <a class="work-title" href={href(lang, `works/${w.slug}`)}>{w.title}</a>
-                <div class="work-meta">{w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</div>
-                {w.links && (
-                  <div class="links">
-                    {w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}
-                  </div>
-                )}
+            <li class="entry">
+              <div class="entry-body">
+                <p class="eyebrow">{w.year}</p>
+                <h3 class="entry-title"><a href={href(lang, `works/${w.slug}`)}>{w.title}</a></h3>
+                <Facts rows={workFacts(w, lang)} />
+                {w.links && <p class="links">{w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}</p>}
               </div>
             </li>
           ))}

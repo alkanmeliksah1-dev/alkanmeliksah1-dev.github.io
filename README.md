@@ -25,3 +25,9 @@ Fotoğrafın yüksek çözünürlüklü JPG'sini bir klasöre koyup şu komutu �
 ```
 python3 scripts/responsive.py <kaynak-klasör> public/images src/images.json
 ```
+
+## İletişim formu ve bülten
+
+- **Mesaj formu** FormSubmit üzerinden info@meliksahalkan.com adresine gelir. İlk mesajdan sonra gelen "Activate Form" e-postasındaki düğmeye bir kez basmak yeterli.
+- **Bülten formu** `src/data.ts` içindeki `site.forms.newsletter` adreslerine (Brevo, dil başına bir form) gönderir. Adresler boşken abonelik talepleri e-postayla info@ adresine gelir.
+- Kurulum adımları ve otomatik e-posta metinleri: "Bülten ve iletişim formu: kurulum ve otomatik e-postalar" dokümanı.

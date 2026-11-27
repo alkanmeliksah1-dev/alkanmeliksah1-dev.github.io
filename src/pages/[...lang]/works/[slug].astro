@@ -1,45 +1,24 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import Sheet from '../../../components/Sheet.astro';
-import Pic from '../../../components/Pic.astro';
-import { events, photos, ui, works, type Lang } from '../../../data';
+import Facts from '../../../components/Facts.astro';
+import { photos, ui, works, type Lang } from '../../../data';
 import { detailPaths, href } from '../../../lib';
+import { workFacts } from '../../../facts';
 export const getStaticPaths = () => detailPaths(works);
 const { lang, item: w } = Astro.props as { lang: Lang; item: (typeof works)[number] };
-const notes = w.notes ? (w.notes[lang] ?? (lang === 'tr' ? w.notes.tr : undefined) ?? w.notes.en) : undefined;
+const notes = w.notes ? (w.notes[lang] ?? w.notes.en) : undefined;
 const notesLang = w.notes && w.notes[lang] ? lang : 'en';
-const found = w.event ? events.find((e) => e.slug === w.event) : undefined;
-const ev = found && (found.program || found.credits || found.lineup) ? found : undefined;
 ---
 <Base lang={lang} slug={`works/${w.slug}`} section="works" title={w.title} bg={photos.works}>
   <Sheet lang={lang} slug="works" title={w.title}>
-    <p class="work-meta">{w.year} · {w.scoring[lang]}{w.note && <><br />{w.note[lang]}</>}</p>
-    {(w.links || ev) && (
-      <div class="links">
-        {w.links?.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}
-        {ev && <a href={href(lang, `events/${ev.slug}`)}>{w.cat === 'stage' ? ui.credits[lang] : ui.viewEvent[lang]}</a>}
-      </div>
-    )}
+    <p class="eyebrow">{w.year}</p>
+    <Facts rows={workFacts(w, lang)} />
+    {w.links && <p class="links">{w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}</p>}
     {notes && (
       <>
         <h2>{ui.programNotes[lang]}</h2>
         <div class="prose" lang={notesLang}>{notes.map((p) => <p>{p}</p>)}</div>
-      </>
-    )}
-    {w.album && (
-      <>
-        <h2>{ui.album[lang]}</h2>
-        <div class="event-detail has-poster album">
-          <div>
-            <p class="work-title">{w.album.title}</p>
-            <p class="muted">{w.album.scoring[lang]} · {w.album.label} · {w.album.year}</p>
-            <h2>{ui.performers[lang]}</h2>
-            <ul class="rows plain">{w.album.lineup.map((p) => <li><span>{p.name}</span><span class="muted">{p.role[lang]}</span></li>)}</ul>
-            <h2>{ui.tracklist[lang]}</h2>
-            <ol class="program">{w.album.tracks.map(([t, c]) => <li class:list={{ me: c === 'Melikşah Alkan' }}><span class="composer">{c}</span><span class="pwork"><em>{t}</em></span></li>)}</ol>
-          </div>
-          <figure class="detail-poster pop"><Pic name={w.album.cover} alt={w.album.title} sizes="(max-width: 760px) 80vw, 300px" /></figure>
-        </div>
       </>
     )}
     <p class="back"><a href={href(lang, 'works')}>{ui.allWorks[lang]}</a></p>

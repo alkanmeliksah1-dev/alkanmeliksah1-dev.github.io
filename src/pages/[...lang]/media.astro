@@ -1,24 +1,31 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
-import { photos, recordings, ui, type Lang } from '../../data';
-import { langPaths } from '../../lib';
+import { photos, recordings, ui, works, type Lang } from '../../data';
+import { href, langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const sc = (url: string) => `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23c6a571&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`;
 ---
 <Base lang={lang} slug="media" bg={photos.media}>
   <Sheet lang={lang} slug="media">
-    {recordings.map((r) => (
-      <section class="rec">
-        <div class="rec-head">
-          <div><div class="work-title">{r.title}</div><div class="work-meta">{r.meta[lang]}</div></div>
-          <a class="text-link" href={r.url} target="_blank" rel="noopener">{r.type === 'youtube' ? 'YouTube' : 'SoundCloud'}</a>
-        </div>
-        {r.type === 'youtube'
-          ? <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${r.id}`} title={r.title} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
-          : <iframe class="sc" src={sc(r.url)} title={r.title} loading="lazy" allow="autoplay"></iframe>}
-      </section>
-    ))}
+    <ul class="entries">
+      {recordings.map((r) => {
+        const w = works.find((x) => x.title === r.title);
+        return (
+          <li class="entry">
+            <div class="entry-body">
+              <p class="eyebrow">{r.type === 'youtube' ? 'YouTube' : 'SoundCloud'}</p>
+              <h3 class="entry-title">{w ? <a href={href(lang, `works/${w.slug}`)}>{r.title}</a> : r.title}</h3>
+              <p class="muted" style="margin:-8px 0 16px">{r.meta[lang]}</p>
+              {r.type === 'youtube'
+                ? <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${r.id}`} title={r.title} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+                : <iframe class="sc" src={sc(r.url)} title={r.title} loading="lazy" allow="autoplay"></iframe>}
+              <p class="links"><a href={r.url} target="_blank" rel="noopener">{r.type === 'youtube' ? ui.watchOn[lang] : ui.listenOn[lang]}</a></p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   </Sheet>
 </Base>

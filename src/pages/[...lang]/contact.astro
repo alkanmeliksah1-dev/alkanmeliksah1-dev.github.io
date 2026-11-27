@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Sheet from '../../components/Sheet.astro';
-import { photos, site, type Lang } from '../../data';
+import { photos, site, ui, type Lang } from '../../data';
 import { langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -13,6 +13,8 @@ const icons: Record<string, string> = {
   facebook: 'M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z',
 };
 const socials = Object.entries(site.social).filter(([, url]) => url);
+const t = (k: keyof typeof ui) => (ui[k] as Record<Lang, string>)[lang];
+const nlAction = site.forms.newsletter[lang];
 ---
 <Base lang={lang} slug="contact" bg={photos.contact}>
   <Sheet lang={lang} slug="contact">
@@ -24,5 +26,125 @@ const socials = Object.entries(site.social).filter(([, url]) => url);
         ))}
       </ul>
     )}
+
+    <div class="tabs ctabs" role="tablist" aria-label={t('tabMessage') + ' / ' + t('tabNewsletter')}>
+      <button type="button" role="tab" id="tab-message" aria-controls="p-message" aria-selected="true">{t('tabMessage')}</button>
+      <button type="button" role="tab" id="tab-newsletter" aria-controls="p-newsletter" aria-selected="false" tabindex="-1">{t('tabNewsletter')}</button>
+    </div>
+
+    <section class="cpanel" id="p-message" role="tabpanel" aria-labelledby="tab-message">
+      <form class="cform" data-kind="message" action={site.forms.contact} method="post" novalidate>
+        <div class="field"><label for="c-name">{t('fName')}</label><input id="c-name" name="name" type="text" autocomplete="name" required maxlength="120" /></div>
+        <div class="field"><label for="c-email">{t('fEmail')}</label><input id="c-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200" spellcheck="false" autocapitalize="off" /></div>
+        <div class="field">
+          <label for="c-subject">{t('fSubject')}</label>
+          <select id="c-subject" name="subject" required>
+            <option value="" disabled selected>{t('fSubjectPick')}</option>
+            {ui.subjects[lang].map((o) => <option value={o}>{o}</option>)}
+          </select>
+        </div>
+        <div class="field"><label for="c-message">{t('fMessage')}</label><textarea id="c-message" name="message" rows="6" required maxlength="5000"></textarea></div>
+        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="submit" type="submit">{t('fSend')}</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="cpanel" id="p-newsletter" role="tabpanel" aria-labelledby="tab-newsletter">
+      <p class="nl-lead">{t('nlLead')}</p>
+      <form class="cform" data-kind="newsletter" data-brevo={nlAction ? 'true' : undefined} action={nlAction || site.forms.contact} method="post" novalidate>
+        <div class="field"><label for="n-name">{t('fNameOpt')}</label><input id="n-name" name="FIRSTNAME" type="text" autocomplete="given-name" maxlength="80" /></div>
+        <div class="field"><label for="n-email">{t('fEmail')}</label><input id="n-email" name="EMAIL" type="email" autocomplete="email" inputmode="email" required maxlength="200" spellcheck="false" autocapitalize="off" /></div>
+        <input class="hp" type="text" name="email_address_check" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="hidden" name="locale" value={lang} />
+        <button class="submit" type="submit">{t('fSubscribe')}</button>
+        <p class="nl-note">{t('nlNote')}</p>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
   </Sheet>
 </Base>
+
+<script is:inline define:vars={{ L: {
+  sending: t('fSending'), ok: t('msgOk'), err: t('msgErr'), nlConfirm: t('nlConfirm'), nlOk: t('nlOk'),
+  email: site.email, contact: site.forms.contact, lang,
+} }}>
+  // ---- sekmeler ----
+  const tabs = [...document.querySelectorAll('.ctabs [role=tab]')];
+  const show = (id, focus) => {
+    tabs.forEach((b) => {
+      const on = b.getAttribute('aria-controls') === id;
+      b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
+      document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+      if (on && focus) b.focus();
+    });
+  };
+  document.documentElement.classList.add('tabs-ready');
+  const fromHash = () => (location.hash === '#newsletter' ? 'p-newsletter' : 'p-message');
+  show(fromHash());
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => { show(b.getAttribute('aria-controls')); history.replaceState(null, '', '#' + b.getAttribute('aria-controls').slice(2)); });
+    b.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      show(n.getAttribute('aria-controls'), true);
+    });
+  });
+  addEventListener('hashchange', () => show(fromHash()));
+
+  // ---- formlar ----
+  const post = (url, data) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+    .then((r) => r.json()).then((j) => { if (String(j.success) !== 'true') throw new Error(j.message || 'failed'); });
+
+  document.querySelectorAll('.cform').forEach((form) => {
+    const status = form.querySelector('.status'), btn = form.querySelector('.submit'), label = btn.textContent;
+    const say = (msg, kind, link) => {
+      status.className = 'status' + (kind ? ' is-' + kind : ''); status.textContent = msg;
+      if (link) { const a = document.createElement('a'); a.href = 'mailto:' + L.email; a.textContent = L.email; status.append(' ', a); }
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.classList.add('was-checked');
+        form.querySelector(':invalid')?.focus();
+        return;
+      }
+      const fd = new FormData(form);
+      if (fd.get('_honey') || fd.get('email_address_check')) return;   // bot
+      btn.disabled = true; btn.textContent = L.sending; say('');
+      try {
+        if (form.dataset.kind === 'message') {
+          await post(L.contact, {
+            name: fd.get('name'), email: fd.get('email'), subject: fd.get('subject'), message: fd.get('message'),
+            _subject: 'meliksahalkan.com · ' + fd.get('subject') + ' · ' + fd.get('name'),
+            _template: 'table', _captcha: 'false', language: L.lang,
+          });
+          say(L.ok, 'ok');
+        } else if (form.dataset.brevo) {
+          const body = new FormData(form);
+          try {
+            const r = await fetch(form.action + (form.action.includes('?') ? '&' : '?') + 'isAjax=1', { method: 'POST', body });
+            const j = await r.json().catch(() => ({ success: r.ok }));
+            if (!j.success) throw new Error('brevo');
+          } catch (err) {
+            if (err.message === 'brevo') throw err;
+            await fetch(form.action, { method: 'POST', body: new FormData(form), mode: 'no-cors' });   // CORS kapalıysa yine de ilet
+          }
+          say(L.nlConfirm, 'ok');
+        } else {
+          await post(L.contact, {
+            email: fd.get('EMAIL'), name: fd.get('FIRSTNAME') || '-', language: L.lang,
+            _subject: 'Bülten aboneliği (' + L.lang.toUpperCase() + ') · ' + fd.get('EMAIL'),
+            _template: 'table', _captcha: 'false',
+          });
+          say(L.nlOk, 'ok');
+        }
+        form.reset(); form.classList.remove('was-checked');
+      } catch {
+        say(L.err, 'err', true);
+      } finally {
+        btn.disabled = false; btn.textContent = label;
+      }
+    });
+  });
+</script>

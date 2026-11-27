@@ -35,6 +35,8 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   {bg && bgMeta && <link rel="preload" as="image" type="image/webp" imagesrcset={bgMeta.widths.map((w) => `/images/${bg}-${w}.webp ${w}w`).join(', ')} imagesizes={bgSizes} fetchpriority="high" />}
   <meta name="theme-color" content="#0b0a09" />
   {LANGS.map((l) => <link rel="alternate" hreflang={l} href={`https://meliksahalkan.com${href(l, slug)}`} />)}
@@ -112,7 +114,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         const left = byHeight ? Math.min(vw - w * 0.5, ax - fx * w) : Math.min(0, Math.max(vw - w, ax - fx * w));
         img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);
       };
-      place();
+      place(); bd.classList.add('is-placed');
       addEventListener('resize', place, { passive: true });
       document.fonts?.ready.then(place);
     }
