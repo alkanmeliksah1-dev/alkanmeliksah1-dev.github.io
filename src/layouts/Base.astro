@@ -39,10 +39,11 @@ const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${si
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 ---
 <!DOCTYPE html>
-<html lang={lang} transition:animate="initial">
+<html lang={lang} transition:animate="initial" data-reveal>
 <head>
   <meta charset="UTF-8" />
   <ClientRouter fallback="none" />
+  <noscript><style>.gallery figure picture { opacity: 1 !important; transform: none !important; }</style></noscript>
   <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
     // İlk girişte dil: Türkiye'den ya da Türkçe tarayıcıdan → TR, Fransa / Fransızca → FR, diğerleri EN.
@@ -215,7 +216,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     document.fonts?.ready.then(() => place?.());
     matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
     // yeni sayfa ekrana gelmeden arka planı yerine koy
-    document.addEventListener('astro:after-swap', () => { setMenu(false); setupBackdrop(); });
+    document.addEventListener('astro:after-swap', () => { document.documentElement.dataset.swapped = ''; setMenu(false); setupBackdrop(); });
     document.addEventListener('astro:page-load', setup);
   </script>
 </body>

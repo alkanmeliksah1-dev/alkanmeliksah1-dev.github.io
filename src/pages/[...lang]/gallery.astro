@@ -40,12 +40,26 @@ const { lang } = Astro.props as { lang: Lang };
     document.addEventListener('astro:page-load', () => {
       const tabs = [...document.querySelectorAll<HTMLButtonElement>('.gallery-tabs button')];
       if (!tabs.length) return;
+      // görünür hale gelen fotoğraflar, yüklendikçe sırayla alttan süzülerek belirir
+      const io = new IntersectionObserver((es) => {
+        let n = 0;
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const f = e.target as HTMLElement; io.unobserve(f);
+          const img = f.querySelector('img')!;
+          f.style.setProperty('--d', `${Math.min(n++, 6) * 90}ms`);
+          const go = () => requestAnimationFrame(() => f.classList.add('in'));
+          img.complete ? go() : (img.addEventListener('load', go, { once: true }), img.addEventListener('error', go, { once: true }));
+        });
+      }, { rootMargin: '0px 0px -6% 0px' });
+      const reveal = () => document.querySelectorAll<HTMLElement>('section.gallery:not([hidden]) figure:not(.in)').forEach((f) => io.observe(f));
       const show = (id: string) => {
         tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
         document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
       };
-      tabs.forEach((t) => t.addEventListener('click', () => show(t.getAttribute('aria-controls')!)));
+      tabs.forEach((t) => t.addEventListener('click', () => { show(t.getAttribute('aria-controls')!); reveal(); }));
       if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
+      reveal();
     });
   </script>
 </Base>

@@ -82,14 +82,14 @@ const nlAction = site.forms.newsletter[lang];
   const fromHash = () => (location.hash === '#newsletter' ? 'p-newsletter' : 'p-message');
   show(fromHash());
   tabs.forEach((b, i) => {
-    b.addEventListener('click', () => { show(b.getAttribute('aria-controls')); history.replaceState(null, '', '#' + b.getAttribute('aria-controls').slice(2)); });
+    b.addEventListener('click', () => { show(b.getAttribute('aria-controls')); history.replaceState(history.state, '', '#' + b.getAttribute('aria-controls').slice(2)); });
     b.addEventListener('keydown', (e) => {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
       const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
       show(n.getAttribute('aria-controls'), true);
     });
   });
-  addEventListener('hashchange', () => show(fromHash()));
+  if (!window.__ctHash) { window.__ctHash = true; addEventListener('hashchange', () => { const t = document.querySelector('.ctabs [aria-controls="p-newsletter"]'); if (t && location.hash === '#newsletter') t.click(); }); }
 
   // ---- formlar ----
   const post = (url, data) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
