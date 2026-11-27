@@ -43,7 +43,9 @@ const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
             <ul class="pairs">{e.credits.filter((c) => !['Text', 'Director', 'Director / choreographer'].includes(c.role.en)).map((c) => <li class:list={{ me: c.names.includes('Melikşah Alkan') }}><span>{c.role[lang]}</span><span>{c.names}</span></li>)}</ul>
           </>
         )}
-        {e.source && <p class="note">{ui.source[lang]}: <a href={e.source} target="_blank" rel="noopener">{new URL(e.source).hostname.replace('www.', '')}</a></p>}
+        {e.sources && e.sources.length > 0 && (
+          <p class="note">{ui.source[lang]}: {e.sources.map((u, i) => <>{i > 0 && ' · '}<a href={u} target="_blank" rel="noopener">{new URL(u).hostname.replace('www.', '')}</a></>)}</p>
+        )}
       </div>
       {e.poster && <div class="detail-poster"><div class="pop"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 760px) 80vw, 300px" /></div></div>}
     </div>

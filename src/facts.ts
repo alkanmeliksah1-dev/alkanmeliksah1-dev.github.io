@@ -50,6 +50,6 @@ export const eventWho = (e: Event, lang: Lang): { k?: string; v: string }[] => {
 
 // Nerede ve ne zaman
 export const eventWhere = (e: Event, lang: Lang, noTime = false) =>
-  [e.kind === 'release' ? e.label : e.venue?.[lang] ?? venueTba[lang], noTime ? fullDate(e.date, lang) : eventDate(e, lang)].filter(Boolean).join(' · ');
+  [e.kind === 'release' ? [e.label, e.venue?.[lang]].filter(Boolean).join(', ') : e.venue?.[lang] ?? venueTba[lang], noTime ? fullDate(e.date, lang) : eventDate(e, lang)].filter(Boolean).join(' · ');
 
 export const kindLabel = (e: Event, lang: Lang) => eventKinds[e.kind][lang];

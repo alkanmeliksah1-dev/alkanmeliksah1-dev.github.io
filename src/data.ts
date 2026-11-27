@@ -69,7 +69,7 @@ export const ui = {
   allEvents: { en: 'All events', tr: 'Tüm etkinlikler', fr: 'Tous les événements' },
   premiere: { en: 'Premiere', tr: 'İlk seslendirme', fr: 'Création' },
   viewEvent: { en: 'Concert programme', tr: 'Konser programı', fr: 'Programme du concert' },
-  source: { en: 'Source', tr: 'Kaynak', fr: 'Source' },
+  source: { en: 'Sources', tr: 'Kaynaklar', fr: 'Sources' },
   album: { en: 'Album', tr: 'Albüm', fr: 'Album' },
   f_scoring: { en: 'Instrumentation', tr: 'Kadro', fr: 'Effectif' },
   f_role: { en: 'Role', tr: 'Görev', fr: 'Rôle' },
@@ -410,11 +410,13 @@ export const works: {
         'Biz size “mutlu günler” vadetmiyoruz; biz size o yıkıntının içinde neden hâlâ saçımızı taradığımızı, neden konuşmaya devam ettiğimizi ve bizi kurtarmayan o mücadeleye neden sıkı sıkıya sarıldığımızı anlatıyoruz…',
       ],
       en: [
+        '“What I am now, I have always been. And yet always different from what I was before. I am one. I say I am one! One and another. There is so little one can say… My arms, my breasts — what arms, what breasts? Willie. What Willie? My Willie… That is what not knowing is, not quite knowing. Thank God, what more could I ask for?”',
         'In a world where we sink a little deeper with each passing day, we call out from among the sand, the silence and the false smiles.',
         'Winnie, buried up to her waist in the middle of a barren desert, builds herself a false paradise out of the little world in her bag and her ‘never-ending’ hope. Willie, in all his inaction, is right there in front of us, telling the story of “vanishing while being by someone’s side.”',
         'We do not promise you “happy days”; we tell you why, amid that ruin, we still comb our hair, why we keep on talking, and why we cling so tightly to the struggle that does not save us…',
       ],
       fr: [
+        '« Ce que je suis maintenant, je l’ai toujours été. Et pourtant toujours autre que ce que j’étais avant. Je suis une. Je dis que je suis une ! Une et une autre. Il y a si peu de choses qu’on puisse dire… Mes bras, mes seins — quels bras, quels seins ? Willie. Quel Willie ? Mon Willie… Voilà ce que c’est que ne pas savoir, ne pas savoir tout à fait. Dieu merci, que demander de plus ? »',
         'Dans un monde où nous nous enfonçons chaque jour un peu plus, nous lançons notre voix depuis le sable, le silence et les faux sourires.',
         'Winnie, enterrée jusqu’à la taille au milieu d’un désert aride, se bâtit un faux paradis avec le petit monde de son sac et son espoir « sans fin ». Willie, dans toute son inaction, est là, juste en face de nous, et raconte l’histoire de « disparaître tout en étant à côté ».',
         'Nous ne vous promettons pas de « beaux jours » ; nous vous racontons pourquoi, au milieu de ces ruines, nous nous peignons encore les cheveux, pourquoi nous continuons à parler, et pourquoi nous nous accrochons si fort à cette lutte qui ne nous sauve pas…',
@@ -433,10 +435,12 @@ export const works: {
       en: [
         'In the Soviet era, the life of Pavel, who deserts the war and hides in the pigsty at his home, and of his wife Praskovya, who hides him, turns into a prison of fear and guilt that lasts forty-one years. Though Pavel at times longs to regain his freedom, the thought that the outside world will judge him keeps him living in the safe filth of the sty. Carrying this great secret, over the years they become a married couple grown lonely and driven by their fears. Their only wish in life is no longer a bigger sty or a happy life; it is not to be caught, not to find themselves before a firing squad…',
         'So which is the real prison? The four walls of the pigsty, or the one a person builds in their own mind, with their own conscience?',
+        '– Life goes on, Pavel.\n+ Whose life?\n– Everybody’s, I suppose.\n+ Mine too?',
       ],
       fr: [
         'À l’époque soviétique, la vie de Pavel, qui a déserté la guerre pour se cacher dans la porcherie de sa maison, et de sa femme Praskovya, qui le cache, se change en une prison de peur et de culpabilité qui dure quarante et un ans. Même si Pavel aspire parfois à retrouver sa liberté, la pensée que le monde extérieur le jugera le fait rester dans la saleté rassurante de la porcherie. Avec ce grand secret, ils deviennent au fil des ans un couple isolé, mû par ses peurs. Leur seul désir n’est plus une porcherie plus grande ni une vie heureuse : c’est de ne pas être pris, de ne pas se retrouver devant le peloton d’exécution…',
         'Quelle est donc la vraie prison ? Les quatre murs de la porcherie, ou celle que l’on bâtit dans sa propre tête, avec sa propre conscience ?',
+        '– La vie continue, Pavel.\n+ La vie de qui ?\n– Celle de tout le monde, je crois.\n+ La mienne aussi ?',
       ],
     },
   },
@@ -472,13 +476,13 @@ export const events: {
   slug: string; kind: 'concert' | 'theatre' | 'release'; date: string; month?: boolean; time?: string;
   title: string; work: string; venue?: T; label?: string; performers?: string;
   poster?: string; lineup?: { name: string; role: T }[];
-  program?: ProgramItem[]; credits?: Credit[]; source?: string;
+  program?: ProgramItem[]; credits?: Credit[]; sources?: string[];
   premiere?: boolean; festival?: T;
 }[] = [
   {
     slug: 'gilgamesh-iii', kind: 'release', date: '2026-12-01', month: true,
     title: 'Gilgamesh III', work: 'imaginary-dialogues-of-mortality',
-    label: 'Gilgamesh Arts & Culture Foundation', performers: 'Jillian Lopez, Mattie Barbier',
+    label: 'Gilgamesh Arts & Culture Foundation', venue: R('Los Angeles, USA', 'Los Angeles, ABD', 'Los Angeles, États-Unis'), performers: 'Jillian Lopez, Mattie Barbier',
     poster: 'cover-gilgamesh3',
     lineup: [
       { name: 'Jillian Lopez', role: R('harp', 'arp', 'harpe') },
@@ -501,6 +505,7 @@ export const events: {
       { composer: 'Libby Fabricatore', work: 'Forest of Cedar / The Third Dream' },
       { composer: 'Erfan Javadi', work: 'The Quest for the Cedar Forest' },
     ],
+    sources: ['https://gilgamesh.foundation/competition-3/'],
   },
   {
     slug: 'ro-ap', kind: 'theatre', date: '2026-12-14', time: '20:00', premiere: true,
@@ -536,14 +541,14 @@ export const events: {
       { composer: 'Jennifer Walshe', work: 'That\'s a lot of money at the top of a rocket', year: '2024' },
       { composer: 'Rolf Riehm', work: 'Ach, Königin', year: '2005' },
     ],
-    source: 'https://init-i2.org/uncategorized/izmir-yeni-muzik-gunleri-vii-22-27-ekim-2026/',
+    sources: ['https://init-i2.org/uncategorized/izmir-yeni-muzik-gunleri-vii-22-27-ekim-2026/'],
   },
   {
     slug: 'bilgi-new-music-festival-16', kind: 'concert', date: '2026-06-28', time: '20:00',
     title: 'Bilgi New Music Festival 16', work: 'ab-i-revan',
     venue: R('Yeldeğirmeni Art Center, Kadıköy, Istanbul', 'Yeldeğirmeni Sanat Merkezi, Kadıköy, İstanbul', 'Centre d’art Yeldeğirmeni, Kadıköy, Istanbul'),
     performers: 'Les Solistes de l’Ensemble intercontemporain',
-    poster: 'poster-bilgi16',
+    poster: 'poster-bilgi16-main',
     lineup: [
       { name: 'Alain Billard', role: R('clarinet / bass clarinet', 'klarnet / bas klarnet', 'clarinette / clarinette basse') },
       { name: 'Jérôme Comte', role: R('clarinet / bass clarinet', 'klarnet / bas klarnet', 'clarinette / clarinette basse') },
@@ -564,6 +569,7 @@ export const events: {
       { composer: 'Cenk Takınç', work: 'TÖZ' },
       { composer: 'Evrim Bozkan', work: 'Urth' },
     ],
+    sources: ['https://music.bilgi.edu.tr/tr/organizasyonlar/bilgi-yeni-muzik-festivali/yeni-muzik-serisi/bilgi-yeni-muzik-festivali-16/', 'https://www.bilgi.edu.tr/tr/etkinlik/13742/bilgi-yeni-muzik-festivali-16/'],
   },
   {
     slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07', time: '20:30', premiere: true,
@@ -580,6 +586,7 @@ export const events: {
       { role: R('Assistants', 'Asistanlar', 'Assistants'), names: 'Canan Demir, Öyken Ege Acar' },
       { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Sıla Sert, Beste Sevin' },
     ],
+    sources: ['https://tiyatrolar.com.tr/tiyatro/tek-bi-mutlu-an', 'https://biletinial.com/tr-tr/tiyatro/tek-bi-mutlu-an'],
   },
   {
     slug: 'sesin-yolculugu-17', kind: 'concert', date: '2026-05-08', time: '15:00',
@@ -610,7 +617,7 @@ export const events: {
       { composer: 'Orkay Pazarcı', work: '1982', year: '2024' },
       { composer: 'Hayal Candaş', work: 'An', year: '2026' },
     ],
-    source: 'https://sesinyolculugu.com/festivaller/17-2/2-konser/',
+    sources: ['https://sesinyolculugu.com/festivaller/17-2/2-konser/'],
   },
   {
     slug: 'happy-days', kind: 'theatre', date: '2026-03-27', time: '20:00', premiere: true,
@@ -633,6 +640,7 @@ export const events: {
     festival: R('40th Genç Günler Festival', '40. Genç Günler', '40e festival Genç Günler'),
     venue: R('Üsküdar Kerem Yılmazer Stage, Istanbul', 'Üsküdar Kerem Yılmazer Sahnesi, İstanbul', 'Scène Kerem Yılmazer, Üsküdar, Istanbul'),
     poster: 'poster-gencgunler40', credits: PIGS_CREDITS,
+    sources: ['https://sehirtiyatrolari.ibb.istanbul/Artist/Detail/392'],
   },
   {
     slug: 'a-place-with-the-pigs-pau', kind: 'theatre', date: '2026-05-06', time: '20:00',
@@ -640,6 +648,7 @@ export const events: {
     festival: R('Pamukkale University 15th Theatre Festival', 'Pamukkale Üniversitesi 15. Tiyatro Festivali', '15e Festival de théâtre de l’Université Pamukkale'),
     venue: R('Hasan Kasapoğlu Cultural Centre, Pamukkale University, Denizli', 'Hasan Kasapoğlu Kültür Merkezi, Pamukkale Üniversitesi, Denizli', 'Centre culturel Hasan Kasapoğlu, Université Pamukkale, Denizli'),
     poster: 'poster-pau15', credits: PIGS_CREDITS,
+    sources: ['https://www.instagram.com/hayalperdemiz/'],
   },
   {
     slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25', time: '20:00', premiere: true,
@@ -669,7 +678,7 @@ export const events: {
       { composer: 'Kaan Selçuk', work: 'Yaylı Dördül için Parça', year: '2025' },
       { composer: 'Alphan Tokmakoğlu', work: 'Derdest' },
     ],
-    source: 'https://sesinyolculugu.com/festivaller/16-2/3-konser/',
+    sources: ['https://sesinyolculugu.com/festivaller/16-2/3-konser/', 'https://www.cornucopia.net/events/semplice-quartet1'],
   },
 ];
 
@@ -733,11 +742,15 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
   {
     id: 'posters', title: { en: 'Posters', tr: 'Afişler', fr: 'Affiches' },
     items: [
+      { img: 'poster-roap', alt: 'Ro-Ap poster' },
       { img: 'poster-iymg7', alt: 'İzmir New Music Days VII poster' },
       { img: 'cover-gilgamesh3', alt: 'Gilgamesh III — album cover' },
       { img: 'poster-nextgen7', alt: 'Next Generation Series VII' },
-      { img: 'poster-bilgi16', alt: 'Bilgi New Music Festival 16 poster' },
+      { img: 'poster-bilgi16-main', alt: 'Bilgi New Music Festival 16 poster' },
+      { img: 'poster-bilgi16', alt: 'Bilgi New Music Festival 16 programme' },
       { img: 'poster-tekbimutluan', alt: 'Tek Bi’ Mutlu An! poster' },
+      { img: 'poster-gencgunler40', alt: '40th Genç Günler programme, Üsküdar Kerem Yılmazer Stage' },
+      { img: 'poster-pau15', alt: 'Pamukkale University 15th Theatre Festival poster' },
       { img: 'poster-sy17', alt: 'Sesin Yolculuğu 17 poster' },
       { img: 'poster-mutlugunler', alt: 'Mutlu Günler (Happy Days) poster' },
       { img: 'poster-domuzahiri', alt: 'Domuz Ahırı (A Place with the Pigs) poster' },
