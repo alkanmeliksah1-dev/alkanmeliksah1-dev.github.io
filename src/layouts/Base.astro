@@ -234,8 +234,10 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         const oldBd = pick(':scope > .backdrop'), oldMain = pick(':scope > main'), oldFoot = pick(':scope > .foot'), oldBrand = pick(':scope > .brand');
         const parts = [oldBd, oldMain, oldFoot, oldBrand].filter(Boolean) as HTMLElement[];
         const op = new Map(parts.map((n) => [n, getComputedStyle(n).opacity]));
+        const was = document.querySelector('.menu nav a[aria-current]')?.getAttribute('href');
         const r = orig();
         const after = () => {
+          if (was) document.querySelector(`.menu nav a[href="${was}"]:not([aria-current])`)?.classList.add('was-current');
           const nb = document.body;
           const newBrand = nb.querySelector(':scope > .brand');
           // eski sayfa: o anki görünüşüyle donar ve yavaşça söner
