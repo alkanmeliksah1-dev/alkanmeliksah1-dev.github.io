@@ -543,6 +543,12 @@ export const events: {
       { composer: 'Rolf Riehm', work: 'Ach, Königin', year: '2005' },
     ],
     sources: ['https://init-i2.org/uncategorized/izmir-yeni-muzik-gunleri-vii-22-27-ekim-2026/'],
+    credits: [
+      { role: R('Actor', 'Oyuncu', 'Comédien'), names: 'Öyken Ege Acar' },
+      { role: R('Project assistant', 'Proje asistanı', 'Assistante de projet'), names: 'Nida Ural' },
+      { role: R('Lighting design', 'Işık tasarımı', 'Création lumière'), names: 'Salih Çağan Turucalı' },
+      { role: R('Dramaturgy', 'Dramaturji', 'Dramaturgie'), names: 'Aleyna Yılmaz' },
+    ],
   },
   {
     slug: 'bilgi-new-music-festival-16', kind: 'concert', date: '2026-06-28', time: '20:00',

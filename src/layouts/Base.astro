@@ -4,9 +4,10 @@ import '@fontsource/source-serif-4/400-italic.css';
 import '@fontsource/source-serif-4/600.css';
 import '@fontsource/cormorant-garamond/300.css';
 import '../styles/site.css';
-import { LANGS, anchors, focal, nav, site, ui, type Lang } from '../data';
+import { LANGS, anchors, focal, nav, photos, site, ui, type Lang } from '../data';
 import Pic from '../components/Pic.astro';
 import Flag from '../components/Flag.astro';
+import { ClientRouter } from 'astro:transitions';
 import images from '../images.json';
 import { href } from '../lib';
 
@@ -25,6 +26,15 @@ const anchor = bg ? anchors[bg] : undefined;
 const ratio = bgMeta ? bgMeta.w / bgMeta.h : 1;
 const bgSizes = anchor?.fit === 'height' ? `${Math.round(ratio * 100)}vh` : anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
 const current = nav.find((n) => n.slug === active);
+// menüdeki her sayfanın arka planı: üzerine gelinince önceden indirilir
+const IMG = images as Record<string, { w: number; h: number; widths: number[] }>;
+const bgOf = (navSlug: string) => {
+  const name = (photos as Record<string, string>)[navSlug || 'home']; const m = name && IMG[name];
+  if (!m) return {};
+  const a = anchors[name], r = m.w / m.h;
+  const sizes = a?.fit === 'height' ? `${Math.round(r * 100)}vh` : a ? `max(100vw, ${Math.round(r * 100)}vh)` : '100vw';
+  return { 'data-bg': name, 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
+};
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 ---
@@ -32,12 +42,13 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
-  <meta name="view-transition" content="same-origin" />
+  <ClientRouter fallback="swap" />
   <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
     // İlk girişte dil: Türkiye'den ya da Türkçe tarayıcıdan → TR, Fransa / Fransızca → FR, diğerleri EN.
     // Yalnızca varsayılan (İngilizce) adreslere dışarıdan gelindiğinde çalışır; bayrakla yapılan seçim hatırlanır.
     (function () {
+      if (window.__langChecked) return; window.__langChecked = true;
       try {
         var p = location.pathname, cur = /^\/(tr|fr)(\/|$)/.test(p) ? p.slice(1, 3) : 'en';
         if (cur !== 'en') return;
@@ -86,7 +97,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 </head>
 <body class:list={[{ 'is-home': home }, slug && !slug.includes('/') ? `page-${slug}` : null]}>
   {bg && (
-    <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true"
+    <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true" transition:name="backdrop"
       data-fx={anchor?.fx} data-at={anchor?.at} data-fit={anchor?.fit} data-ratio={anchor ? ratio.toFixed(4) : undefined}
       style={anchor ? `--fx:${anchor.fx * 100}%` : undefined}>
       <Pic name={bg} sizes={bgSizes} priority />
@@ -108,7 +119,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
       <nav>
         <ul>
           {nav.map((n) => (
-            <li><a href={href(lang, n.slug)} aria-current={n.slug === active ? 'page' : undefined}>{n.label[lang]}</a></li>
+            <li><a href={href(lang, n.slug)} aria-current={n.slug === active ? 'page' : undefined} {...bgOf(n.slug)}>{n.label[lang]}</a></li>
           ))}
         </ul>
       </nav>
@@ -127,32 +138,30 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   </footer>
 
   <script>
-    const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
-    const panel = document.querySelector('.nav-panel')!;
-    const set = (open: boolean) => {
-      panel.classList.toggle('open', open);
+    // Sayfa geçişleri istemci tarafında yapılır (ClientRouter): başlık ve menü yeniden yüklenmez.
+    // Bu yüzden kurulum her sayfa değişiminde yeniden çalışır; belge düzeyindeki dinleyiciler bir kez eklenir.
+    let place: (() => void) | null = null;
+    const panel = () => document.querySelector('.nav-panel');
+    const setMenu = (open: boolean) => {
+      const p = panel(), btn = document.querySelector('.menu-btn');
+      if (!p || !btn) return;
+      p.classList.toggle('open', open);
       btn.setAttribute('aria-expanded', String(open));
       document.documentElement.classList.toggle('menu-open', open);
     };
-    btn.addEventListener('click', () => set(!panel.classList.contains('open')));
-    // menü dışında herhangi bir yere dokununca kapat (iOS dahil)
-    panel.querySelector('.scrim')!.addEventListener('click', () => set(false));
-    document.addEventListener('pointerdown', (e) => {
-      if (panel.classList.contains('open') && !(e.target as Element).closest('.menu, .menu-btn')) set(false);
-    });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
-    window.addEventListener('pageshow', () => set(false));
 
     // Geniş ekranda arka plan fotoğrafını yüz hedef konuma gelecek şekilde yerleştir
-    const bd = document.querySelector<HTMLElement>('.backdrop--anchored');
-    if (bd) {
-      const img = bd.querySelector('img')!; const base = img.getAttribute('style') ?? '';
+    const setupBackdrop = () => {
+      place = null;
+      const bd = document.querySelector<HTMLElement>('.backdrop--anchored');
+      if (!bd) return;
+      const img = bd.querySelector('img')!; img.dataset.base ??= img.getAttribute('style') ?? ''; const base = img.dataset.base;
       const fx = parseFloat(bd.dataset.fx!), ratio = parseFloat(bd.dataset.ratio!), at = bd.dataset.at!, fit = bd.dataset.fit;
-      const place = () => {
+      place = () => {
         const vw = innerWidth, vh = innerHeight;
         if (vw <= 900 && vh > vw) { img.setAttribute('style', base); bd.classList.remove('backdrop--fit'); return; }
         const byHeight = fit === 'height' && vh * ratio < vw;
-        bd.classList.toggle('backdrop--fit', byHeight);   // dikey telefon: normal kırpma
+        bd.classList.toggle('backdrop--fit', byHeight);
         const w = byHeight ? vh * ratio : Math.max(vh * ratio, vw), h = w / ratio;
         let ax = parseFloat(at) * vw;
         if (at === 'between') {
@@ -165,11 +174,53 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
         img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);
       };
       place(); bd.classList.add('is-placed');
-      addEventListener('resize', place, { passive: true });
-      document.fonts?.ready.then(place);
-    }
-    document.querySelectorAll('.langs a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')!); } catch {} }));
-    matchMedia('(min-width: 901px)').addEventListener('change', () => set(false));
+    };
+
+    // Görüntü alanına yaklaşan görselleri erkenden yükle (Safari'nin geç tembel yüklemesine karşı)
+    let io: IntersectionObserver | null = null;
+    const warmImages = () => {
+      io?.disconnect();
+      io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { (e.target as HTMLImageElement).loading = 'eager'; io!.unobserve(e.target); }
+      }), { rootMargin: '1400px 0px' });
+      document.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((i) => io!.observe(i));
+    };
+
+    // Menüdeki sayfanın arka plan fotoğrafını, üzerine gelinince önceden indir
+    const warmed = new Set<string>();
+    const warmLinks = () => {
+      document.querySelectorAll<HTMLAnchorElement>('a[data-bg]').forEach((a) => {
+        const go = () => {
+          const k = a.dataset.bg!; if (warmed.has(k)) return; warmed.add(k);
+          const im = new Image(); im.sizes = a.dataset.bgSizes!; im.srcset = a.dataset.bgSrcset!;
+        };
+        a.addEventListener('pointerenter', go, { once: true });
+        a.addEventListener('touchstart', go, { once: true, passive: true });
+        a.addEventListener('focus', go, { once: true });
+      });
+    };
+
+    const setup = () => {
+      document.querySelector('.menu-btn')?.addEventListener('click', () => setMenu(!panel()!.classList.contains('open')));
+      panel()?.querySelector('.scrim')?.addEventListener('click', () => setMenu(false));
+      document.querySelectorAll('.langs a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')!); } catch {} }));
+      setupBackdrop();
+      warmImages();
+      warmLinks();
+    };
+
+    // bir kez: belge düzeyindeki dinleyiciler
+    document.addEventListener('pointerdown', (e) => {
+      const p = panel();
+      if (p?.classList.contains('open') && !(e.target as Element).closest('.menu, .menu-btn')) setMenu(false);
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+    addEventListener('resize', () => place?.(), { passive: true });
+    document.fonts?.ready.then(() => place?.());
+    matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
+    // yeni sayfa çizilmeden önce arka planı yerleştir (yanıp sönme olmasın)
+    document.addEventListener('astro:after-swap', () => { setMenu(false); setupBackdrop(); });
+    document.addEventListener('astro:page-load', setup);
   </script>
 </body>
 </html>

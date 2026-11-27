@@ -24,6 +24,12 @@ const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
             <ul class="pairs">{e.lineup.map((p) => <li><span>{p.name}</span><span>{p.role[lang]}</span></li>)}</ul>
           </>
         )}
+        {e.credits && (
+          <>
+            <h2>{ui.credits[lang]}</h2>
+            <ul class="pairs">{e.credits.filter((c) => !['Text', 'Director', 'Director / choreographer'].includes(c.role.en)).map((c) => <li class:list={{ me: c.names.includes('Melikşah Alkan') }}><span>{c.role[lang]}</span><span>{c.names}</span></li>)}</ul>
+          </>
+        )}
         {e.program && (
           <>
             <h2>{listTitle}</h2>
@@ -35,12 +41,6 @@ const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
                 </li>
               ))}
             </ol>
-          </>
-        )}
-        {e.credits && (
-          <>
-            <h2>{ui.credits[lang]}</h2>
-            <ul class="pairs">{e.credits.filter((c) => !['Text', 'Director', 'Director / choreographer'].includes(c.role.en)).map((c) => <li class:list={{ me: c.names.includes('Melikşah Alkan') }}><span>{c.role[lang]}</span><span>{c.names}</span></li>)}</ul>
           </>
         )}
         {e.sources && e.sources.length > 0 && (

@@ -17,7 +17,7 @@ const { lang } = Astro.props as { lang: Lang };
 ---
 <Base lang={lang} slug="gallery" bg={photos.gallery}>
   <Sheet lang={lang} slug="gallery">
-    <div class="tabs" role="tablist">
+    <div class="tabs gallery-tabs" role="tablist">
       {gallery.map((g, i) => (
         <button role="tab" id={`tab-${g.id}`} aria-controls={g.id} aria-selected={i === 0 ? 'true' : 'false'}>{g.title[lang]}</button>
       ))}
@@ -37,13 +37,26 @@ const { lang } = Astro.props as { lang: Lang };
     ))}
   </Sheet>
   <script>
-    const tabs = [...document.querySelectorAll<HTMLButtonElement>('.tabs button')];
-    const show = (id: string) => {
-      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
-      document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
-    };
-    tabs.forEach((t) => t.addEventListener('click', () => show(t.getAttribute('aria-controls')!)));
-    if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
-
+    document.addEventListener('astro:page-load', () => {
+      const tabs = [...document.querySelectorAll<HTMLButtonElement>('.gallery-tabs button')];
+      if (!tabs.length) return;
+      // bir sekmenin ekranda kullanılan düzenindeki görselleri hemen yükle
+      const load = (id: string) => {
+        const layout = document.querySelector(`#${id} ${matchMedia('(max-width: 700px)').matches ? '.g2' : '.g3'}`);
+        layout?.querySelectorAll<HTMLImageElement>('img').forEach((i, n) => { i.loading = 'eager'; if (n < 3) i.fetchPriority = 'high'; });
+      };
+      const show = (id: string) => {
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t.getAttribute('aria-controls') === id)));
+        document.querySelectorAll<HTMLElement>('section.gallery').forEach((s) => { s.hidden = s.id !== id; });
+        load(id);
+      };
+      tabs.forEach((t) => {
+        const id = t.getAttribute('aria-controls')!;
+        t.addEventListener('click', () => show(id));
+        t.addEventListener('pointerenter', () => load(id), { once: true });   // sekmeye gelince önceden indir
+      });
+      const start = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : tabs[0].getAttribute('aria-controls')!;
+      show(start);
+    });
   </script>
 </Base>
