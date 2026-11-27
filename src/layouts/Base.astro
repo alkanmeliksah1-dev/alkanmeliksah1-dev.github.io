@@ -44,6 +44,17 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <meta charset="UTF-8" />
   <script is:inline>/* tarayıcının ekranı donduran kendi geçişi yerine sayfa betiğinin geçişi: tıklamalar hiç beklemez */ try { Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true }); } catch (e) {}</script>
   <ClientRouter fallback="swap" />
+  <script is:inline>
+    // Büyük ekranlarda tasarım (1440×900) orantısıyla büyür: isim, menü, içerik ve telif birlikte ölçeklenir.
+    (function () {
+      if (window.__fit) return; window.__fit = true;
+      var f = function () {
+        var z = Math.min(innerWidth / 1440, innerHeight / 900);
+        document.documentElement.style.setProperty('--z', Math.max(1, Math.min(z, 2.4)).toFixed(4));
+      };
+      f(); addEventListener('resize', f); document.addEventListener('astro:after-swap', f);
+    })();
+  </script>
   <noscript><style>.gallery figure picture { opacity: 1 !important; transform: none !important; }</style></noscript>
   <script is:inline>try { if (!sessionStorage.getItem("brand-seen")) { document.documentElement.classList.add("brand-intro"); sessionStorage.setItem("brand-seen", "1"); } } catch (e) {}</script>
   <script is:inline>
