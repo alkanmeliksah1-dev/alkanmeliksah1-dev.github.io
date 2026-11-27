@@ -4,7 +4,7 @@ import '@fontsource/source-serif-4/400-italic.css';
 import '@fontsource/source-serif-4/600.css';
 import '@fontsource/cormorant-garamond/300.css';
 import '../styles/site.css';
-import { LANGS, nav, site, ui, type Lang } from '../data';
+import { LANGS, anchors, focal, nav, site, ui, type Lang } from '../data';
 import Pic from '../components/Pic.astro';
 import images from '../images.json';
 import { href } from '../lib';
@@ -19,7 +19,10 @@ interface Props {
 }
 const { lang, slug = '', bg, home = false, section, title } = Astro.props;
 const active = section ?? slug;
-const bgMeta = bg ? (images as Record<string, { widths: number[] }>)[bg] : undefined;
+const bgMeta = bg ? (images as Record<string, { w: number; h: number; widths: number[] }>)[bg] : undefined;
+const anchor = bg ? anchors[bg] : undefined;
+const ratio = bgMeta ? bgMeta.w / bgMeta.h : 1;
+const bgSizes = anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
 const current = nav.find((n) => n.slug === active);
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
@@ -32,17 +35,19 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  {bg && bgMeta && <link rel="preload" as="image" type="image/webp" imagesrcset={bgMeta.widths.map((w) => `/images/${bg}-${w}.webp ${w}w`).join(', ')} imagesizes="100vw" fetchpriority="high" />}
+  {bg && bgMeta && <link rel="preload" as="image" type="image/webp" imagesrcset={bgMeta.widths.map((w) => `/images/${bg}-${w}.webp ${w}w`).join(', ')} imagesizes={bgSizes} fetchpriority="high" />}
   <meta name="theme-color" content="#0b0a09" />
   {LANGS.map((l) => <link rel="alternate" hreflang={l} href={`https://meliksahalkan.com${href(l, slug)}`} />)}
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content="https://meliksahalkan.com/images/night-ext.jpg" />
+  <meta property="og:image" content="https://meliksahalkan.com/images/night-wide.jpg" />
 </head>
-<body class={home ? 'is-home' : ''}>
+<body class:list={[{ 'is-home': home }, slug && !slug.includes('/') ? `page-${slug}` : null]}>
   {bg && (
-    <div class={home ? 'backdrop backdrop--home' : 'backdrop'} aria-hidden="true">
-      <Pic name={bg} sizes="100vw" priority />
+    <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true"
+      data-fx={anchor?.fx} data-at={anchor?.at} data-ratio={anchor ? ratio.toFixed(4) : undefined}
+      style={anchor ? `--fx:${anchor.fx * 100}%` : undefined}>
+      <Pic name={bg} sizes={bgSizes} priority />
     </div>
   )}
 
@@ -85,6 +90,30 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
     window.addEventListener('pageshow', () => set(false));
+
+    // Geniş ekranda arka plan fotoğrafını yüz hedef konuma gelecek şekilde yerleştir
+    const bd = document.querySelector<HTMLElement>('.backdrop--anchored');
+    if (bd) {
+      const img = bd.querySelector('img')!; const base = img.getAttribute('style') ?? '';
+      const fx = parseFloat(bd.dataset.fx!), ratio = parseFloat(bd.dataset.ratio!), at = bd.dataset.at!;
+      const place = () => {
+        const vw = innerWidth, vh = innerHeight;
+        if (vw <= 900 && vh > vw) { img.setAttribute('style', base); return; }   // dikey telefon: normal kırpma
+        const w = Math.max(vh * ratio, vw), h = w / ratio;
+        let ax = parseFloat(at) * vw;
+        if (at === 'between') {
+          const m = document.querySelector('.nav-panel')!.getBoundingClientRect();
+          const n = document.querySelector('.hero-name h1');
+          const right = n ? n.getBoundingClientRect().left : vw;
+          ax = (Math.max(m.right, 0) + right) / 2;
+        }
+        const left = Math.min(0, Math.max(vw - w, ax - fx * w));
+        img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);
+      };
+      place();
+      addEventListener('resize', place, { passive: true });
+      document.fonts?.ready.then(place);
+    }
     matchMedia('(min-width: 901px)').addEventListener('change', () => set(false));
   </script>
 </body>

@@ -61,6 +61,9 @@ export const ui = {
   premiere: { en: 'Premiere', tr: 'İlk seslendirme', fr: 'Création' },
   viewEvent: { en: 'Concert programme', tr: 'Konser programı', fr: 'Programme du concert' },
   source: { en: 'Source', tr: 'Kaynak', fr: 'Source' },
+  album: { en: 'Album', tr: 'Albüm', fr: 'Album' },
+  tracklist: { en: 'Tracklist', tr: 'Parça listesi', fr: 'Liste des titres' },
+  composers: { en: 'Composers', tr: 'Besteciler', fr: 'Compositeurs' },
   listenOn: { en: 'Listen', tr: 'Dinle', fr: 'Écouter' },
   watchOn: { en: 'Watch', tr: 'İzle', fr: 'Voir' },
   contactLead: {
@@ -171,6 +174,7 @@ type Credit = { role: T; names: string };
 export const works: {
   slug: string; year: string; cat: string; title: string; scoring: T; note?: T;
   links?: Link[]; notes?: Notes; credits?: Credit[]; event?: string;
+  album?: { title: string; scoring: T; label: string; year: string; cover: string; lineup: { name: string; role: T }[]; tracks: string[]; me: number; composers: string[] };
 }[] = [
   {
     slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan', event: 'bilgi-new-music-festival-16',
@@ -237,7 +241,18 @@ export const works: {
   {
     slug: 'imaginary-dialogues-of-mortality', year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
     scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
-    note: { en: 'Honorable Mention, Gilgamesh International Composition Competition', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması', fr: 'Mention honorable, Concours international Gilgamesh' },
+    note: { en: 'Honorable Mention, Gilgamesh International Composition Competition · album Gilgamesh III', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması · Gilgamesh III albümü', fr: 'Mention honorable, Concours international Gilgamesh · album Gilgamesh III' },
+    album: {
+      title: 'Gilgamesh III', year: '2026', label: 'Gilgamesh Arts & Culture Foundation', cover: 'cover-gilgamesh3',
+      scoring: { en: 'for harp, trombone and fixed media', tr: 'arp, trombon ve sabit medya için', fr: 'pour harpe, trombone et support fixe' },
+      lineup: [
+        { name: 'Jillian Lopez', role: { en: 'harp', tr: 'arp', fr: 'harpe' } },
+        { name: 'Mattie Barbier', role: { en: 'trombone', tr: 'trombon', fr: 'trombone' } },
+      ],
+      tracks: ['Gilgamesh in front of Edens gates', 'Fragments of the Flood', 'Table 6', 'Shamhat', 'Enkidu', 'Jya, Jayba, Shamkatum', 'Humbaba', 'Song of Jungju', 'Wild Heart Enkidu', 'Gilgamesh\'s Space Odyssey', 'Deluge', 'Imaginary Dialogues of Mortality', 'How Should I answer the city?', 'Forest of Cedar / The Third Dream', 'The Quest for the Cedar Forest'],
+      me: 12,
+      composers: ['Felipe Vasconcelos', 'Shai Cohen', 'Pedro Brandão', 'Alessio Ferrante', 'Alejandro Marco Gómez Lopera', 'Arad Noroozi', 'Manolis Ekmektsoglou', 'Jihyun Kim', 'Soheil Shirangi', 'Afamia Al-Dayaa', 'Daniel Krumland', 'Melikşah Alkan', 'Ali Araab', 'Libby Fabricatore', 'Erfan Javadi'],
+    },
     notes: {
       tr: [
         'İnsanlığın yazıya geçirilmiş en eski anlatılarından biri olan Gılgamış Destanı, yaklaşık 4.000 yıl önce Sümer kil tabletlerine kazınmış olmasına rağmen güncelliğini korumaktadır. Uruk kralı Gılgamış’ın dostluk, kayıp, yas ve ölümsüzlük arayışı temaları etrafında örülen bu kadim hikâye, insanlığın varoluşsal sorulara yanıt arayışının evrensel bir yansımasıdır.',
@@ -561,23 +576,31 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 ];
 
 // ---------- Fotoğraflar ----------
-// Mobilde fotoğrafın hangi kısmının görüneceği (yatay% dikey%)
+// Fotoğrafın hangi kısmının görüneceği (yatay% dikey%), kırpıldığında
 export const focal: Record<string, string> = {
-  'night-ext': '50% 30%', 'railway-ext': '50% 42%',
+  'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway2: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
   studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
-  'church-concert': '50% 70%', 'mahzen-bow': '42% 50%', score: '40% 40%', 'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'church-concert-wide': '50% 60%', 'mahzen-rehearsal': '60% 30%', 'outside-close': '45% 25%',
+  'church-concert': '50% 70%', 'mahzen-bow': '44% 55%', score: '38% 30%', 'sy17-concert': '55% 55%',
+  'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'mahzen-rehearsal': '60% 30%',
+};
+
+// Geniş ekranda yüzün yerleşimi: fx = yüzün fotoğraftaki yatay konumu (0–1),
+// at = ekrandaki hedef konum (0–1) ya da 'between' (menü ile isim arasının tam ortası)
+export const anchors: Record<string, { fx: number; at: number | 'between' }> = {
+  'night-wide': { fx: 0.5, at: 'between' },
+  'reading-wide': { fx: 0.815, at: 0.82 },
 };
 
 // Her sayfanın arka plan fotoğrafı
 export const photos = {
-  home: 'night-ext',
-  approach: 'reading',
+  home: 'night-wide',
+  approach: 'reading-wide',
   about: 'standing',
-  works: 'church-concert-wide',
-  events: 'cello',
-  media: 'desk',
+  works: 'mahzen-bow',
+  events: 'sy17-concert',
+  media: 'score',
   gallery: 'rehearsal',
-  contact: 'railway-ext',
+  contact: 'railway2',
   portrait: 'studio',
 };
