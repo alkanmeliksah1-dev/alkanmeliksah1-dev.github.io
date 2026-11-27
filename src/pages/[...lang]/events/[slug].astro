@@ -17,7 +17,7 @@ const listTitle = e.kind === 'release' ? ui.tracklist[lang] : ui.program[lang];
       <div>
         {workSub(w, lang) && <p class="sub">{workSub(w, lang)}</p>}
         <Lines e={e} lang={lang} />
-        {w && w.notes && <p class="links"><a href={href(lang, `works/${w.slug}`)}>{ui.programNotes[lang]}</a></p>}
+        {w && w.notes && <p class="links"><a href={href(lang, `works/${w.slug}`)}>{w.cat === 'stage' ? ui.aboutPlay[lang] : ui.programNotes[lang]}</a></p>}
         {e.lineup && (
           <>
             <h2>{ui.performers[lang]}</h2>

@@ -32,16 +32,41 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
+  <script is:inline>
+    // İlk girişte dil: Türkiye'den ya da Türkçe tarayıcıdan → TR, Fransa / Fransızca → FR, diğerleri EN.
+    // Yalnızca varsayılan (İngilizce) adreslere dışarıdan gelindiğinde çalışır; bayrakla yapılan seçim hatırlanır.
+    (function () {
+      try {
+        var p = location.pathname, cur = /^\/(tr|fr)(\/|$)/.test(p) ? p.slice(1, 3) : 'en';
+        if (cur !== 'en') return;
+        if (document.referrer && new URL(document.referrer).host === location.host) return;
+        var want = localStorage.getItem('lang-choice');
+        if (!want) {
+          var langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(function (l) { return String(l).toLowerCase(); });
+          var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+          var first = langs[0] || '';
+          if (tz === 'Europe/Istanbul' || tz === 'Asia/Istanbul' || first.indexOf('tr') === 0) want = 'tr';
+          else if (first.indexOf('fr') === 0 || tz === 'Europe/Paris' || tz === 'Europe/Monaco') want = 'fr';
+          else want = 'en';
+        }
+        if (want === 'tr' || want === 'fr') location.replace('/' + want + p + location.search + location.hash);
+      } catch (e) {}
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
-  <link rel="icon" href="/favicon.ico" sizes="32x32" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" href="/favicon.ico?v=4" sizes="48x48" />
+  <link rel="icon" href="/favicon-32.png?v=4" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/favicon-16.png?v=4" type="image/png" sizes="16x16" />
+  <link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4" sizes="180x180" />
+  <link rel="mask-icon" href="/mask-icon.svg?v=4" color="#0b0a09" />
+  <link rel="manifest" href="/site.webmanifest" />
   {bg && bgMeta && <link rel="preload" as="image" type="image/webp" imagesrcset={bgMeta.widths.map((w) => `/images/${bg}-${w}.webp ${w}w`).join(', ')} imagesizes={bgSizes} fetchpriority="high" />}
   <meta name="theme-color" content="#0b0a09" />
   {LANGS.map((l) => <link rel="alternate" hreflang={l} href={`https://meliksahalkan.com${href(l, slug)}`} />)}
+  <link rel="alternate" hreflang="x-default" href={`https://meliksahalkan.com${href('en', slug)}`} />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
@@ -131,6 +156,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
       addEventListener('resize', place, { passive: true });
       document.fonts?.ready.then(place);
     }
+    document.querySelectorAll('.langs a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')!); } catch {} }));
     matchMedia('(min-width: 901px)').addEventListener('change', () => set(false));
   </script>
 </body>

@@ -61,6 +61,7 @@ export const ui = {
   },
   poster: { en: 'Poster', tr: 'Afiş', fr: 'Affiche' },
   programNotes: { en: 'Programme note', tr: 'Program notu', fr: 'Note de programme' },
+  aboutPlay: { en: 'About the play', tr: 'Oyun hakkında', fr: 'À propos de la pièce' },
   program: { en: 'Programme', tr: 'Program', fr: 'Programme' },
   performers: { en: 'Performers', tr: 'İcracılar', fr: 'Interprètes' },
   credits: { en: 'Credits', tr: 'Künye', fr: 'Générique' },
@@ -376,18 +377,68 @@ export const works: {
   {
     slug: 'tek-bi-mutlu-an', year: '2026', cat: 'stage', title: 'Tek Bi’ Mutlu An!',
     role: { en: 'Sound design', tr: 'Ses tasarımı', fr: 'Création sonore' }, director: 'İlyas Odman',
+    notes: {
+      tr: [
+        'Koreograf / Rejisör İlyas Odman’ın tiyatronun farklı konumlarından gelen beş katılımcıyla gerçekleştirilen “Tek Bi’ Mutlu An!” oyunu Devised Tiyatro teknikleriyle, kolektif olarak üretilmiş bir kara komedidir.',
+        'Tiyatro dediğimiz büyük sektörün içinde kendilerine ait bir yer arayan beş kadın; pozisyonlarını, yaşadıklarını, hissettiklerini sizlere beş tiradla anlatmaya çalışıyor. Beş kadının yolculuğu devam ettikçe seyirci kendini sürekli değişen bir pozisyonda; oyunun, tiyatronun bir parçası olarak buluyor. Peki tiyatro nedir?',
+        'Oyun boyunca beş kadın Tek Bi’ Mutlu An’ın peşinde koşarken elmas gibi parlayacak. Biz sizinle gökteki elmaslar gibi güzeliz!',
+      ],
+      en: [
+        'Created by choreographer and director İlyas Odman with five participants who come from different positions within theatre, “Tek Bi’ Mutlu An!” (A Single Happy Moment!) is a black comedy made collectively through devised theatre techniques.',
+        'Five women searching for a place of their own within the vast industry we call theatre try to tell you, in five monologues, about their positions, what they have lived through and what they feel. As the five women’s journey goes on, the audience finds itself in an ever-shifting position, as part of the play and of theatre itself. So what is theatre?',
+        'Throughout the play, the five women will shine like diamonds as they chase a single happy moment. You and we are as beautiful as the diamonds in the sky!',
+      ],
+      fr: [
+        'Créé par le chorégraphe et metteur en scène İlyas Odman avec cinq participantes venues de différentes positions du théâtre, « Tek Bi’ Mutlu An! » (Un seul moment heureux !) est une comédie noire produite collectivement selon les techniques du théâtre de création collective (devised theatre).',
+        'Cinq femmes qui cherchent leur propre place au sein de cette vaste industrie qu’on appelle le théâtre tentent de vous raconter, en cinq tirades, leurs positions, ce qu’elles ont vécu et ce qu’elles ressentent. À mesure que le voyage des cinq femmes se poursuit, le public se retrouve dans une position sans cesse changeante, comme partie prenante de la pièce et du théâtre. Alors, qu’est-ce que le théâtre ?',
+        'Tout au long de la pièce, les cinq femmes brilleront comme des diamants en courant après un seul moment heureux. Vous et nous, nous sommes beaux comme les diamants dans le ciel !',
+      ],
+    },
   },
   {
     slug: 'ro-ap', year: '2026', cat: 'stage', title: 'Ro-Ap',
-    role: { en: 'Music, sound design and mixing', tr: 'Müzik, ses tasarımı ve miksaj', fr: 'Musique, création sonore et mixage' }, director: 'Abdül Süsler',
+    role: { en: 'Music, sound design and mixing', tr: 'Müzik, ses tasarımı ve miksaj', fr: 'Musique, création sonore et mixage' }, text: 'Mustafa Ergüven', director: 'Abdül Süsler',
   },
   {
     slug: 'happy-days', year: '2026', cat: 'stage', title: 'Happy Days',
     role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, text: 'Samuel Beckett', director: 'Abdül Süsler',
+    notes: {
+      tr: [
+        '‘’Şu anda neysem, hep o oldum. Ama hep de daha önce olduğumdan farklı. Biriyim. Diyorum ki biriyim! Bir biri, bir öteki. İnsanın söyleyebileceği o kadar az şey var ki… Kollarım, göğüslerim, ne kolu, ne göğsü? Willie. Ne Willie’si? Benim Willie’m… İşte bilmemek, tam olarak bilmemek. Şükürler olsun, daha ne isteyebilirim ki?’’',
+        'Her geçen gün biraz daha dibe battığımız bir dünyada; kumun, sessizliğin ve sahte gülüşlerin arasından sesleniyoruz.',
+        'Winnie; beline kadar gömüldüğü çorak bir çölün ortasında, çantasındaki küçük dünyası ve ‘bitmeyen’ umuduyla kendine sahte bir cennet inşa ediyor. Willie ise, tüm eylemsizliğiyle orada, tam karşımızda “yanındayken yok olmanın” hikâyesini anlatıyor.',
+        'Biz size “mutlu günler” vadetmiyoruz; biz size o yıkıntının içinde neden hâlâ saçımızı taradığımızı, neden konuşmaya devam ettiğimizi ve bizi kurtarmayan o mücadeleye neden sıkı sıkıya sarıldığımızı anlatıyoruz…',
+      ],
+      en: [
+        'In a world where we sink a little deeper with each passing day, we call out from among the sand, the silence and the false smiles.',
+        'Winnie, buried up to her waist in the middle of a barren desert, builds herself a false paradise out of the little world in her bag and her ‘never-ending’ hope. Willie, in all his inaction, is right there in front of us, telling the story of “vanishing while being by someone’s side.”',
+        'We do not promise you “happy days”; we tell you why, amid that ruin, we still comb our hair, why we keep on talking, and why we cling so tightly to the struggle that does not save us…',
+      ],
+      fr: [
+        'Dans un monde où nous nous enfonçons chaque jour un peu plus, nous lançons notre voix depuis le sable, le silence et les faux sourires.',
+        'Winnie, enterrée jusqu’à la taille au milieu d’un désert aride, se bâtit un faux paradis avec le petit monde de son sac et son espoir « sans fin ». Willie, dans toute son inaction, est là, juste en face de nous, et raconte l’histoire de « disparaître tout en étant à côté ».',
+        'Nous ne vous promettons pas de « beaux jours » ; nous vous racontons pourquoi, au milieu de ces ruines, nous nous peignons encore les cheveux, pourquoi nous continuons à parler, et pourquoi nous nous accrochons si fort à cette lutte qui ne nous sauve pas…',
+      ],
+    },
   },
   {
     slug: 'a-place-with-the-pigs', year: '2026', cat: 'stage', title: 'A Place with the Pigs: A Personal Parable',
     role: { en: 'Music & sound design', tr: 'Müzik ve ses tasarımı', fr: 'Musique & création sonore' }, text: 'Athol Fugard', director: 'Abdül Süsler',
+    notes: {
+      tr: [
+        'Sovyetler Birliği döneminde, savaştan kaçıp evindeki domuz ahırına saklanan Pavel’in ve onu saklayan eşi Praskovya’nın hayatı; korku ve suçluluk duygusuyla 41 yıl süren bir hapse dönüşür. Pavel zaman zaman özgürlüğüne kavuşma isteği duysa da; dış dünyanın onu yargılayacağı düşüncesiyle ahırın güvenli pisliğinde yaşamaya devam eder. Bu büyük sırla yıllar içinde yalnızlaşan ve korkularıyla hareket eden evli bir çifte dönüşürler. Artık hayattaki tek arzuları daha büyük bir ahır ya da mutlu bir yaşam değildir; yakalanmamak ve kendilerini idam mangasında bulmamaktır…',
+        'Peki asıl hapis hangisidir? Domuz ahırının dört duvarı mıdır yoksa insanın kendi vicdanıyla, kendi zihninde inşa ettiği midir?',
+        '– Yaşam devam ediyor, Pavel.\n+ Kimin yaşamı?\n– Sanırım, herkesin.\n+ Benimki de mi?',
+      ],
+      en: [
+        'In the Soviet era, the life of Pavel, who deserts the war and hides in the pigsty at his home, and of his wife Praskovya, who hides him, turns into a prison of fear and guilt that lasts forty-one years. Though Pavel at times longs to regain his freedom, the thought that the outside world will judge him keeps him living in the safe filth of the sty. Carrying this great secret, over the years they become a married couple grown lonely and driven by their fears. Their only wish in life is no longer a bigger sty or a happy life; it is not to be caught, not to find themselves before a firing squad…',
+        'So which is the real prison? The four walls of the pigsty, or the one a person builds in their own mind, with their own conscience?',
+      ],
+      fr: [
+        'À l’époque soviétique, la vie de Pavel, qui a déserté la guerre pour se cacher dans la porcherie de sa maison, et de sa femme Praskovya, qui le cache, se change en une prison de peur et de culpabilité qui dure quarante et un ans. Même si Pavel aspire parfois à retrouver sa liberté, la pensée que le monde extérieur le jugera le fait rester dans la saleté rassurante de la porcherie. Avec ce grand secret, ils deviennent au fil des ans un couple isolé, mû par ses peurs. Leur seul désir n’est plus une porcherie plus grande ni une vie heureuse : c’est de ne pas être pris, de ne pas se retrouver devant le peloton d’exécution…',
+        'Quelle est donc la vraie prison ? Les quatre murs de la porcherie, ou celle que l’on bâtit dans sa propre tête, avec sa propre conscience ?',
+      ],
+    },
   },
 ];
 
@@ -396,6 +447,17 @@ export const works: {
 // program: konserde çalınan eserler (me: true olan satır vurgulanır). credits: tiyatro ekibi.
 type ProgramItem = { composer: string; work?: string; year?: string; me?: boolean };
 const R = (en: string, tr: string, fr: string): T => ({ en, tr, fr });
+const PIGS_CREDITS: Credit[] = [
+      { role: R('Text', 'Metin', 'Texte'), names: 'Athol Fugard' },
+      { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
+      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Bedirhan İsabetli, Neslihan Yıldırım' },
+      { role: R('Assistant director', 'Yardımcı yönetmen', 'Assistante à la mise en scène'), names: 'Aleyna Yılmaz' },
+      { role: R('Directing assistant', 'Yönetmen yardımcısı', 'Assistant de régie'), names: 'Ege Acar' },
+      { role: R('Set design', 'Dekor tasarımı', 'Scénographie'), names: 'Uğur Roman' },
+      { role: R('Music & sound design', 'Müzik ve ses tasarımı', 'Musique & création sonore'), names: 'Melikşah Alkan' },
+      { role: R('Technical', 'Teknik', 'Technique'), names: 'Salih Çağan Turucalı' },
+      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
+    ];
 const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, Doğa Sigorta Conference Hall', 'İstanbul Topkapı Üniversitesi, Kazlıçeşme Kampüsü, G Blok, Doğa Sigorta Konferans Salonu', 'Université Topkapı d’Istanbul, campus de Kazlıçeşme, bloc G, salle de conférence Doğa Sigorta');
 
 // Etkinlik türü: konser, tiyatro prömiyeri ya da albüm yayını.
@@ -403,7 +465,7 @@ const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, 
 // month: true ise yalnızca ay ve yıl gösterilir.
 export const eventKinds: Record<'concert' | 'theatre' | 'release', T> = {
   concert: R('Concert', 'Konser', 'Concert'),
-  theatre: R('Theatre premiere', 'Tiyatro prömiyeri', 'Première théâtrale'),
+  theatre: R('Theatre', 'Tiyatro', 'Théâtre'),
   release: R('Album release', 'Albüm yayını', 'Sortie d’album'),
 };
 export const events: {
@@ -411,6 +473,7 @@ export const events: {
   title: string; work: string; venue?: T; label?: string; performers?: string;
   poster?: string; lineup?: { name: string; role: T }[];
   program?: ProgramItem[]; credits?: Credit[]; source?: string;
+  premiere?: boolean; festival?: T;
 }[] = [
   {
     slug: 'gilgamesh-iii', kind: 'release', date: '2026-12-01', month: true,
@@ -440,8 +503,20 @@ export const events: {
     ],
   },
   {
-    slug: 'ro-ap', kind: 'theatre', date: '2026-12-14', time: '20:00',
-    title: 'Ro-Ap', work: 'ro-ap',
+    slug: 'ro-ap', kind: 'theatre', date: '2026-12-14', time: '20:00', premiere: true,
+    title: 'Ro-Ap', work: 'ro-ap', poster: 'poster-roap',
+    credits: [
+      { role: R('Project advisor', 'Proje danışmanı', 'Conseiller du projet'), names: 'Prof. Dr. Süreyya Temel' },
+      { role: R('Assistant director', 'Yönetmen yardımcısı', 'Assistant à la mise en scène'), names: 'Görkem Ergin' },
+      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Aleyna Yılmaz, Betül Nazar Albayrak, Buse Enginbağ, İrem Karaarslan, Melisa Akuş, Miray Aşkayanar, Neslihan Yıldırım, Sena Pampal, Tuğçe Enginbağ' },
+      { role: R('Cinematography', 'Görüntü yönetmeni', 'Image'), names: 'Salih Özoğul' },
+      { role: R('Editing', 'Kurgu', 'Montage'), names: 'Rumeysa Özoğul' },
+      { role: R('Directing assistants', 'Reji asistanları', 'Assistantes de régie'), names: 'Aleyna Yılmaz, Miray Aşkayanar' },
+      { role: R('Movement design', 'Hareket tasarımı', 'Mouvement'), names: 'Melisa Akuş' },
+      { role: R('Music, sound design and mixing', 'Müzik, ses tasarımı ve miksaj', 'Musique, création sonore et mixage'), names: 'Melikşah Alkan' },
+      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
+      { role: R('Technical team', 'Teknik ekip', 'Équipe technique'), names: 'Atakan Yunus Uludağ, Muhammed Işıktaş, Ramazan Metin, Umut Yaşar İnan, Yusuf Akıl' },
+    ],
   },
   {
     slug: 'izmir-new-music-days-vii', kind: 'concert', date: '2026-10-25', time: '20:00',
@@ -491,7 +566,7 @@ export const events: {
     ],
   },
   {
-    slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07', time: '20:30',
+    slug: 'tek-bi-mutlu-an', kind: 'theatre', date: '2026-06-07', time: '20:30', premiere: true,
     title: 'Tek Bi’ Mutlu An!', work: 'tek-bi-mutlu-an',
     venue: R('ClapHall, Istanbul', 'ClapHall, İstanbul', 'ClapHall, Istanbul'),
     poster: 'poster-tekbimutluan',
@@ -538,7 +613,7 @@ export const events: {
     source: 'https://sesinyolculugu.com/festivaller/17-2/2-konser/',
   },
   {
-    slug: 'happy-days', kind: 'theatre', date: '2026-03-27', time: '20:00',
+    slug: 'happy-days', kind: 'theatre', date: '2026-03-27', time: '20:00', premiere: true,
     title: 'Happy Days (Mutlu Günler)', work: 'happy-days',
     venue: TOPKAPI, poster: 'poster-mutlugunler',
     credits: [
@@ -553,20 +628,24 @@ export const events: {
     ],
   },
   {
-    slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25', time: '20:00',
+    slug: 'a-place-with-the-pigs-genc-gunler', kind: 'theatre', date: '2026-05-10', time: '15:00',
+    title: 'A Place with the Pigs (Domuz Ahırı)', work: 'a-place-with-the-pigs',
+    festival: R('40th Genç Günler Festival', '40. Genç Günler', '40e festival Genç Günler'),
+    venue: R('Üsküdar Kerem Yılmazer Stage, Istanbul', 'Üsküdar Kerem Yılmazer Sahnesi, İstanbul', 'Scène Kerem Yılmazer, Üsküdar, Istanbul'),
+    poster: 'poster-gencgunler40', credits: PIGS_CREDITS,
+  },
+  {
+    slug: 'a-place-with-the-pigs-pau', kind: 'theatre', date: '2026-05-06', time: '20:00',
+    title: 'A Place with the Pigs (Domuz Ahırı)', work: 'a-place-with-the-pigs',
+    festival: R('Pamukkale University 15th Theatre Festival', 'Pamukkale Üniversitesi 15. Tiyatro Festivali', '15e Festival de théâtre de l’Université Pamukkale'),
+    venue: R('Hasan Kasapoğlu Cultural Centre, Pamukkale University, Denizli', 'Hasan Kasapoğlu Kültür Merkezi, Pamukkale Üniversitesi, Denizli', 'Centre culturel Hasan Kasapoğlu, Université Pamukkale, Denizli'),
+    poster: 'poster-pau15', credits: PIGS_CREDITS,
+  },
+  {
+    slug: 'a-place-with-the-pigs', kind: 'theatre', date: '2026-03-25', time: '20:00', premiere: true,
     title: 'A Place with the Pigs (Domuz Ahırı)', work: 'a-place-with-the-pigs',
     venue: TOPKAPI, poster: 'poster-domuzahiri',
-    credits: [
-      { role: R('Text', 'Metin', 'Texte'), names: 'Athol Fugard' },
-      { role: R('Director', 'Yönetmen', 'Mise en scène'), names: 'Abdül Süsler' },
-      { role: R('Cast', 'Oyuncular', 'Distribution'), names: 'Bedirhan İsabetli, Neslihan Yıldırım' },
-      { role: R('Assistant director', 'Yardımcı yönetmen', 'Assistante à la mise en scène'), names: 'Aleyna Yılmaz' },
-      { role: R('Directing assistant', 'Yönetmen yardımcısı', 'Assistant de régie'), names: 'Ege Acar' },
-      { role: R('Set design', 'Dekor tasarımı', 'Scénographie'), names: 'Uğur Roman' },
-      { role: R('Music & sound design', 'Müzik ve ses tasarımı', 'Musique & création sonore'), names: 'Melikşah Alkan' },
-      { role: R('Technical', 'Teknik', 'Technique'), names: 'Salih Çağan Turucalı' },
-      { role: R('Poster design', 'Afiş tasarımı', 'Affiche'), names: 'Su Eda Bostancı' },
-    ],
+    credits: PIGS_CREDITS,
   },
   {
     slug: 'sesin-yolculugu-16', kind: 'concert', date: '2025-05-03', time: '20:30',

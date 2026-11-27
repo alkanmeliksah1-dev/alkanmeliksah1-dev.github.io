@@ -23,7 +23,7 @@ const notesLang = w.notes && w.notes[lang] ? lang : 'en';
     {w.links && <p class="links">{w.links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.kind === 'watch' ? ui.watchOn[lang] : ui.listenOn[lang]}</a>)}</p>}
     {notes && (
       <>
-        <h2>{ui.programNotes[lang]}</h2>
+        <h2>{w.cat === 'stage' ? ui.aboutPlay[lang] : ui.programNotes[lang]}</h2>
         <div class="prose" lang={notesLang}>{notes.map((p) => <p>{p}</p>)}</div>
       </>
     )}

@@ -131,7 +131,7 @@ main { min-height: 100vh; }
   text-wrap: balance;
 }
 h2 { margin: 48px 0 16px; }
-.prose p { max-width: 66ch; }
+.prose p { max-width: 66ch; white-space: pre-line; }
 .prose p + p { margin-top: 1.1em; }
 .statement p { max-width: 66ch; }
 .statement p + p { margin-top: 1.1em; }

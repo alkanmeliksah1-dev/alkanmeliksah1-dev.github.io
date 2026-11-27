@@ -16,19 +16,21 @@ export const eventDate = (e: Event, lang: Lang) => {
 export const eventsOf = (w: Work) => events.filter((e) => e.work === w.slug).sort((a, b) => b.date.localeCompare(a.date));
 export const workOf = (e: Event) => works.find((x) => x.slug === e.work);
 
+const PREMIERE: Record<Lang, string> = { en: 'Theatre premiere', tr: 'Tiyatro prömiyeri', fr: 'Première théâtrale' };
 const L_TEXT: Record<Lang, string> = { en: 'Text', tr: 'Metin', fr: 'Texte' };
 const L_DIR: Record<Lang, string> = { en: 'Director', tr: 'Yönetmen', fr: 'Mise en scène' };
 const venueTba: Record<Lang, string> = { en: 'Venue to be announced', tr: 'Mekân açıklanacak', fr: 'Lieu à annoncer' };
 
 // Büyük harfe çevirme: Türkçe adlar Türkçe kurala (i → İ), İngilizce adlar İngilizce kurala (i → I) göre.
-const TR_WORDS = new Set(['sesin', 'bilgi', 'müziksev']);
+const TR_WORDS = new Set(['sesin', 'bilgi', 'müziksev', 'genç', 'günler', 'pamukkale', 'üniversitesi', 'tiyatro', 'festivali', 'kasapoğlu']);
 const isTr = (w: string) => /[ğışçöüİĞŞÇÖÜ]/.test(w) || TR_WORDS.has(w.toLocaleLowerCase('tr'));
 export const upper = (text: string) => text.split(/(\s+)/).map((w) => w.toLocaleUpperCase(isTr(w) ? 'tr' : 'en')).join('');
 
 // Küçük üst etiket (büyük harfle): konserde festival/etkinlik adı, albümde albüm adı + tür, tiyatroda tür.
 export const eventEyebrow = (e: Event, lang: Lang) => {
   const kind = eventKinds[e.kind][lang].toLocaleUpperCase(lang);
-  return e.kind === 'concert' ? upper(e.title) : e.kind === 'release' ? `${upper(e.title)} · ${kind}` : kind;
+  if (e.kind === 'theatre') return e.festival ? upper(e.festival[lang]) : (e.premiere ? PREMIERE[lang] : eventKinds.theatre[lang]).toLocaleUpperCase(lang);
+  return e.kind === 'concert' ? upper(e.title) : `${upper(e.title)} · ${kind}`;
 };
 
 // Büyük başlık: konser ve albümde çalışmanın adı, tiyatroda oyunun adı.
