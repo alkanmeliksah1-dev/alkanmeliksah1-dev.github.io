@@ -22,7 +22,7 @@ const active = section ?? slug;
 const bgMeta = bg ? (images as Record<string, { w: number; h: number; widths: number[] }>)[bg] : undefined;
 const anchor = bg ? anchors[bg] : undefined;
 const ratio = bgMeta ? bgMeta.w / bgMeta.h : 1;
-const bgSizes = anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
+const bgSizes = anchor?.fit === 'height' ? `${Math.round(ratio * 100)}vh` : anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
 const current = nav.find((n) => n.slug === active);
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
@@ -45,7 +45,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
 <body class:list={[{ 'is-home': home }, slug && !slug.includes('/') ? `page-${slug}` : null]}>
   {bg && (
     <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true"
-      data-fx={anchor?.fx} data-at={anchor?.at} data-ratio={anchor ? ratio.toFixed(4) : undefined}
+      data-fx={anchor?.fx} data-at={anchor?.at} data-fit={anchor?.fit} data-ratio={anchor ? ratio.toFixed(4) : undefined}
       style={anchor ? `--fx:${anchor.fx * 100}%` : undefined}>
       <Pic name={bg} sizes={bgSizes} priority />
     </div>
@@ -95,11 +95,13 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
     const bd = document.querySelector<HTMLElement>('.backdrop--anchored');
     if (bd) {
       const img = bd.querySelector('img')!; const base = img.getAttribute('style') ?? '';
-      const fx = parseFloat(bd.dataset.fx!), ratio = parseFloat(bd.dataset.ratio!), at = bd.dataset.at!;
+      const fx = parseFloat(bd.dataset.fx!), ratio = parseFloat(bd.dataset.ratio!), at = bd.dataset.at!, fit = bd.dataset.fit;
       const place = () => {
         const vw = innerWidth, vh = innerHeight;
-        if (vw <= 900 && vh > vw) { img.setAttribute('style', base); return; }   // dikey telefon: normal kırpma
-        const w = Math.max(vh * ratio, vw), h = w / ratio;
+        if (vw <= 900 && vh > vw) { img.setAttribute('style', base); bd.classList.remove('backdrop--fit'); return; }
+        const byHeight = fit === 'height' && vh * ratio < vw;
+        bd.classList.toggle('backdrop--fit', byHeight);   // dikey telefon: normal kırpma
+        const w = byHeight ? vh * ratio : Math.max(vh * ratio, vw), h = w / ratio;
         let ax = parseFloat(at) * vw;
         if (at === 'between') {
           const m = document.querySelector('.nav-panel')!.getBoundingClientRect();
@@ -107,7 +109,7 @@ const description = `${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}.`;
           const right = n ? n.getBoundingClientRect().left : vw;
           ax = (Math.max(m.right, 0) + right) / 2;
         }
-        const left = Math.min(0, Math.max(vw - w, ax - fx * w));
+        const left = byHeight ? Math.min(vw - w * 0.5, ax - fx * w) : Math.min(0, Math.max(vw - w, ax - fx * w));
         img.setAttribute('style', `${base};position:absolute;top:0;left:${left}px;width:${w}px;height:${h}px;max-width:none;object-fit:fill;transform-origin:${ax - left}px 40%`);
       };
       place();

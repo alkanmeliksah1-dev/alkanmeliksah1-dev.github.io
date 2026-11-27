@@ -174,7 +174,7 @@ type Credit = { role: T; names: string };
 export const works: {
   slug: string; year: string; cat: string; title: string; scoring: T; note?: T;
   links?: Link[]; notes?: Notes; credits?: Credit[]; event?: string;
-  album?: { title: string; scoring: T; label: string; year: string; cover: string; lineup: { name: string; role: T }[]; tracks: string[]; me: number; composers: string[] };
+  album?: { title: string; scoring: T; label: string; year: string; cover: string; lineup: { name: string; role: T }[]; tracks: [string, string][] };
 }[] = [
   {
     slug: 'ab-i-revan', year: '2026', cat: 'concert', title: 'Ab-ı Revan', event: 'bilgi-new-music-festival-16',
@@ -240,18 +240,23 @@ export const works: {
   },
   {
     slug: 'imaginary-dialogues-of-mortality', year: '2025', cat: 'concert', title: 'Imaginary Dialogues of Mortality',
-    scoring: { en: 'for trombone, harp and electronics', tr: 'trombon, arp ve elektronikler için', fr: 'pour trombone, harpe et électroniques' },
+    scoring: { en: 'for harp, trombone and electronics', tr: 'arp, trombon ve elektronikler için', fr: 'pour harpe, trombone et électroniques' },
     note: { en: 'Honorable Mention, Gilgamesh International Composition Competition · album Gilgamesh III', tr: 'Mansiyon, Gılgamış Uluslararası Bestecilik Yarışması · Gilgamesh III albümü', fr: 'Mention honorable, Concours international Gilgamesh · album Gilgamesh III' },
     album: {
       title: 'Gilgamesh III', year: '2026', label: 'Gilgamesh Arts & Culture Foundation', cover: 'cover-gilgamesh3',
-      scoring: { en: 'for harp, trombone and fixed media', tr: 'arp, trombon ve sabit medya için', fr: 'pour harpe, trombone et support fixe' },
+      scoring: { en: 'for harp, trombone and electronics', tr: 'arp, trombon ve elektronikler için', fr: 'pour harpe, trombone et électroniques' },
       lineup: [
         { name: 'Jillian Lopez', role: { en: 'harp', tr: 'arp', fr: 'harpe' } },
         { name: 'Mattie Barbier', role: { en: 'trombone', tr: 'trombon', fr: 'trombone' } },
       ],
-      tracks: ['Gilgamesh in front of Edens gates', 'Fragments of the Flood', 'Table 6', 'Shamhat', 'Enkidu', 'Jya, Jayba, Shamkatum', 'Humbaba', 'Song of Jungju', 'Wild Heart Enkidu', 'Gilgamesh\'s Space Odyssey', 'Deluge', 'Imaginary Dialogues of Mortality', 'How Should I answer the city?', 'Forest of Cedar / The Third Dream', 'The Quest for the Cedar Forest'],
-      me: 12,
-      composers: ['Felipe Vasconcelos', 'Shai Cohen', 'Pedro Brandão', 'Alessio Ferrante', 'Alejandro Marco Gómez Lopera', 'Arad Noroozi', 'Manolis Ekmektsoglou', 'Jihyun Kim', 'Soheil Shirangi', 'Afamia Al-Dayaa', 'Daniel Krumland', 'Melikşah Alkan', 'Ali Araab', 'Libby Fabricatore', 'Erfan Javadi'],
+      // parçalar kapaktaki besteci sırasıyla aynı
+      tracks: [
+        ['Gilgamesh in front of Edens gates', 'Felipe Vasconcelos'], ['Fragments of the Flood', 'Shai Cohen'], ['Table 6', 'Pedro Brandão'],
+        ['Shamhat', 'Alessio Ferrante'], ['Enkidu', 'Alejandro Marco Gómez Lopera'], ['Jya, Jayba, Shamkatum', 'Arad Noroozi'],
+        ['Humbaba', 'Manolis Ekmektsoglou'], ['Song of Jungju', 'Jihyun Kim'], ['Wild Heart Enkidu', 'Soheil Shirangi'],
+        ['Gilgamesh\'s Space Odyssey', 'Afamia Al-Dayaa'], ['Deluge', 'Daniel Krumland'], ['Imaginary Dialogues of Mortality', 'Melikşah Alkan'],
+        ['How Should I answer the city?', 'Ali Araab'], ['Forest of Cedar / The Third Dream', 'Libby Fabricatore'], ['The Quest for the Cedar Forest', 'Erfan Javadi'],
+      ],
     },
     notes: {
       tr: [
@@ -345,7 +350,7 @@ const TOPKAPI = R('Istanbul Topkapı University, Kazlıçeşme Campus, G Block, 
 export const events: {
   slug: string; date: string; time?: string; title: string; work?: string; performers: string;
   venue?: T; note?: T; poster?: string; lineup?: { name: string; role: T }[];
-  program?: ProgramItem[]; programTitle?: T; credits?: Credit[]; source?: string;
+  program?: ProgramItem[]; credits?: Credit[]; source?: string;
 }[] = [
   {
     slug: 'ro-ap', date: '2026-12-14',
@@ -362,13 +367,19 @@ export const events: {
     note: R('Concert “NOITU LOVE” · Workshops with Niklas Seidl, 22–24 October', '“NOITU LOVE” konseri · Niklas Seidl ile atölye çalışmaları, 22–24 Ekim', 'Concert « NOITU LOVE » · Ateliers avec Niklas Seidl, 22–24 octobre'),
     poster: 'poster-iymg7',
     lineup: [{ name: 'Niklas Seidl', role: R('cello', 'viyolonsel', 'violoncelle') }],
-    programTitle: R('Next Generation Series VII — composers', 'Next Generation Series VII — besteciler', 'Next Generation Series VII — compositeurs'),
     program: [
-      { composer: 'Azra Kaya' },
+      { composer: '—', work: 'Taş-doğaçlaması' },
+      { composer: 'Juliana Hodkinson', work: 'Jounce', year: '2016' },
+      { composer: 'Emir Ekberzade', work: 'Conflux', year: '2026' },
+      { composer: 'Azra Kaya', work: 'heterotopia', year: '2026' },
+      { composer: 'Steven Kazuo Takasugi', work: 'Letters from Prison', year: '2009' },
       { composer: 'Melikşah Alkan', work: 'ÖTEYAKADAN TAKAZA Act.0', year: '2026', me: true },
-      { composer: 'Kaan Selçuk' },
-      { composer: 'Emir Ekberzade' },
+      { composer: 'Niklas Seidl', work: 'Malte Eister', year: '2009' },
+      { composer: 'Kaan Selçuk', work: 'loops 1', year: '2026' },
+      { composer: 'Jennifer Walshe', work: 'That\'s a lot of money at the top of a rocket', year: '2024' },
+      { composer: 'Rolf Riehm', work: 'Ach, Königin', year: '2005' },
     ],
+    source: 'https://init-i2.org/uncategorized/izmir-yeni-muzik-gunleri-vii-22-27-ekim-2026/',
   },
   {
     slug: 'bilgi-new-music-festival-16', date: '2026-06-28', time: '20:00',
@@ -383,15 +394,20 @@ export const events: {
       { name: 'Éric-Maria Couturier', role: R('cello', 'viyolonsel', 'violoncelle') },
       { name: 'Nicolas Crosse', role: R('double bass', 'kontrbas', 'contrebasse') },
     ],
-    programTitle: R('Composers', 'Besteciler', 'Compositeurs'),
     program: [
-      { composer: 'Atabak Amjadi' }, { composer: 'Arda Yiğit Serbes' }, { composer: 'Cenk Takınc' },
-      { composer: 'Emir Ekberzade' }, { composer: 'Yağmur Kale' }, { composer: 'Deniz Hatipoğlu' },
-      { composer: 'Tarık Mutlugöz' }, { composer: 'Evrim Bozkan' },
+      { composer: 'Atabak Amjadi', work: 'Âstâne' },
+      { composer: 'Tarık Mutlugöz', work: 'The Night Sky' },
       { composer: 'Melikşah Alkan', work: 'Ab-ı Revan', year: '2026', me: true },
-      { composer: 'Anıl Çelik' }, { composer: 'İrem Başer' }, { composer: 'Mert Altıparmak' },
+      { composer: 'Arda Yiğit Serbes', work: 'Anti-Being' },
+      { composer: 'Deniz Hatipoğlu', work: 'Anacoluthon' },
+      { composer: 'İrem Başer', work: 'instant bugs' },
+      { composer: 'Anıl Çelik', work: 'Sem, the Maltese Knight' },
+      { composer: 'Emir Ekberzade', work: 'Points and Lines' },
+      { composer: 'Mert Altıparmak', work: 'Luminance' },
+      { composer: 'Yağmur Kale', work: 'Self Portrait I' },
+      { composer: 'Cenk Takınç', work: 'TÖZ' },
+      { composer: 'Evrim Bozkan', work: 'Urth' },
     ],
-    source: 'https://www.bilgi.edu.tr/tr/etkinlik/13742/bilgi-yeni-muzik-festivali-16/',
   },
   {
     slug: 'tek-bi-mutlu-an', date: '2026-06-07',
@@ -580,16 +596,20 @@ export const gallery: { id: string; title: T; items: { img: string; alt: string 
 export const focal: Record<string, string> = {
   'night-wide': '50% 30%', 'reading-wide': '81% 35%', railway2: '53% 14%',
   night: '50% 32%', cello: '64% 50%', rehearsal: '50% 50%', curtaincall: '50% 25%',
-  studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '45% 35%',
+  studio: '50% 35%', railway: '50% 8%', desk: '75% 40%', reading: '55% 35%', standing: '42% 25%',
   'church-concert': '50% 70%', 'mahzen-bow': '44% 55%', score: '38% 30%', 'sy17-concert': '55% 55%',
   'poster-tekbimutluan': '50% 40%', 'stage-set': '45% 40%', 'mahzen-rehearsal': '60% 30%',
 };
 
 // Geniş ekranda yüzün yerleşimi: fx = yüzün fotoğraftaki yatay konumu (0–1),
 // at = ekrandaki hedef konum (0–1) ya da 'between' (menü ile isim arasının tam ortası)
-export const anchors: Record<string, { fx: number; at: number | 'between' }> = {
+export const anchors: Record<string, { fx: number; at: number | 'between'; fit?: 'height' }> = {
   'night-wide': { fx: 0.5, at: 'between' },
-  'reading-wide': { fx: 0.815, at: 0.82 },
+  'reading-wide': { fx: 0.815, at: 0.95 },
+  rehearsal: { fx: 0.5, at: 0.7, fit: 'height' },
+  railway2: { fx: 0.53, at: 0.9, fit: 'height' },
+  score: { fx: 0.4, at: 0.9, fit: 'height' },
+  standing: { fx: 0.42, at: 0.9, fit: 'height' },
 };
 
 // Her sayfanın arka plan fotoğrafı
@@ -597,9 +617,9 @@ export const photos = {
   home: 'night-wide',
   approach: 'reading-wide',
   about: 'standing',
-  works: 'mahzen-bow',
+  works: 'score',
   events: 'sy17-concert',
-  media: 'score',
+  media: 'mahzen-bow',
   gallery: 'rehearsal',
   contact: 'railway2',
   portrait: 'studio',

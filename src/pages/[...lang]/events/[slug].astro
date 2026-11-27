@@ -27,11 +27,11 @@ const myWork = works.find((w) => w.event === e.slug);
 
         {e.program && (
           <>
-            <h2>{e.programTitle?.[lang] ?? ui.program[lang]}</h2>
+            <h2>{ui.program[lang]}</h2>
             <ol class="program">
               {e.program.map((p) => (
                 <li class:list={{ me: p.me }}>
-                  <span class="composer">{p.composer}</span>
+                  <span class="composer">{p.composer === '—' ? '' : p.composer}</span>
                   {p.work && <span class="pwork"><em>{p.work}</em>{p.year && ` (${p.year})`}</span>}
                 </li>
               ))}

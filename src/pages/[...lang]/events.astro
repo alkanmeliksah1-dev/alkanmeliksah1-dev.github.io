@@ -13,7 +13,7 @@ const past = sorted.filter((e) => e.date < today);
 const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
 // kartta kısa özet: konserde besteciler, tiyatroda oyuncular
 const summary = (e: (typeof events)[number]) => {
-  if (e.program) return e.program.map((p) => p.composer).join(', ');
+  if (e.program) return e.program.map((p) => p.composer).filter((c) => c !== '—').join(', ');
   const cast = e.credits?.find((c) => c.role.en === 'Cast');
   return cast?.names;
 };
@@ -37,7 +37,7 @@ const detailed = (e: (typeof events)[number]) => Boolean(e.program || e.credits 
                     {(e.work || e.performers) && <p>{e.work && <em>{e.work}</em>}{e.work && e.performers && ' · '}{e.performers}</p>}
                     {e.venue && <p>{e.venue[lang]}</p>}
                     {e.note && <p>{e.note[lang]}</p>}
-                    {s && <p class="event-summary"><span class="label">{e.program ? (e.programTitle?.[lang] ?? ui.program[lang]) : ui.credits[lang]}</span> {s}</p>}
+                    {s && <p class="event-summary"><span class="label">{e.program ? ui.program[lang] : ui.credits[lang]}</span> {s}</p>}
                   </div>
                   {e.poster && <span class="poster pop"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 62vw, 240px" /></span>}
                 </Tag>

@@ -4,6 +4,14 @@ import Sheet from '../../components/Sheet.astro';
 import Pic from '../../components/Pic.astro';
 import { gallery, photos, ui, type Lang } from '../../data';
 import { langPaths } from '../../lib';
+import images from '../../images.json';
+const meta = images as Record<string, { w: number; h: number }>;
+// görselleri yüksekliğe göre sütunlara dağıt (masonry)
+const split = <T extends { img: string }>(items: T[], n: number) => {
+  const cols: T[][] = Array.from({ length: n }, () => []); const hs = new Array(n).fill(0);
+  for (const it of items) { const i = hs.indexOf(Math.min(...hs)); cols[i].push(it); hs[i] += meta[it.img].h / meta[it.img].w; }
+  return cols;
+};
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 ---
@@ -16,8 +24,14 @@ const { lang } = Astro.props as { lang: Lang };
     </div>
     {gallery.map((g, i) => (
       <section class="gallery" id={g.id} role="tabpanel" aria-labelledby={`tab-${g.id}`} hidden={i !== 0}>
-        {g.items.map((it) => (
-          <figure class="graded pop"><Pic name={it.img} alt={it.alt} sizes="(max-width: 560px) 62vw, (max-width: 900px) 40vw, 260px" /></figure>
+        {[3, 2].map((n) => (
+          <div class={`gcols g${n}`}>
+            {split(g.items, n).map((col) => (
+              <div class="gcol">
+                {col.map((it) => <figure class="graded pop"><Pic name={it.img} alt={it.alt} sizes={n === 3 ? '260px' : '46vw'} /></figure>)}
+              </div>
+            ))}
+          </div>
         ))}
       </section>
     ))}

@@ -20,26 +20,26 @@ const ev = found && (found.program || found.credits || found.lineup) ? found : u
         {ev && <a href={href(lang, `events/${ev.slug}`)}>{w.cat === 'stage' ? ui.credits[lang] : ui.viewEvent[lang]}</a>}
       </div>
     )}
-    {w.album && (
-      <>
-        <h2>{ui.album[lang]} — {w.album.title}</h2>
-        <div class="event-detail has-poster album">
-          <div>
-            <p class="muted">{w.album.scoring[lang]} · {w.album.label} · {w.album.year}</p>
-            <ul class="rows plain">{w.album.lineup.map((p) => <li><span>{p.name}</span><span class="muted">{p.role[lang]}</span></li>)}</ul>
-            <h2>{ui.tracklist[lang]}</h2>
-            <ol class="program">{w.album.tracks.map((t, i) => <li class:list={{ me: i + 1 === w.album!.me }}><span class="composer">{t}</span>{i + 1 === w.album!.me && <span class="pwork">Melikşah Alkan</span>}</li>)}</ol>
-            <h2>{ui.composers[lang]}</h2>
-            <p class="muted">{w.album.composers.map((c, i) => <>{i > 0 && ', '}<span class:list={{ me: c === 'Melikşah Alkan' }}>{c}</span></>)}</p>
-          </div>
-          <figure class="detail-poster pop"><Pic name={w.album.cover} alt={w.album.title} sizes="(max-width: 760px) 80vw, 300px" /></figure>
-        </div>
-      </>
-    )}
     {notes && (
       <>
         <h2>{ui.programNotes[lang]}</h2>
         <div class="prose" lang={notesLang}>{notes.map((p) => <p>{p}</p>)}</div>
+      </>
+    )}
+    {w.album && (
+      <>
+        <h2>{ui.album[lang]}</h2>
+        <div class="event-detail has-poster album">
+          <div>
+            <p class="work-title">{w.album.title}</p>
+            <p class="muted">{w.album.scoring[lang]} · {w.album.label} · {w.album.year}</p>
+            <h2>{ui.performers[lang]}</h2>
+            <ul class="rows plain">{w.album.lineup.map((p) => <li><span>{p.name}</span><span class="muted">{p.role[lang]}</span></li>)}</ul>
+            <h2>{ui.tracklist[lang]}</h2>
+            <ol class="program">{w.album.tracks.map(([t, c]) => <li class:list={{ me: c === 'Melikşah Alkan' }}><span class="composer">{c}</span><span class="pwork"><em>{t}</em></span></li>)}</ol>
+          </div>
+          <figure class="detail-poster pop"><Pic name={w.album.cover} alt={w.album.title} sizes="(max-width: 760px) 80vw, 300px" /></figure>
+        </div>
       </>
     )}
     <p class="back"><a href={href(lang, 'works')}>{ui.allWorks[lang]}</a></p>
