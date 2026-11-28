@@ -2,7 +2,7 @@
 import '@fontsource/source-serif-4/400.css';
 import '@fontsource/source-serif-4/400-italic.css';
 import '@fontsource/source-serif-4/600.css';
-import '@fontsource/cormorant-garamond/300.css';
+import '@fontsource/bodoni-moda/500.css';
 import '../styles/site.css';
 import { LANGS, anchors, focal, nav, photos, site, ui, type Lang } from '../data';
 import Pic from '../components/Pic.astro';
@@ -91,13 +91,13 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
-  <link rel="icon" href="/favicon.ico?v=4" sizes="48x48" />
-  <link rel="icon" href="/favicon-32.png?v=4" type="image/png" sizes="32x32" />
-  <link rel="icon" href="/favicon-16.png?v=4" type="image/png" sizes="16x16" />
-  <link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />
-  <link rel="icon" href="/favicon-192.png?v=4" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4" sizes="180x180" />
-  <link rel="mask-icon" href="/mask-icon.svg?v=4" color="#0b0a09" />
+  <link rel="icon" href="/favicon.ico?v=5" sizes="48x48" />
+  <link rel="icon" href="/favicon-32.png?v=5" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/favicon-16.png?v=5" type="image/png" sizes="16x16" />
+  <link rel="icon" href="/favicon.svg?v=5" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-192.png?v=5" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5" sizes="180x180" />
+  <link rel="mask-icon" href="/mask-icon.svg?v=5" color="#0b0a09" />
   <link rel="manifest" href="/site.webmanifest" />
   {bg && bgMeta && <link rel="preload" as="image" type="image/webp" imagesrcset={bgMeta.widths.map((w) => `/images/${bg}-${w}.webp ${w}w`).join(', ')} imagesizes={bgSizes} fetchpriority="high" />}
   <meta name="theme-color" content="#0b0a09" />
@@ -230,18 +230,7 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
       setupBackdrop();
     };
 
-    // Yeni sayfanın arka plan fotoğrafı inip çözülmeden geçişi başlatma (en çok 0,7 sn; yeni tıklama gelirse beklemeden bırak)
-    document.addEventListener('astro:before-preparation', (ev: any) => {
-      const original = ev.loader;
-      ev.loader = async () => {
-        await original();
-        const src = ev.newDocument?.querySelector('.backdrop source');
-        const srcset = src?.getAttribute('srcset'); if (!srcset) return;
-        const im = new Image(); im.sizes = src.getAttribute('sizes') ?? '100vw'; im.srcset = srcset;
-        await Promise.race([im.decode().catch(() => {}), new Promise((r) => setTimeout(r, 700)),
-          new Promise((r) => ev.signal?.addEventListener('abort', r, { once: true }))]);
-      };
-    });
+    // Tıklanan sayfaya beklemeden geçilir; yeni arka plan inene kadar eski sayfanın görüntüsü altta kalır, ekran kararmaz.
     document.addEventListener('pointerdown', (e) => {
       const p = panel();
       if (p?.classList.contains('open') && !(e.target as Element).closest('.menu, .menu-btn')) setMenu(false);

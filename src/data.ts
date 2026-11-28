@@ -22,7 +22,7 @@ export const site = {
     soundcloud: 'https://soundcloud.com/meliksahalkan',
     instagram: 'https://www.instagram.com/meliksah.alkan/',
     facebook: 'https://www.facebook.com/meliksah.alkan.79',
-    x: '',  // X (Twitter)
+    x: 'https://x.com/MeliksahAlkann',
   },
   forms: {
     // İletişim formu: FormSubmit üzerinden doğrudan info@ adresine gelir.
@@ -270,7 +270,7 @@ export const works: {
     links: [{ kind: 'listen', url: 'https://soundcloud.com/meliksahalkan/ab-i-revan' }],
     notes: {
       tr: [
-        'Ab-ı Revan, adını tasavvuf geleneğinde disiplin ve meşakkatle dolu bir hayatın ortasında bile kalpten durmaksızın akan bir sevinç, huzur ve iç berraklığı olarak tarif edilen hâlden alır. Eser, bu çelişkinin içinde doğan sesin izini sürer: dışarıda yoğun bir arınma pratiği, içeride ise her şeye rağmen taşan bir ferahlık. Müzik bu gerilimi bozmadan taşımayı amaçlar; hiç durmadan akan, ama nereye aktığını bilmeyen bir su gibi.',
+        'Adını tasavvufta sûfîlerin disiplinli ve çileli bir yaşam sürdürürken kalplerinde kesintisiz aktığını söyledikleri sevinç, huzur ve iç açıklığı halinden alan Ab-ı Revan, bu çelişkinin içinde doğan sesin peşine düşer. Dışarıda yoğun bir arınma disiplini, içeride ise buna rağmen taşan bir ferahlık. Müzik bu gerilimi olduğu gibi barındırmayı hedefler; sürekli akan ama nereye aktığını bilmeyen bir su gibi.',
       ],
       fr: [
         'Ab-ı Revan tire son nom d’un état que la tradition soufie décrit comme une joie, une paix et une clarté intérieure qui coulent sans cesse dans le cœur, même au sein d’une vie de discipline et d’épreuves. L’œuvre suit la voix qui naît de cette contradiction : au-dehors, une pratique intense de purification ; au-dedans, un soulagement qui déborde malgré tout. La musique cherche à maintenir cette tension intacte, comme une eau qui ne cesse jamais de couler, sans pourtant savoir où elle coule.',
@@ -310,12 +310,12 @@ export const works: {
     ],
     notes: {
       tr: [
-        'Semplice Quartet için bestelenen ve Nizami Gencevi’nin 12. yüzyılda yazdığı aynı adlı eserden esinlenen Mahzen-ül Esrar, sanki zamanın sınırlarının dışında, bir boşlukta asılı kalmışçasına başlar. Nizami’nin “İnsan ruhunun derinliklerinde saklı hikmet, yalnızca nefsini arındıranların ulaşabileceği bir hazinedir” sözünün özünün izini sürerken eser, sessizlikten perküsif bir zenginliğe doğru kademeli bir dönüşüm sunar; tıpkı yedi vadiden geçebilmek için önce Huzur Denizi’ne dalması gereken Mahzen-ül Esrar yolcusunun yolculuğu gibi.',
-        'Başlangıçta belirgin biçimde tanımlanmamış soyut müzikal çizgiler, giderek daha berrak bir yapıya evrilir ve açılış malzemesinin yankılarıyla doruğa ulaşır. Nizami’nin merkezî teması olan Nefis Terbiyesi’ni çağdaş bir ses çerçevesinde yeniden yorumlamayı amaçlayan Mahzen-ül Esrar, kadim bir metnin karanlıktan aydınlığa uzanan mistik yolculuğunu 21. yüzyılın tını renkleriyle yeniden canlandıran müzikal bir tahayyül ortaya koyar.',
+        'Semplice Quartet için bestelenen ve Nizami Gencevi’nin 12. yüzyılda kaleme aldığı aynı isimli eserden ilham alan Mahzen-ül Esrar, adeta zamanda asılı kalan bir boşlukta başlar. Nizami’nin “İnsan ruhunun derinliklerinde saklanan bilgelik ancak nefsini arındıranların erişebileceği bir hazinedir.” sözündeki hakikatin izini sürerken, tıpkı Mahzen-ül Esrar’daki “yedi vadiyi aşan yolcunun önce sükûnet denizine dalması” gibi, sessizlikten perküsif zenginliğe doğru kademeli bir dönüşüm sergiler.',
+        'Başlangıçta belirgin olmayan soyut müzikal çizgiler, giderek berraklaşan bir yapıya evrilir ve son kısımda açılış materyalinin yankıları duyulur. Nizami’nin merkezi teması olan ‘Nefis Terbiyesi’ni çağdaş bir ses düzleminde yeniden yorumlamayı amaçlayan Mahzen-ül Esrar, kadim bir metnin karanlıktan aydınlığa uzanan mistik yolculuğunun müzikal bir yeniden üretimini 21. yüzyılın tınısal renkleriyle canlandırarak karşımıza çıkar.',
       ],
       fr: [
         'Mahzen-ül Esrar, écrite pour le Semplice Quartet et inspirée de l’œuvre homonyme de Nizami Gandjavi au XIIe siècle, commence comme suspendue dans le vide, hors des limites du temps. Tout en suivant l’essence de cette parole de Nizami : « La sagesse cachée au fond de l’âme humaine est un trésor accessible seulement à ceux qui purifient leur nafs », la pièce présente une transformation progressive du silence vers une richesse percussive, à l’image du voyage du voyageur de Mahzen-ül Esrar, qui doit d’abord s’immerger dans la Mer de la Sérénité pour traverser les sept vallées.',
-        'Les lignes musicales, d’abord abstraites et indistinctes, évoluent peu à peu vers une structure plus lumineuse, jusqu’à culminer dans des échos du matériau initial. Cherchant à réinterpréter le thème central de Nizami, la discipline de soi, dans un cadre sonore contemporain, Mahzen-ül Esrar propose une réinvention musicale du voyage mystique d’un texte ancien, des ténèbres vers la lumière, ravivé par les couleurs de timbre du XXIe siècle.',
+        'Les lignes musicales, d’abord abstraites et indistinctes, évoluent peu à peu vers une structure plus limpide, jusqu’à culminer dans des échos du matériau initial. Cherchant à réinterpréter le thème central de Nizami, la discipline de soi, dans un cadre sonore contemporain, Mahzen-ül Esrar propose une réinvention musicale du voyage mystique d’un texte ancien, des ténèbres vers la lumière, ravivé par les couleurs de timbre du XXIe siècle.',
       ],
       en: [
         'Mahzen-ül Esrar, composed for the Semplice Quartet and inspired by the work of the same name written by Nizami Ganjavi in the 12th century, begins as if suspended in a void, outside the bounds of time. While tracing the essence of Nizami’s statement, “The wisdom hidden in the depths of the human soul is a treasure accessible only to those who purify their nafs,” the piece presents a gradual transformation from silence to percussive richness—mirroring the journey of the traveler in Mahzen-ül Esrar, who must first immerse themselves in the Sea of Serenity to pass through the seven valleys.',
@@ -332,9 +332,9 @@ export const works: {
         'İnsanlığın yazıya geçirilmiş en eski anlatılarından biri olan Gılgamış Destanı, yaklaşık 4.000 yıl önce Sümer kil tabletlerine kazınmış olmasına rağmen güncelliğini korumaktadır. Uruk kralı Gılgamış’ın dostluk, kayıp, yas ve ölümsüzlük arayışı temaları etrafında örülen bu kadim hikâye, insanlığın varoluşsal sorulara yanıt arayışının evrensel bir yansımasıdır.',
         'Bu kompozisyon, Gılgamış’ın mitolojik yolculuğunun üç ayrı evresini bir ses manzarasında yeniden canlandırmayı amaçlar:',
         '1. Gılgamış ile Enkidu’nun Dostluğu: Bir çatışma olarak başlayıp giderek dostluğa dönüşen trombon ile arp arasındaki diyalog, Gılgamış’ın vahşi adam Enkidu ile ilişkisini temsil eder.',
-        '2. Enkidu’nun Ölümü ve Yas: Elektronik sesler ile trombon arasındaki gergin pasajlar, Gılgamış’ın dostunun kaybı karşısındaki çaresizliğini ve kederini ifade eder.',
-        '3. Ölümsüzlük Arayışı: Arp ve elektronik tınılar, Gılgamış’ın ölümsüzlük arayışındaki umut ve umutsuzluk gelgitlerini yansıtırken, eserin sonunda trombon insanın ölümlülüğünü kabullenişinin derin yankısını taşır.',
-        'Bu kompozisyon, insanlığın en kadim hikâyelerinden birini 21. yüzyılın ses paletinde yeniden yorumlamak için akustik çalgıları —trombon ve arp— elektronik tınılarla bir araya getirir. Trombon, Gılgamış’ın kahramanca ve melankolik karakterini temsil eder; arp, mitolojik dünyanın gizemli atmosferini somutlaştırır; elektronik tınılar ise zamanın akışını simgeler.',
+        '2. Enkidu’nun Ölümü ve Yas: Elektronikler ile trombon arasındaki gergin pasajlar, Gılgamış’ın dostunun kaybı karşısındaki çaresizliğini ve kederini ifade eder.',
+        '3. Ölümsüzlük Arayışı: Arp ve elektronikler, Gılgamış’ın ölümsüzlük arayışındaki umut ve umutsuzluk gelgitlerini yansıtırken, eserin sonunda trombon insanın ölümlülüğünü kabullenişinin derin yankısını taşır.',
+        'Bu kompozisyon, insanlığın en kadim hikâyelerinden birini 21. yüzyılın ses paletinde yeniden yorumlamak için akustik çalgıları —trombon ve arp— elektroniklerle bir araya getirir. Trombon, Gılgamış’ın kahramanca ve melankolik karakterini temsil eder; arp, mitolojik dünyanın gizemli atmosferini somutlaştırır; elektronikler ise zamanın akışını simgeler.',
         'Gılgamış’ın yolculuğu aslında herkesin yolculuğudur: sevmek, kaybetmek ve nihayetinde ardında anlamlı bir hikâye bırakarak ölümlü doğamızı kabullenme çabası...',
       ],
       fr: [

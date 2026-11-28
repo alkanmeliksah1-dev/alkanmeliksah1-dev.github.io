@@ -6,7 +6,7 @@
            nefes alan bir fotoğraf
    COLOUR  sıcak siyah zemin, kemik beyazı metin, tek vurgu: lamba pirinci
    TYPE    Source Serif 4 her yerde (gövde, başlıklar, menü);
-           Cormorant Garamond yalnızca ana sayfadaki isimde
+           Bodoni Moda yalnızca isimde
    ============================================================= */
 
 :root {
@@ -21,7 +21,7 @@
   --grade: grayscale(1) sepia(.22) contrast(1.06);
 
   --text: 'Source Serif 4', Georgia, serif;
-  --display: 'Cormorant Garamond', Georgia, serif;   /* yalnızca ana sayfa ismi */
+  --display: 'Bodoni Moda', Didot, 'Bodoni 72', Georgia, serif;   /* isim (keskin, yüksek kontrastlı) */
   --fs: 16px;                                         /* tüm sayfalarda tek metin boyu */
 
   --edge: clamp(16px, 3vw, 44px);
@@ -112,7 +112,7 @@ img { display: block; max-width: 100%; }
 .brand {
   position: fixed; top: 34px; left: 44px; z-index: 31;
   display: inline-block; padding: 8px 0 10px;
-  font: 300 34px/1 var(--display); letter-spacing: -.005em; color: var(--ink);
+  font: 500 31px/1 var(--display); letter-spacing: -.02em; color: var(--ink);
   text-shadow: 0 1px 18px rgba(0, 0, 0, .55);
   cursor: default; user-select: none;
 }
@@ -190,6 +190,7 @@ main { min-height: 100vh; }
   animation: rise .9s cubic-bezier(.2, .7, .2, 1) both;
 }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+@keyframes fade-in { from { opacity: 0; } }
 .sheet-title {
   font: 400 26px/1.2 var(--text);
   padding-bottom: 18px; margin-bottom: 28px;
@@ -382,7 +383,7 @@ a.contact-line:hover { color: var(--accent); }
   text-align: right;
   animation: rise 1.8s .3s cubic-bezier(.2, .7, .2, 1) both;
 }
-.hero-name h1 { font: 300 calc(clamp(56px, 9.5vw, 140px) * var(--z, 1))/.9 var(--display); letter-spacing: -.01em; }
+.hero-name h1 { font: 500 calc(clamp(54px, 9vw, 132px) * var(--z, 1))/.93 var(--display); letter-spacing: -.03em; }
 .hero-name h1 .sur { color: var(--accent); }
 .hero-name p { margin-top: 20px; zoom: var(--z, 1); }
 
@@ -409,96 +410,82 @@ a.contact-line:hover { color: var(--accent); }
   font-variant-numeric: tabular-nums;
 }
 .db-m { font: 400 11px/1 var(--text); letter-spacing: .16em; color: var(--dim); }
-.db-d { font: 300 36px/.95 var(--display); color: var(--ink); }
+.db-d { font: 500 33px/.95 var(--display); letter-spacing: -.02em; color: var(--ink); }
 .datebox--year .db-d { font-size: 26px; padding: 4px 0 2px; }
 .db-t { font: 400 11px/1 var(--text); letter-spacing: .1em; color: var(--accent); }
 .page-events .entry:not(.has-poster) .entry-body { padding-right: 116px; }
-.page-events .entry-poster { padding-top: 26px; }
+/* afiş kartın sağ kenarını tam doldurur; tarih kutusu köşesine oturur */
+.page-events .entry.has-poster { grid-template-columns: minmax(0, 1fr) 250px; }
+.page-events .entry-poster { padding: 0; align-items: stretch; }
+.page-events .entry-poster { align-self: start; }
+.page-events .entry-poster img { width: 100%; height: auto; }
+.page-events .entry-poster .pop { --pop: 1.2; transform-origin: 70% 30%; }
+/* afiş büyürken tarih kutusu bulanıklaşarak kaybolur, afiş küçülünce bulanıktan geri gelir */
+.datebox { transition: opacity .45s cubic-bezier(.2, .7, .2, 1), filter .45s cubic-bezier(.2, .7, .2, 1), transform .45s cubic-bezier(.2, .7, .2, 1), border-color .3s; }
+@media (hover: hover) and (min-width: 901px) {
+  .entry:has(.pop:hover) .datebox { opacity: 0; filter: blur(10px); transform: scale(.94); }
+}
 @media (hover: hover) { .card:hover .datebox { border-color: rgba(235, 227, 213, .24); } }
 
 /* ---------- mobil ---------- */
-html.menu-open { overflow: hidden; }
+
 .scrim { display: none; }
 @media (max-width: 900px) {
-  .nav-panel, body:not(.is-home) .nav-panel { top: 12px; right: 12px; left: auto; width: auto; }
-  .brand { position: absolute; top: 14px; left: 20px; font-size: 28px; padding: 8px 0 9px; }
+  /* ---- sabit üst şerit: isim ve menü düğmesi kaydırırken yerinde kalır ---- */
+  body::before {
+    content: ""; position: fixed; left: 0; right: 0; top: 0; height: 68px; z-index: 29; pointer-events: none;
+    background: linear-gradient(to bottom, #0b0a09 0%, #0b0a09 82%, rgba(11, 10, 9, 0) 100%);
+  }
+  .is-home::before { display: none; }
+  .nav-panel, body:not(.is-home) .nav-panel { top: 10px; right: 12px; left: auto; width: auto; }
+  .brand { position: fixed; top: 12px; left: 20px; font-size: 27px; padding: 8px 0 9px; }
   .foot { margin: 0; padding: 22px 20px 28px; background: rgba(11, 10, 9, .82); max-width: none; }
   .foot--home { left: 24px; bottom: 18px; padding: 0; background: none; }
+  /* adres çubuğu açılıp kapanırken arka plan yeniden boyutlanıp kaymasın */
+  .backdrop { bottom: auto; height: 100lvh; }
 
-  /* ---- menü düğmesi: üç eşit olmayan kıl çizgi; açılınca çaprazlanır, kapanınca aynı yoldan geri döner ---- */
+  /* ---- menü düğmesi: üç eşit olmayan, yatayda kaymış kıl çizgi; açılınca çaprazlanır, kapanınca aynı yoldan geri döner ---- */
   .menu-btn {
     display: grid; place-items: center; position: relative; z-index: 2; margin-left: auto;
     width: 48px; height: 48px; padding: 0; cursor: pointer; color: var(--ink);
-    background: rgba(14, 12, 10, .72); border: 1px solid var(--faint);
-    transition: background-color .5s, border-color .5s;
+    background: transparent; border: 1px solid transparent; touch-action: manipulation;
+    transition: background-color .2s, border-color .2s;
   }
-  .nav-panel.open .menu-btn { background: transparent; border-color: transparent; }
-  .burger { position: relative; display: block; width: 24px; height: 15px; }
+  .nav-panel.open .menu-btn { background: #100e0c; border-color: var(--faint); }
+  .burger { position: relative; display: block; width: 26px; height: 15px; }
   .burger i {
-    position: absolute; right: 0; height: 1px; background: currentColor; border-radius: 1px;
+    position: absolute; height: 1px; background: currentColor;
     transform-origin: 50% 50%;
-    transition: transform .45s cubic-bezier(.65, 0, .35, 1), width .45s cubic-bezier(.65, 0, .35, 1), top .45s cubic-bezier(.65, 0, .35, 1), opacity .3s, background-color .3s;
+    transition: transform .22s cubic-bezier(.65, 0, .35, 1), width .22s cubic-bezier(.65, 0, .35, 1), left .22s cubic-bezier(.65, 0, .35, 1), top .22s cubic-bezier(.65, 0, .35, 1), opacity .15s;
   }
-  .burger i:nth-child(1) { top: 0; width: 24px; transition-delay: 0s, .2s, .2s, 0s, 0s; }
-  .burger i:nth-child(2) { top: 7px; width: 13px; right: 6px; background: var(--accent); transition-delay: .3s; }
-  .burger i:nth-child(3) { top: 14px; width: 18px; transition-delay: 0s, .2s, .2s, 0s, 0s; }
-  /* açılış: önce çizgiler ortada buluşur, sonra çaprazlanır (kapanışta bunun tam tersi) */
-  .nav-panel.open .burger i:nth-child(1) { top: 7px; width: 24px; transform: rotate(45deg); transition-delay: .18s, 0s, 0s, 0s, 0s; }
-  .nav-panel.open .burger i:nth-child(2) { width: 0; opacity: 0; transition-delay: 0s; }
-  .nav-panel.open .burger i:nth-child(3) { top: 7px; width: 24px; transform: rotate(-45deg); transition-delay: .18s, 0s, 0s, 0s, 0s; }
-  .nav-panel.open .burger i:nth-child(1), .nav-panel.open .burger i:nth-child(3) {
-    transition-property: transform, width, top, opacity, background-color;
-  }
+  .burger i:nth-child(1) { top: 0; left: 0; width: 23px; }
+  .burger i:nth-child(2) { top: 7px; left: 9px; width: 11px; background: var(--accent); }
+  .burger i:nth-child(3) { top: 14px; left: 4px; width: 17px; }
+  .nav-panel.open .burger i:nth-child(1) { top: 7px; left: 1px; width: 24px; transform: rotate(45deg); }
+  .nav-panel.open .burger i:nth-child(2) { left: 13px; width: 0; opacity: 0; }
+  .nav-panel.open .burger i:nth-child(3) { top: 7px; left: 1px; width: 24px; transform: rotate(-45deg); }
 
-  /* ---- tam ekran menü: düğmenin olduğu köşeden dairesel olarak açılır, kapanınca aynı daireye geri çekilir ---- */
+  /* ---- menü: masaüstündeki panelin aynısı, düğmenin altından açılır; bağlantılar ilk andan tıklanabilir ---- */
   .scrim { display: none !important; }
   .nav-panel .menu {
-    position: fixed; inset: 0; z-index: 1;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 96px 32px 48px; width: auto; margin: 0;
-    background: #0b0a09; border: 0; box-shadow: none;
-    overflow-y: auto; overscroll-behavior: contain;
-    clip-path: circle(0px at calc(100% - 36px) 36px);
-    visibility: hidden;
-    transition: clip-path .6s cubic-bezier(.7, 0, .84, 0) .28s, visibility 0s linear .9s;
+    position: absolute; right: 0; top: 56px; margin: 0;
+    width: min(280px, calc(100vw - 24px)); max-height: calc(100svh - 80px); overflow-y: auto; overscroll-behavior: contain;
+    background: #100e0c; box-shadow: 0 18px 50px rgba(0, 0, 0, .55);
+    opacity: 0; transform: translateY(-6px); clip-path: inset(0 0 100% 0);
+    visibility: hidden; pointer-events: none;
+    transition: opacity .18s ease-in, transform .18s ease-in, clip-path .18s ease-in, visibility 0s linear .18s;
   }
   .nav-panel.open .menu {
-    visibility: visible; clip-path: circle(150vmax at calc(100% - 36px) 36px);
-    transition: clip-path .85s cubic-bezier(.16, 1, .3, 1) 0s, visibility 0s linear 0s;
+    opacity: 1; transform: none; clip-path: inset(0 0 0 0); visibility: visible; pointer-events: auto;
+    transition: opacity .22s cubic-bezier(.2, .7, .2, 1), transform .26s cubic-bezier(.2, .7, .2, 1), clip-path .26s cubic-bezier(.2, .7, .2, 1), visibility 0s;
   }
-  .menu ul { padding-bottom: 26px; border-bottom: 0; }
-  .menu li {
-    counter-increment: m; opacity: 0; filter: blur(6px); transform: translateY(14px);
-    transition: opacity .3s ease-in, filter .3s ease-in, transform .3s ease-in;
-    transition-delay: calc((7 - var(--i)) * 28ms);
-  }
-  .nav-panel.open .menu li {
-    opacity: 1; filter: none; transform: none;
-    transition: opacity .8s cubic-bezier(.2, .7, .2, 1), filter .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1);
-    transition-delay: calc(200ms + var(--i) * 55ms);
-  }
-  .menu ul { counter-reset: m; }
-  .menu li a {
-    display: inline-flex; align-items: baseline; gap: 16px;
-    font: 300 clamp(30px, 8.6vw, 40px)/1.15 var(--display); letter-spacing: -.005em;
-    padding: 7px 0; color: var(--ink);
-  }
-  .menu li a::before {
-    content: counter(m, decimal-leading-zero); order: -1; min-width: 20px;
-    font: 400 11px/1 var(--text); letter-spacing: .14em; color: var(--dim);
-  }
-  .menu li a[aria-current], .menu li a.chosen { color: var(--accent); }
-  .menu li a::after { bottom: 4px; left: 36px; }
-  .langs {
-    gap: 6px; padding-top: 18px; border-top: 1px solid var(--faint);
-    opacity: 0; transform: translateY(10px); transition: opacity .25s ease-in, transform .25s ease-in;
-  }
-  .nav-panel.open .langs { opacity: 1; transform: none; transition: opacity .8s cubic-bezier(.2, .7, .2, 1) .62s, transform .8s cubic-bezier(.2, .7, .2, 1) .62s; }
-  .langs a:first-child { margin-left: -11px; }
+  .menu li a { font-size: 17px; padding: 10px 0; }
+  .menu li { opacity: .001; transform: translateX(6px); transition: opacity .12s, transform .12s; }
+  .nav-panel.open .menu li { opacity: 1; transform: none; transition: opacity .3s cubic-bezier(.2, .7, .2, 1), transform .3s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i) * 18ms); }
 
   /* ---- içerik: telefonda kutu yerine kenardan kenara koyu yüzey ---- */
-  .panel { background: rgba(11, 10, 9, .84); }
-  .sheet { margin: 78px 0 0; max-width: none; border-left: 0; border-right: 0; padding: 30px 20px 40px; }
+  .panel { background: rgba(11, 10, 9, .86); }
+  .sheet { margin: 68px 0 0; max-width: none; border-left: 0; border-right: 0; padding: 28px 20px 40px; animation-duration: .5s; }
   .sheet-title { font-size: 28px; padding-bottom: 16px; margin-bottom: 26px; }
   .about-grid { grid-template-columns: 1fr; gap: 26px; }
   .about-grid figure { max-width: 300px; }
@@ -516,14 +503,18 @@ html.menu-open { overflow: hidden; }
   .page-contact .sheet { margin-bottom: 0; }
 }
 @media (max-width: 900px) {
-  .hero-name { left: 24px; right: 24px; bottom: 70px; text-align: left; }
-  .hero-name h1 { font-size: clamp(64px, 19vw, 120px); }
-  .motto { margin: 0 0 26px; max-width: 21em; font-size: 18px; background-position: 0 100%; }
-  .hero-name p { margin-top: 16px; }
+  .hero-name { left: 24px; right: 24px; bottom: 64px; text-align: left; position: fixed; animation-name: fade-in; }
+  .hero-name h1 { font-size: clamp(60px, 18vw, 116px); }
+  .motto {
+    position: fixed; top: 84px; left: 24px; right: 24px; margin: 0; max-width: 19em;
+    font-size: 17px; line-height: 1.45; background-position: 0 100%;
+  }
+  .hero-name p { margin-top: 14px; }
 }
 @media (max-width: 560px) {
   .page-events .entry-body { padding-right: 104px !important; }
-  .page-events .entry-poster { padding-top: 0; }
+  .page-events .entry.has-poster { grid-template-columns: 1fr; }
+  .page-events .entry-poster { padding: 0; max-width: none; }
   .datebox { width: 78px; height: 84px; }
   .db-d { font-size: 32px; }
   .rows > li { grid-template-columns: 1fr; gap: 4px; }
