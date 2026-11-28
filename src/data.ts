@@ -7,7 +7,11 @@ export const LANGS = ['en', 'tr', 'fr'] as const;
 export type Lang = (typeof LANGS)[number];
 type T = Record<Lang, string>;
 
-const BREVO = 'https://f13fe3b8.sibforms.com/serve/MUIFAMxwNsfMtEekHHSOqxsoTNHZv6004qU-nI-MOgEMfSAWE_zuFJJJkhKZTYDBVMXxJ85KDRy-fFA483T8n56gJaw6IAutPCtFsDjG8pLYJSUIzR9SwYKNawdph3gPG7sNQVjok84QHMMHLjXhX1mumyopXSWmSjBvj_STUuhIcAbOF0Wlv6Xpyq51b_zBor0fS3l0vzAXZoMtIA==';
+const BREVO = {
+  tr: 'https://f13fe3b8.sibforms.com/serve/MUIFAMxwNsfMtEekHHSOqxsoTNHZv6004qU-nI-MOgEMfSAWE_zuFJJJkhKZTYDBVMXxJ85KDRy-fFA483T8n56gJaw6IAutPCtFsDjG8pLYJSUIzR9SwYKNawdph3gPG7sNQVjok84QHMMHLjXhX1mumyopXSWmSjBvj_STUuhIcAbOF0Wlv6Xpyq51b_zBor0fS3l0vzAXZoMtIA==',
+  en: 'https://f13fe3b8.sibforms.com/serve/MUIFANmaAmp9EF9Xnh_qMFZN7PZgK7oVc2iHJiv2b4MaresaMLVgAYC4ZAFV0AhOc16tdxmdD8jMii-z8j8AuLsadZiDy-5ECP7g_-E_A6N_BULMijNxnerXlU75UazX3GWasRI5DJuiq4yk3OiBZgan_xULJHEqmCuxoUg9dDWrLd2Ab63W2_MTAfGsYQjXWhNvXoNhZWudppIU3w==',
+  fr: 'https://f13fe3b8.sibforms.com/serve/MUIFAEmj2g6gO49I3o6LCQ0lcGbiTW3OT0J4oiUmiOMv9JyQdKyADP8ZYyDjmLIcu79ubyeONa-TozAjOfshWQ6qLOCSN05vWX_6BAJ9YWQ1fIjLcNApoLSuFxCsTc_wjMHySb5RlU2ZLxHNvruKjBelY3LJ2KHhs-KJFD4TiVugLaGZsKbUQyt9uYjOde-y05kK6yoWvbHVRbYd6A==',
+};
 
 export const site = {
   name: 'Melikşah Alkan',
@@ -26,7 +30,7 @@ export const site = {
     // Bülten: Brevo'daki "Bülten" formu (liste: Bülten, çift onay). Onay e-postası üç dilli;
     // onaydan sonra ziyaretçi kendi dilindeki İletişim sayfasına döner ve teşekkür mesajını görür.
     // Boş bırakılırsa abonelik talepleri e-postayla info@ adresine gelir (hiçbiri kaybolmaz).
-    newsletter: { en: BREVO, tr: BREVO, fr: BREVO } as Record<'en' | 'tr' | 'fr', string>,
+    newsletter: BREVO as Record<'en' | 'tr' | 'fr', string>,
   },
 };
 
