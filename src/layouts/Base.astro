@@ -10,7 +10,7 @@ import Flag from '../components/Flag.astro';
 import { ClientRouter } from 'astro:transitions';
 import images from '../images.json';
 import { href } from '../lib';
-import { pageDescription, pageLd, type Share } from '../seo';
+import { pageDescription, pageLd, HOME, type Share } from '../seo';
 
 interface Props {
   lang: Lang;
@@ -39,7 +39,7 @@ const bgOf = (navSlug: string) => {
   const sizes = a?.fit === 'height' ? `${Math.round(r * 100)}vh` : a ? `max(100vw, ${Math.round(r * 100)}vh)` : '100vw';
   return { 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
 };
-const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${ui.role[lang]}` : `${current.label[lang]} — ${site.name}`;
+const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${HOME.title[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = desc ?? pageDescription(lang, slug);
 const share = image ?? { url: 'https://meliksahalkan.com/og.jpg', w: 1200, h: 630, alt: site.name };
 const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang] : undefined);
@@ -92,6 +92,7 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
   <link rel="icon" href="/favicon-32.png?v=4" type="image/png" sizes="32x32" />
   <link rel="icon" href="/favicon-16.png?v=4" type="image/png" sizes="16x16" />
   <link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-192.png?v=4" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4" sizes="180x180" />
   <link rel="mask-icon" href="/mask-icon.svg?v=4" color="#0b0a09" />
   <link rel="manifest" href="/site.webmanifest" />
@@ -126,17 +127,17 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
     <div class:list={['backdrop', { 'backdrop--home': home, 'backdrop--anchored': anchor }]} aria-hidden="true"
       data-fx={anchor?.fx} data-at={anchor?.at} data-fit={anchor?.fit} data-ratio={anchor ? ratio.toFixed(4) : undefined}
       style={anchor ? `--fx:${anchor.fx * 100}%` : undefined}>
-      <Pic name={bg} sizes={bgSizes} priority />
+      <Pic name={bg} sizes={bgSizes} priority alt={home ? site.name : `${site.name} — ${current?.label[lang] ?? ''}`} />
     </div>
   )}
 
   {!home && (
-    <p class="brand" aria-label={site.name}>
+    <p class="brand" aria-label={site.name} data-nosnippet>
       {[...'Melikşah'].map((c, i) => <span style={`--i:${i}`}>{c}</span>)}<span style="--i:8">&nbsp;</span><span class="sur">{[...'ALKAN'].map((c, i) => <span style={`--i:${i + 9}`}>{c}</span>)}</span>
     </p>
   )}
 
-  <header class="nav-panel">
+  <header class="nav-panel" data-nosnippet>
     <div class="scrim" aria-hidden="true"></div>
     <button class="menu-btn" aria-expanded="false" aria-controls="menu">
       <span class="when-closed">{ui.menu[lang]}</span><span class="when-open">{ui.close[lang]}</span>
@@ -159,7 +160,7 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
     <slot />
   </main>
 
-  <footer class:list={['foot', { 'foot--home': home }]}>
+  <footer class:list={['foot', { 'foot--home': home }]} data-nosnippet>
     <p>© {new Date().getFullYear()} {site.name} — {ui.rights[lang].replace(/\.$/, '')}</p>
   </footer>
 

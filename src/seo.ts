@@ -4,7 +4,7 @@
 //  metinler, çeviriler, tarihler ya da afişler değişince bunlar da
 //  kendiliğinden güncellenir. Elle tutulan tek şey PROFILE.
 // =============================================================
-import { site, ui, bio, statement, awards, works, events, recordings, gallery, type Lang } from './data';
+import { site, ui, bio, statement, awards, works, events, recordings, gallery, photos, type Lang } from './data';
 import images from './images.json';
 import { href, fullDate } from './lib';
 
@@ -44,6 +44,16 @@ export const clip = (text: string, max = 155) => {
 const join = (xs: string[]) => [...new Set(xs.filter(Boolean))].join(', ');
 const firstNote = (n?: { en: string[]; tr?: string[]; fr?: string[] }, lang: Lang = 'en') => (n ? (n[lang] ?? n.en)[0] : '');
 
+// Ana sayfa: aramada en çok görülen sonuç; başlık ve açıklama özenle yazıldı.
+export const HOME = {
+  title: R('Composer and Sound Designer', 'Besteci ve Ses Tasarımcısı', 'Compositeur et créateur sonore'),
+  description: R(
+    'Istanbul-based composer and sound designer. His works have been performed by soloists of the Ensemble intercontemporain, Semplice Quartet and Niklas Seidl.',
+    'İstanbul’da yaşayan besteci ve ses tasarımcısı. Eserleri Ensemble intercontemporain solistleri, Semplice Quartet ve Niklas Seidl tarafından seslendirildi.',
+    'Compositeur et créateur sonore basé à Istanbul. Ses œuvres ont été interprétées par des solistes de l’Ensemble intercontemporain, le Semplice Quartet et Niklas Seidl.',
+  ),
+};
+
 const L = {
   works: R('Works by Melikşah Alkan', 'Melikşah Alkan’ın çalışmaları', 'Œuvres de Melikşah Alkan'),
   events: R('Concerts, premieres and performances of works by Melikşah Alkan', 'Melikşah Alkan’ın eserlerinin konserleri, prömiyerleri ve temsilleri', 'Concerts, créations et représentations des œuvres de Melikşah Alkan'),
@@ -58,7 +68,7 @@ const L = {
 // ---------- sayfa açıklamaları ----------
 export const pageDescription = (lang: Lang, slug: string): string => {
   switch (slug) {
-    case '': return clip(`${site.name} — ${ui.roles[lang]}, ${ui.city[lang]}. ${bio[lang][1] ?? ''}`);
+    case '': return HOME.description[lang];
     case 'about': return clip(bio[lang][0]);
     case 'approach': return clip(statement[lang][0]);
     case 'works': return clip(`${L.works[lang]}: ${join(works.map((w) => w.title))}.`);
@@ -130,7 +140,7 @@ export const personLd = (lang: Lang, full = false) => ({
 });
 
 const websiteLd = (lang: Lang) => ({
-  '@type': 'WebSite', '@id': `${SITE}/#website`, url: url(lang), name: site.name,
+  '@type': 'WebSite', '@id': `${SITE}/#website`, url: url(lang), name: site.name, alternateName: PROFILE.alternateNames[0],
   inLanguage: lang, publisher: { '@id': PERSON_ID },
 });
 
@@ -141,6 +151,16 @@ const crumbs = (lang: Lang, items: { name: string; slug: string }[]) => ({
 
 export const pageLd = (lang: Lang, slug: string, label?: string) => {
   const graph: object[] = [websiteLd(lang), personLd(lang, slug === '' || slug === 'about')];
+  if (slug === '') {
+    // aramada sonucun yanında görsel gösterilebilmesi için sayfanın başlıca fotoğrafları
+    const pics = [photos.home, PROFILE.portrait, ...gallery.flatMap((g) => g.items.map((i) => i.img)).slice(0, 6)];
+    graph.push({
+      '@type': 'WebPage', url: url(lang), name: `${site.name} — ${HOME.title[lang]}`, inLanguage: lang,
+      about: { '@id': PERSON_ID }, isPartOf: { '@id': `${SITE}/#website` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: imgUrl(photos.home) },
+      image: [...new Set(pics)].map((n) => imgUrl(n)),
+    });
+  }
   if (slug === 'about') graph.push({ '@type': 'ProfilePage', url: url(lang, 'about'), mainEntity: { '@id': PERSON_ID }, inLanguage: lang });
   if (slug && label) graph.push(crumbs(lang, [{ name: site.name, slug: '' }, { name: label, slug }]));
   return { '@context': 'https://schema.org', '@graph': graph };
