@@ -7,6 +7,8 @@ export const LANGS = ['en', 'tr', 'fr'] as const;
 export type Lang = (typeof LANGS)[number];
 type T = Record<Lang, string>;
 
+const BREVO = 'https://f13fe3b8.sibforms.com/serve/MUIFAMxwNsfMtEekHHSOqxsoTNHZv6004qU-nI-MOgEMfSAWE_zuFJJJkhKZTYDBVMXxJ85KDRy-fFA483T8n56gJaw6IAutPCtFsDjG8pLYJSUIzR9SwYKNawdph3gPG7sNQVjok84QHMMHLjXhX1mumyopXSWmSjBvj_STUuhIcAbOF0Wlv6Xpyq51b_zBor0fS3l0vzAXZoMtIA==';
+
 export const site = {
   name: 'Melikşah Alkan',
   email: 'info@meliksahalkan.com',
@@ -21,9 +23,10 @@ export const site = {
     // İletişim formu: FormSubmit üzerinden doğrudan info@ adresine gelir.
     // İlk mesajda FormSubmit bir "Activate" e-postası yollar; bir kez onaylamak yeterli.
     contact: 'https://formsubmit.co/ajax/info@meliksahalkan.com',
-    // Bülten: Brevo'da her dil için oluşturulan formun "action" adresi (…sibforms.com/serve/…).
+    // Bülten: Brevo'daki "Bülten" formu (liste: Bülten, çift onay). Onay e-postası üç dilli;
+    // onaydan sonra ziyaretçi kendi dilindeki İletişim sayfasına döner ve teşekkür mesajını görür.
     // Boş bırakılırsa abonelik talepleri e-postayla info@ adresine gelir (hiçbiri kaybolmaz).
-    newsletter: { en: '', tr: '', fr: '' } as Record<'en' | 'tr' | 'fr', string>,
+    newsletter: { en: BREVO, tr: BREVO, fr: BREVO } as Record<'en' | 'tr' | 'fr', string>,
   },
 };
 
@@ -137,6 +140,11 @@ export const ui = {
     en: 'Almost done: please confirm your subscription with the link we have just sent to your inbox.',
     tr: 'Neredeyse tamam: e-posta kutunuza gönderilen bağlantıyla aboneliğinizi onaylayın.',
     fr: 'Presque terminé : confirmez votre abonnement grâce au lien envoyé dans votre boîte de réception.',
+  },
+  nlDone: {
+    en: 'Thank you, your subscription is confirmed.',
+    tr: 'Teşekkürler, aboneliğiniz onaylandı.',
+    fr: 'Merci, votre abonnement est confirmé.',
   },
   nlOk: {
     en: 'Thank you, you are subscribed.',

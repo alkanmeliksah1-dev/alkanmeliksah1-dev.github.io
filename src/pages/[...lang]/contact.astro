@@ -57,6 +57,7 @@ const nlAction = site.forms.newsletter[lang];
         <div class="field"><label for="n-email">{t('fEmail')}</label><input id="n-email" name="EMAIL" type="email" autocomplete="email" inputmode="email" required maxlength="200" spellcheck="false" autocapitalize="off" /></div>
         <input class="hp" type="text" name="email_address_check" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <input type="hidden" name="locale" value={lang} />
+        <input type="hidden" name="html_type" value="simple" />
         <button class="submit" type="submit">{t('fSubscribe')}</button>
         <p class="status" role="status" aria-live="polite"></p>
       </form>
@@ -64,7 +65,7 @@ const nlAction = site.forms.newsletter[lang];
   </Sheet>
 
 <div id="contact-l" hidden data-l={JSON.stringify({
-  sending: t('fSending'), ok: t('msgOk'), err: t('msgErr'), nlConfirm: t('nlConfirm'), nlOk: t('nlOk'),
+  sending: t('fSending'), ok: t('msgOk'), err: t('msgErr'), nlConfirm: t('nlConfirm'), nlOk: t('nlOk'), nlDone: t('nlDone'),
   email: site.email, contact: site.forms.contact, lang,
 })}></div>
 <script>
@@ -87,6 +88,12 @@ const nlAction = site.forms.newsletter[lang];
   document.documentElement.classList.add('tabs-ready');
   const fromHash = () => (location.hash === '#newsletter' ? 'p-newsletter' : 'p-message');
   show(fromHash());
+  // Brevo'daki onay bağlantısından dönüş: bülten sekmesinde teşekkür mesajı
+  const done = new URLSearchParams(location.search).get('subscribed') === '1';
+  if (done) {
+    show('p-newsletter');
+    history.replaceState(history.state, '', location.pathname + '#newsletter');
+  }
   tabs.forEach((b, i) => {
     b.addEventListener('click', () => { show(b.getAttribute('aria-controls')); history.replaceState(history.state, '', '#' + b.getAttribute('aria-controls').slice(2)); });
     b.addEventListener('keydown', (e) => {
@@ -106,6 +113,7 @@ const nlAction = site.forms.newsletter[lang];
       status.className = 'status' + (kind ? ' is-' + kind : ''); status.textContent = msg;
       if (link) { const a = document.createElement('a'); a.href = 'mailto:' + L.email; a.textContent = L.email; status.append(' ', a); }
     };
+    if (done && form.dataset.kind === 'newsletter') say(L.nlDone, 'ok');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) {
