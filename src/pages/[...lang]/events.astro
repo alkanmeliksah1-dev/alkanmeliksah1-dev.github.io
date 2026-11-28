@@ -14,6 +14,14 @@ const sorted = [...events].sort((a, b) => b.date.localeCompare(a.date));
 const key = (e: (typeof events)[number]) => (e.month ? e.date.slice(0, 8) + '31' : e.date);
 const upcoming = sorted.filter((e) => key(e) >= today).reverse();
 const past = sorted.filter((e) => key(e) < today);
+// köşedeki tarih kutusu: ay (kısa), gün, saat; yalnızca ayı belli olanlarda ay ve yıl
+const LOC = { en: 'en-GB', tr: 'tr-TR', fr: 'fr-FR' }[lang];
+const box = (e: (typeof events)[number]) => {
+  const [y, m, d] = e.date.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  const mon = dt.toLocaleDateString(LOC, { month: 'short', timeZone: 'UTC' }).replace('.', '').toLocaleUpperCase(lang);
+  return { mon, big: e.month ? String(y) : String(d).padStart(2, '0'), year: !!e.month, time: e.time };
+};
 const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
 ---
 <Base lang={lang} slug="events" bg={photos.events}>
@@ -24,13 +32,17 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
         <ul class="entries">
           {list.map((e) => (
             <li class:list={['entry', 'card', { 'has-poster': e.poster }]}>
+              {(() => { const b = box(e); return (
+                <time class:list={['datebox', { 'datebox--year': b.year }]} datetime={e.month ? e.date.slice(0, 7) : e.time ? `${e.date}T${e.time}` : e.date} aria-hidden="true">
+                  <span class="db-m">{b.mon}</span><span class="db-d">{b.big}</span>{b.time && <span class="db-t">{b.time}</span>}
+                </time>); })()}
               <div class="entry-body">
                 <p class="eyebrow">{eventEyebrow(e, lang)}</p>
                 <h3 class="entry-title"><a class="card-link" href={href(lang, `events/${e.slug}`)}>{eventHeading(e)}</a></h3>
                 {workSub(workOf(e), lang) && <p class="sub">{workSub(workOf(e), lang)}</p>}
                 <Lines e={e} lang={lang} />
               </div>
-              {e.poster && <div class="entry-poster"><a class="pop" href={href(lang, `events/${e.slug}`)} tabindex="-1" aria-hidden="true"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 70vw, 200px" /></a></div>}
+              {e.poster && <div class="entry-poster"><a class="pop" href={href(lang, `events/${e.slug}`)} tabindex="-1" aria-hidden="true"><Pic name={e.poster} alt={`${ui.poster[lang]}: ${e.title}`} sizes="(max-width: 560px) 50vw, 200px" /></a></div>}
             </li>
           ))}
         </ul>

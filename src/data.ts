@@ -22,6 +22,7 @@ export const site = {
     soundcloud: 'https://soundcloud.com/meliksahalkan',
     instagram: 'https://www.instagram.com/meliksah.alkan/',
     facebook: 'https://www.facebook.com/meliksah.alkan.79',
+    x: '',  // X (Twitter)
   },
   forms: {
     // İletişim formu: FormSubmit üzerinden doğrudan info@ adresine gelir.
@@ -48,11 +49,7 @@ export const nav: { slug: string; label: T }[] = [
 
 export const ui = {
   role: { en: 'Composer', tr: 'Besteci', fr: 'Compositeur' },
-  roles: {
-    en: 'Composer · Sound designer',
-    tr: 'Besteci · Ses tasarımcısı',
-    fr: 'Compositeur · Créateur sonore',
-  },
+  roles: { en: 'Composer', tr: 'Besteci', fr: 'Compositeur' },
   city: { en: 'Istanbul', tr: 'İstanbul', fr: 'Istanbul' },
   menu: { en: 'Menu', tr: 'Menü', fr: 'Menu' },
   rights: { en: 'All rights reserved.', tr: 'Tüm hakları saklıdır.', fr: 'Tous droits réservés.' },
@@ -159,6 +156,13 @@ export const ui = {
   elsewhere: { en: 'Elsewhere', tr: 'Diğer', fr: 'Ailleurs' },
 };
 
+// Ana sayfadaki tek cümle (Yaklaşım metninden); tıklanınca Yaklaşım sayfası açılır.
+export const motto: T = {
+  tr: 'Melikşah Alkan, sesin metafiziksel ve dramatik potansiyelini araştıran bir bestecidir.',
+  en: 'Melikşah Alkan is a composer exploring the metaphysical and dramatic potential of sound.',
+  fr: 'Melikşah Alkan est un compositeur qui explore le potentiel métaphysique et dramatique du son.',
+};
+
 // ---------- Yaklaşım ----------
 // TR ve EN metinler Melikşah'ın kendi metni. FR çeviri taslağıdır, kontrol edilmeli.
 export const statement: Record<Lang, string[]> = {
@@ -184,11 +188,11 @@ export const statement: Record<Lang, string[]> = {
 export const bio: Record<Lang, string[]> = {
   tr: [
     'İstanbul merkezli besteci Melikşah Alkan (d. 2005), resmi müzik eğitimine on beş yaşında başlamıştır. Flütçü olarak edindiği geçmiş, bestecilik pratiğini icracı perspektifinden kazandığı içgörülerle zenginleştirmiştir. Hâlen Uğurcan Öztekin ve Emre Dündar rehberliğinde kompozisyon çalışmalarını sürdürmekte, elektronik müzik alanında ise Furkan Keçeli ile çalışmaktadır. Alkan, çeşitli koro ve orkestralarda hem enstrümantalist hem de korist olarak geniş çapta performanslar gerçekleştirmiş, ayrıca yardımcı şef olarak görev almıştır. Pierluigi Billone, Enis Gümüş ve Mehmet Ali Uzunselvi ile masterclass çalışmalarına katılmıştır. Müzik kariyerine yönelmeden önce ulusal matematik olimpiyatlarına katılarak analitik becerilerini ortaya koymuştur.',
-    'Çeşitli eserleri Sesin Yolculuğu Genç Besteciler Festivali, Bilgi Yeni Müzik Festivali ve İzmir Yeni Müzik Günleri kapsamında Semplice Quartet, Ensemble Intercontemporain ve Niklas Seidl tarafından seslendirilmiş ve ayrıca Gılgamış Uluslararası Bestecilik Yarışması\'nda mansiyon ödülüne layık görülmüştür. Athol Fugard\'ın "A Place with the Pigs: A Personal Parable", Samuel Beckett\'in "Happy Days", Abdül Süsler\'in "Ro-Ap" ve İlyas Odman\'ın "Tek Bi\' Mutlu An" adlı yapımlarında müzik ve ses tasarımcısı olarak görev almıştır.',
+    'Çeşitli eserleri Sesin Yolculuğu Genç Besteciler Festivali, Bilgi Yeni Müzik Festivali ve İzmir Yeni Müzik Günleri kapsamında Semplice Quartet, Ensemble Intercontemporain ve Niklas Seidl tarafından seslendirilmiş ve ayrıca Gılgamış Uluslararası Bestecilik Yarışması\'nda mansiyon ödülüne layık görülmüştür. Athol Fugard\'ın "A Place with the Pigs: A Personal Parable", Samuel Beckett\'in "Happy Days", Abdül Süsler\'in "Ro-Ap" ve İlyas Odman\'ın "Tek Bi\' Mutlu An" adlı yapımlarının müziğini ve ses tasarımını üstlenmiştir.',
   ],
   en: [
     'Istanbul-based composer Melikşah Alkan (b. 2005) began his formal music education at the age of fifteen. His background as a flutist has enriched his compositional craft with practical insights from a performer\'s perspective. Currently studying composition under the guidance of Uğurcan Öztekin and Emre Dündar, and working on electronic music with Furkan Keçeli, Alkan has performed extensively as both an instrumentalist and choir singer in various choirs and orchestras, additionally serving as an assistant conductor. He has participated in masterclasses with Pierluigi Billone, Enis Gümüş and Mehmet Ali Uzunselvi. Prior to pursuing music, he demonstrated analytical skills through his participation in national mathematics olympiads.',
-    'His various works have been performed at the Journey of Sound Young Composers Festival, the Bilgi New Music Festival and the Izmir New Music Days by Semplice Quartet, Ensemble Intercontemporain and Niklas Seidl, and he has been awarded an honorable mention at the Gilgamesh International Composition Competition. He served as the music and sound designer for Athol Fugard\'s "A Place with the Pigs: A Personal Parable", Samuel Beckett\'s "Happy Days", Abdül Süsler\'s "Ro-Ap", and İlyas Odman\'s "Tek Bi\' Mutlu An".',
+    'His various works have been performed at the Journey of Sound Young Composers Festival, the Bilgi New Music Festival and the Izmir New Music Days by Semplice Quartet, Ensemble Intercontemporain and Niklas Seidl, and he has been awarded an honorable mention at the Gilgamesh International Composition Competition. He created the music and sound for Athol Fugard\'s "A Place with the Pigs: A Personal Parable", Samuel Beckett\'s "Happy Days", Abdül Süsler\'s "Ro-Ap", and İlyas Odman\'s "Tek Bi\' Mutlu An".',
   ],
   // TASLAK ÇEVİRİ — Fransızca bilen birine kontrol ettirilmeli.
   fr: [

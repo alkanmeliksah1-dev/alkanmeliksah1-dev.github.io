@@ -16,7 +16,7 @@ const R = (en: string, tr: string, fr: string): T => ({ en, tr, fr });
 // İsmin farklı yazılışları ve alanlar: Google'ın sizi tanıması için.
 export const PROFILE = {
   alternateNames: ['Meliksah Alkan', 'Melikşah ALKAN', 'MELİKŞAH ALKAN'],
-  jobTitles: { en: ['Composer', 'Sound designer'], tr: ['Besteci', 'Ses tasarımcısı'], fr: ['Compositeur', 'Créateur sonore'] } as Record<Lang, string[]>,
+  jobTitles: { en: ['Composer'], tr: ['Besteci'], fr: ['Compositeur'] } as Record<Lang, string[]>,
   knowsAbout: ['Contemporary classical music', 'Music composition', 'Electroacoustic music', 'Sound design', 'Music theatre', 'Flute'],
   university: { name: 'İstanbul Topkapı Üniversitesi', alternateName: 'Istanbul Topkapı University' },
   portrait: 'portrait',
@@ -46,11 +46,11 @@ const firstNote = (n?: { en: string[]; tr?: string[]; fr?: string[] }, lang: Lan
 
 // Ana sayfa: aramada en çok görülen sonuç; başlık ve açıklama özenle yazıldı.
 export const HOME = {
-  title: R('Composer and Sound Designer', 'Besteci ve Ses Tasarımcısı', 'Compositeur et créateur sonore'),
+  title: R('Composer', 'Besteci', 'Compositeur'),
   description: R(
-    'Istanbul-based composer and sound designer. His works have been performed by soloists of the Ensemble intercontemporain, Semplice Quartet and Niklas Seidl.',
-    'İstanbul’da yaşayan besteci ve ses tasarımcısı. Eserleri Ensemble intercontemporain solistleri, Semplice Quartet ve Niklas Seidl tarafından seslendirildi.',
-    'Compositeur et créateur sonore basé à Istanbul. Ses œuvres ont été interprétées par des solistes de l’Ensemble intercontemporain, le Semplice Quartet et Niklas Seidl.',
+    'Istanbul-based composer. His works have been performed by soloists of the Ensemble intercontemporain, Semplice Quartet and Niklas Seidl.',
+    'İstanbul’da yaşayan besteci. Eserleri Ensemble intercontemporain solistleri, Semplice Quartet ve Niklas Seidl tarafından seslendirildi.',
+    'Compositeur basé à Istanbul. Ses œuvres ont été interprétées par des solistes de l’Ensemble intercontemporain, le Semplice Quartet et Niklas Seidl.',
   ),
 };
 
@@ -59,9 +59,9 @@ const L = {
   events: R('Concerts, premieres and performances of works by Melikşah Alkan', 'Melikşah Alkan’ın eserlerinin konserleri, prömiyerleri ve temsilleri', 'Concerts, créations et représentations des œuvres de Melikşah Alkan'),
   media: R('Recordings and videos of works by Melikşah Alkan', 'Melikşah Alkan’ın eserlerinin kayıtları ve videoları', 'Enregistrements et vidéos des œuvres de Melikşah Alkan'),
   gallery: R('Photographs of Melikşah Alkan', 'Melikşah Alkan fotoğrafları', 'Photographies de Melikşah Alkan'),
-  contact: R('Contact Melikşah Alkan, composer and sound designer in Istanbul, or subscribe to news about upcoming premieres and concerts.',
-    'İstanbul’da yaşayan besteci ve ses tasarımcısı Melikşah Alkan ile iletişime geçin ya da yeni prömiyer ve konser haberleri için bültene kaydolun.',
-    'Contacter Melikşah Alkan, compositeur et créateur sonore à Istanbul, ou s’abonner aux nouvelles des prochaines créations et concerts.'),
+  contact: R('Contact Melikşah Alkan, composer in Istanbul, or subscribe to news about upcoming premieres and concerts.',
+    'İstanbul’da yaşayan besteci Melikşah Alkan ile iletişime geçin ya da yeni prömiyer ve konser haberleri için bültene kaydolun.',
+    'Contacter Melikşah Alkan, compositeur à Istanbul, ou s’abonner aux nouvelles des prochaines créations et concerts.'),
   portrait: R('portrait', 'portre', 'portrait'),
 };
 

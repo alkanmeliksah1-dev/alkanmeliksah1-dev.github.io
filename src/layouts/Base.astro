@@ -28,7 +28,10 @@ const active = section ?? slug;
 const bgMeta = bg ? (images as Record<string, { w: number; h: number; widths: number[] }>)[bg] : undefined;
 const anchor = bg ? anchors[bg] : undefined;
 const ratio = bgMeta ? bgMeta.w / bgMeta.h : 1;
-const bgSizes = anchor?.fit === 'height' ? `${Math.round(ratio * 100)}vh` : anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
+// telefonda arka plan koyu ve tonlu: ~2x yoğunluk yeterli, 3x ekranlar gereksiz büyük dosya indirmesin
+const lite = (sz: string) => `(max-width: 900px) calc(${sz} * 0.66), ${sz}`;
+const bgSizes0 = anchor?.fit === 'height' ? `${Math.round(ratio * 100)}vh` : anchor ? `max(100vw, ${Math.round(ratio * 100)}vh)` : '100vw';
+const bgSizes = lite(bgSizes0);
 const current = nav.find((n) => n.slug === active);
 // menüdeki her sayfanın arka planı: üzerine gelinince önceden indirilir
 const IMG = images as Record<string, { w: number; h: number; widths: number[] }>;
@@ -37,7 +40,7 @@ const bgOf = (navSlug: string) => {
   if (!m) return {};
   const a = anchors[name], r = m.w / m.h;
   const sizes = a?.fit === 'height' ? `${Math.round(r * 100)}vh` : a ? `max(100vw, ${Math.round(r * 100)}vh)` : '100vw';
-  return { 'data-bg-sizes': sizes, 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
+  return { 'data-bg-sizes': lite(sizes), 'data-bg-srcset': m.widths.map((w) => `/images/${name}-${w}.webp ${w}w`).join(', ') };
 };
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${HOME.title[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = desc ?? pageDescription(lang, slug);
@@ -139,14 +142,14 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
 
   <header class="nav-panel" data-nosnippet>
     <div class="scrim" aria-hidden="true"></div>
-    <button class="menu-btn" aria-expanded="false" aria-controls="menu">
-      <span class="when-closed">{ui.menu[lang]}</span><span class="when-open">{ui.close[lang]}</span>
+    <button class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label={ui.menu[lang]} data-open-label={ui.close[lang]} data-closed-label={ui.menu[lang]}>
+      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
     </button>
     <div class="panel menu" id="menu">
       <nav>
         <ul>
-          {nav.map((n) => (
-            <li><a href={href(lang, n.slug)} aria-current={n.slug === active ? 'page' : undefined} {...bgOf(n.slug)}>{n.label[lang]}</a></li>
+          {nav.map((n, i) => (
+            <li style={`--i:${i}`}><a href={href(lang, n.slug)} aria-current={n.slug === active ? 'page' : undefined} {...bgOf(n.slug)}>{n.label[lang]}</a></li>
           ))}
         </ul>
       </nav>
@@ -174,6 +177,7 @@ const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang
       if (!p || !btn) return;
       p.classList.toggle('open', open);
       btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', (btn as HTMLElement).dataset[open ? 'openLabel' : 'closedLabel'] ?? '');
       document.documentElement.classList.toggle('menu-open', open);
     };
 

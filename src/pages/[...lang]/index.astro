@@ -1,13 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { photos, site, ui, type Lang } from '../../data';
-import { langPaths } from '../../lib';
+import { motto, photos, site, ui, type Lang } from '../../data';
+import { href, langPaths } from '../../lib';
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: Lang };
 const [first, last] = site.name.split(' ');
 ---
 <Base lang={lang} bg={photos.home} home>
   <div class="hero-name">
+    <a class="motto" href={href(lang, 'approach')}>{motto[lang]}</a>
     <h1>{first}<br /><span class="sur">{last.toLocaleUpperCase('tr')}</span></h1>
     <p class="label">{ui.roles[lang]} — {ui.city[lang]}</p>
   </div>
