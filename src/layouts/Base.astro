@@ -44,7 +44,7 @@ const bgOf = (navSlug: string) => {
 };
 const pageTitle = title ? `${title} — ${site.name}` : home || !current ? `${site.name} — ${HOME.title[lang]}` : `${current.label[lang]} — ${site.name}`;
 const description = desc ?? pageDescription(lang, slug);
-const share = image ?? { url: 'https://meliksahalkan.com/og.jpg?v=2', w: 1200, h: 630, alt: site.name };
+const share = image ?? { url: 'https://meliksahalkan.com/og.jpg?v=3', w: 1200, h: 630, alt: site.name };
 const structured = ld ?? pageLd(lang, slug, current && slug ? current.label[lang] : undefined);
 ---
 <!DOCTYPE html>

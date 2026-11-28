@@ -33,7 +33,7 @@ const groups = [[ui.upcoming[lang], upcoming], [ui.past[lang], past]] as const;
           {list.map((e) => (
             <li class:list={['entry', 'card', { 'has-poster': e.poster }]}>
               {(() => { const b = box(e); return (
-                <time class:list={['datebox', { 'datebox--year': b.year }]} datetime={e.month ? e.date.slice(0, 7) : e.time ? `${e.date}T${e.time}` : e.date} aria-hidden="true">
+                <time class:list={['datebox', { 'datebox--year': b.year, 'datebox--past': list === past }]} datetime={e.month ? e.date.slice(0, 7) : e.time ? `${e.date}T${e.time}` : e.date} aria-hidden="true">
                   <span class="db-m">{b.mon}</span><span class="db-d">{b.big}</span>{b.time && <span class="db-t">{b.time}</span>}
                 </time>); })()}
               <div class="entry-body">

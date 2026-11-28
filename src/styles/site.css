@@ -383,7 +383,7 @@ a.contact-line:hover { color: var(--accent); }
   text-align: right;
   animation: rise 1.8s .3s cubic-bezier(.2, .7, .2, 1) both;
 }
-.hero-name h1 { font: 500 calc(clamp(54px, 9vw, 132px) * var(--z, 1))/.93 var(--display); letter-spacing: -.03em; }
+.hero-name h1 { font: 500 calc(clamp(54px, 9vw, 132px) * var(--z, 1))/1.08 var(--display); letter-spacing: -.03em; }
 .hero-name h1 .sur { color: var(--accent); }
 .hero-name p { margin-top: 20px; zoom: var(--z, 1); }
 
@@ -406,9 +406,10 @@ a.contact-line:hover { color: var(--accent); }
   display: grid; justify-items: center; align-content: center; gap: 3px;
   width: 86px; height: 92px; padding: 6px 0;
   background: #0f0d0b; border: 1px solid var(--faint);
-  background-image: linear-gradient(to top right, transparent calc(50% - .5px), rgba(198, 165, 113, .32) 50%, transparent calc(50% + .5px));
   font-variant-numeric: tabular-nums;
 }
+/* çapraz çizgi: yalnızca tarihi geçmiş etkinlikler */
+.datebox--past { background-image: linear-gradient(to top right, transparent calc(50% - .75px), rgba(198, 165, 113, .7) 50%, transparent calc(50% + .75px)); }
 .db-m { font: 400 11px/1 var(--text); letter-spacing: .16em; color: var(--dim); }
 .db-d { font: 500 33px/.95 var(--display); letter-spacing: -.02em; color: var(--ink); }
 .datebox--year .db-d { font-size: 26px; padding: 4px 0 2px; }
